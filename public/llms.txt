@@ -1,0 +1,36 @@
+# Fwdpod
+
+> Fwdpod builds dedicated AI engineering pods for enterprise teams, covering LLM development, RAG systems, AI agents, and production delivery.
+
+## Pods
+
+- [Pod Catalogue](https://www.fwdpod.com/catalogue): Browse Fwdpod's five pre-assembled AI engineering pods: Voice AI, Agentic Operations, RAG & Knowledge, Compliance AI, and Custom pods. Fixed scope.
+- [Configure Your Pod](https://www.fwdpod.com/configure): Answer 5 questions and receive a custom AI engineering pod proposal within 48 hours. Specify your industry, timeline, budget, and compliance requirements.
+
+## Services
+
+- [AI Development](https://www.fwdpod.com/services/ai-development): Build AI products faster with Dedicated AI Teams, AI Engineering Pods, and AI Talent as a Service. Hire AI Engineers on Demand — production-ready Managed AI Engineering for startups and enterprises.
+- [LLM Development](https://www.fwdpod.com/services/llm-development): Enterprise LLM development services for startups and enterprises. Build custom LLM applications — AI copilots, enterprise chatbots, knowledge assistants — with a Dedicated GenAI Team. Production-ready.
+- [RAG Development](https://www.fwdpod.com/services/rag-development): Build enterprise RAG systems and retrieval augmented generation solutions with Fwdpod. RAG chatbot development, vector database consulting, and production-grade knowledge base architectures.
+- [AI Agents](https://www.fwdpod.com/services/ai-agents): Build autonomous AI agents and multi-agent AI systems with Fwdpod's agentic AI development team. Custom AI agent development — CrewAI experts, LangGraph developers, MCP integration specialists.
+- [Team Augmentation](https://www.fwdpod.com/services/team-augmentation): Hire embedded AI engineers and dedicated AI architects on demand with Fwdpod. AI Team Extension Services — access AI Experts for Hire faster than traditional recruiting.
+- [AI Consulting](https://www.fwdpod.com/services/ai-consulting): Fwdpod provides Fractional AI Team services and AI Strategy Consulting — Fractional Chief AI Officer, Virtual Chief AI Officer, and AI Capability Center design. Book a consultation.
+
+## Resources
+
+- [Contact Us](https://www.fwdpod.com/contact): Reach Fwdpod's operations team to discuss your AI engineering requirements. Deploy a dedicated AI pod in under one week.
+
+## Insights
+
+- [What Is a Forward Deployed Engineer? The 2026 Definition](https://www.fwdpod.com/insights/what-is-a-forward-deployed-engineer): The 2026 definition of the forward deployed engineer role: its origin at Palantir, what FDEs do day to day, the skills the AI labs hire for, and how the forward deployed AI engineer variant differs.
+- [What Is an AI Pod? How a Small Cross-Functional Team Ships AI Faster Than a Hire-and-Build Team](https://www.fwdpod.com/insights/what-is-an-ai-pod): What an AI pod is: a small cross-functional team that owns one AI outcome end to end, where the model comes from, how it differs from a generic dev team, how pods are engaged, and when a pod is the wrong choice.
+- [How to Hire AI Engineers in 2026: Roles, Screening, Red Flags](https://www.fwdpod.com/insights/how-to-hire-ai-engineers): How to hire AI engineers: how the role differs from ML engineer and data scientist, what to define before the job ad, sourcing including India, a four-stage screen built on a RAG and evals take-home, interview questions, red flags and timelines.
+- [AI Development Engagement Models Explained: Who Carries the Risk, and When Each One Fits](https://www.fwdpod.com/insights/ai-engagement-models-explained): Seven ways to buy AI engineering — time and materials, fixed scope, dedicated and shared pods, staff augmentation, forward deployed engineers, build-operate-transfer and outcome-based — with who carries the overrun risk in each and the contract clauses to read twice.
+- [How Enterprises Buy AI Engineering Capacity in 2026](https://www.fwdpod.com/insights/how-enterprises-buy-ai-engineering-capacity): The six channels enterprises buy AI engineering through, what an AI implementation partner owns versus what stays in-house, and the eight-step procurement path from intake through security review, MSA, DPA and IP terms to a scoped pilot.
+- [Who Owns the IP When You Outsource AI Development? A Plain-English Guide](https://www.fwdpod.com/insights/ip-ownership-offshore-ai): Default copyright ownership of outsourced AI work in the US, UK and India, the AI assets a contract must name beyond code — prompts, weights, datasets, eval sets, embeddings — and a twelve-point assignment checklist including India's Section 19 term and territory rules.
+- [What Is MCP? The Model Context Protocol Explained for Enterprise Buyers](https://www.fwdpod.com/insights/what-is-mcp): What the Model Context Protocol is: hosts, clients and servers, the tools, resources and prompts a server exposes, stdio and Streamable HTTP transports, the stateless 2026-07-28 spec, Linux Foundation governance, vendor support and the six security risks to plan for.
+- [LangGraph in Production: State, Checkpointing and the Failure Modes Nobody Warns You About](https://www.fwdpod.com/insights/langgraph-in-production): Running LangGraph in production: Postgres checkpointers and the exit, async and sync durability modes, human-in-the-loop interrupts and why nodes re-run on resume, retry and timeout policies, streaming and double texting, LangSmith tracing, tests and trajectory evals, deployment options, a readiness checklist and questions for hiring LangGraph developers.
+- [Data Security in Offshore AI Development: The 12 Controls to Demand in Writing](https://www.fwdpod.com/insights/data-security-offshore-ai-development): Twelve contract-ready data security controls for offshore AI teams, from client-owned cloud and model accounts, SSO and masked data to LLM provider retention settings, prompt and trace handling, secrets, DLP for AI tools, offboarding, incident windows and subprocessor approval, each mapped to ISO 27001 Annex A, NIST SP 800-53 and the OWASP LLM Top 10.
+- [Forward Deployed Engineer vs Solutions Engineer: Where the Line Actually Sits](https://www.fwdpod.com/insights/fde-vs-solutions-engineer): How forward deployed engineers and solutions engineers differ on deal stage, reporting line, output and success metric, where the roles blur, how sales engineers, solutions architects and customer success engineers compare, and which one a buyer should ask a vendor for.
+- [When to Hire a Forward Deployed Engineer (and When You Genuinely Do Not Need One)](https://www.fwdpod.com/insights/when-to-hire-a-forward-deployed-engineer): Seven signals that call for a forward deployed engineer, five signs you do not need one, which alternative fits each situation (SaaS, readiness assessment, staff augmentation, an AI pod or in-house hiring), what must be in place before an FDE starts, and three timing mistakes.
+- [How to Choose a Forward Deployed Engineering Company: Nine Questions That Separate Them](https://www.fwdpod.com/insights/choosing-a-forward-deployed-engineering-company): Nine questions for comparing forward deployed engineering vendors (who is embedded, production ownership, access limits, handover, time-zone overlap, IP in prompts and eval sets, exit, evals and the commercial model), with good and red-flag answers and a weighted scorecard.

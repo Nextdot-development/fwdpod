@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Rounded square frame -->
+  <rect x="6" y="6" width="88" height="88" rx="24" fill="none" stroke="#000000" stroke-width="8.5"/>
+  <!-- Left team member (black) -->
+  <circle cx="28" cy="38" r="6.5" fill="#000000"/>
+  <rect x="21" y="48" width="14" height="19" rx="4.5" fill="#000000"/>
+  <!-- Center team member (blue — primary) -->
+  <circle cx="50" cy="32" r="9.5" fill="#0066FF"/>
+  <rect x="40" y="45" width="20" height="26" rx="6.5" fill="#0066FF"/>
+  <!-- Right team member (black) -->
+  <circle cx="72" cy="38" r="6.5" fill="#000000"/>
+  <rect x="65" y="48" width="14" height="19" rx="4.5" fill="#000000"/>
+</svg>

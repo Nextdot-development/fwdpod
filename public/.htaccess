@@ -1,0 +1,64 @@
+RewriteEngine On
+RewriteBase /
+
+# Unmatched URLs get the prerendered not-found page with a real 404 status
+ErrorDocument 404 /_pages/404.html
+
+# ── Legacy /blog URLs ────────────────────────────────────────────
+# The insights listing moved from /blog to /insights, and articles from
+# /blog/<slug> to /insights/<slug>. These run before the canonical rule and
+# name the canonical host themselves, so an old link costs exactly one hop
+# even over http or the apex domain. Nothing is served at /blog any more, so
+# there is nothing to loop back to.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^blog/(.+?)/?$ https://www.fwdpod.com/insights/$1 [R=301,L]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^blog/?$ https://www.fwdpod.com/insights [R=301,L]
+
+# ── Renamed CMS articles ────────────────────────────────────────────────────
+# 301s from a CMS post's earlier slugs to its current one. scripts/prerender.mjs
+# writes them below this marker in dist/.htaccess; keep the marker line.
+# CMS_REDIRECTS
+
+# ── Canonical URL: a single 301 to https://www.fwdpod.com ────────────────────
+# One hop covers http://, the apex host and trailing slashes together, and the
+# query string is carried over. /.well-known (AutoSSL validation) is exempt.
+# %{HTTPS} assumes Apache terminates TLS itself, as on this cPanel host; behind
+# a proxy or CDN, test X-Forwarded-Proto instead or this rule will loop.
+RewriteCond %{REQUEST_URI} !^/[.]well-known/
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www[.]fwdpod[.]com$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^/.+/$
+RewriteCond %{REQUEST_URI} ^(/|/.*?[^/])/*$
+RewriteRule ^ https://www.fwdpod.com%1 [R=301,L]
+
+# ── Prerendered pages ─────────────────────────────────────────────────────────
+# scripts/prerender.mjs writes one HTML file per route into /_pages
+# (/ -> _pages/index.html, /insights/foo -> _pages/insights/foo.html). Keeping
+# them in a subfolder means no clean URL ever collides with a real directory.
+
+# Direct requests for /_pages/... are not public URLs
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^_pages/ - [R=404,L]
+RewriteRule ^_pages/ - [L]
+
+RewriteRule ^$ _pages/index.html [L]
+
+RewriteCond %{DOCUMENT_ROOT}/_pages/$0.html -f
+RewriteRule ^.+$ _pages/$0.html [L]
+
+# ── Blog admin ──────────────────────────────────────────────────────────────
+# /admin and everything under it is the CMS dashboard: one client-rendered
+# page (admin.html) whose router handles the sub-paths. It is never indexed.
+RewriteRule ^admin(/.*)?$ admin.html [L]
+<IfModule mod_headers.c>
+  <Files "admin.html">
+    Header set X-Robots-Tag "noindex, nofollow"
+    Header set Cache-Control "no-cache"
+  </Files>
+</IfModule>
+
+# Anything else that is not a real file is a 404
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ - [R=404,L]

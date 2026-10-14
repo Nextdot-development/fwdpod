@@ -1,0 +1,16 @@
+node_modules/
+build/
+dist/
+dist-ssr/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Deploy archives, and the stale duplicate of this project (never build or deploy from it)
+*.zip
+/fwdpod (1)/
+
+# Written before each build by scripts/fetch-cms-posts.ts
+content/cms/

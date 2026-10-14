@@ -1,0 +1,6 @@
+{
+  "name": "Fwdpod",
+  "description": "Enterprise engineering pod configurator and SaaS landing page showcase featuring 3 copy options.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

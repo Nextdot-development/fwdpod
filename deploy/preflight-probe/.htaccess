@@ -1,0 +1,24 @@
+# Deploy preflight probe. Upload this folder to public_html/_preflight/ and run
+# scripts/preflight.sh BEFORE uploading the site. It exercises the Apache features
+# the site .htaccess relies on. Delete the folder once the deploy is done.
+ErrorDocument 404 /_preflight/errordocument.txt
+
+RewriteEngine On
+RewriteBase /_preflight/
+
+# mod_rewrite runs from .htaccess, and what %{HTTPS} is at the origin
+RewriteCond %{HTTPS} =on
+RewriteRule ^https[.]txt$ https-on.txt [L]
+RewriteRule ^https[.]txt$ https-off.txt [L]
+
+# whether a proxy in front forwards X-Forwarded-Proto: https
+RewriteCond %{HTTP:X-Forwarded-Proto} =https [NC]
+RewriteRule ^xfp[.]txt$ xfp-https.txt [L]
+RewriteRule ^xfp[.]txt$ xfp-missing.txt [L]
+
+# %{DOCUMENT_ROOT} is the directory that contains _preflight
+RewriteCond %{DOCUMENT_ROOT}/_preflight/docroot-marker.txt -f
+RewriteRule ^docroot[.]txt$ docroot-ok.txt [L]
+
+# [R=404] is honoured and ErrorDocument is permitted
+RewriteRule ^force-404$ - [R=404,L]

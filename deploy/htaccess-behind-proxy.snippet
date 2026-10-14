@@ -1,0 +1,23 @@
+# Use ONLY if scripts/preflight.sh reports a TLS-terminating proxy or CDN in front of
+# the origin (e.g. Cloudflare with Flexible SSL). Replace the whole
+# "Canonical URL: a single 301 to https://www.fwdpod.com" block in public/.htaccess
+# with the lines below, rebuild, and re-run the preflight with PROXY_MODE=1.
+#
+# Why: behind such a proxy Apache receives plain HTTP, so %{HTTPS} is never "on" and
+# the committed rule redirects forever. Here a request counts as secure when Apache
+# terminated TLS itself OR the proxy reports the client used https. A spoofed header
+# can only suppress a redirect, not cause one.
+
+# ── Canonical URL: a single 301 to https://www.fwdpod.com (proxy-aware) ──────
+RewriteRule ^ - [E=FWD_SECURE:0]
+RewriteCond %{HTTPS} =on [OR]
+RewriteCond %{HTTP:X-Forwarded-Proto} =https [NC]
+RewriteRule ^ - [E=FWD_SECURE:1]
+
+RewriteCond %{REQUEST_URI} !^/[.]well-known/
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{ENV:FWD_SECURE} !=1 [OR]
+RewriteCond %{HTTP_HOST} !^www[.]fwdpod[.]com$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^/.+/$
+RewriteCond %{REQUEST_URI} ^(/|/.*?[^/])/*$
+RewriteRule ^ https://www.fwdpod.com%1 [R=301,L]

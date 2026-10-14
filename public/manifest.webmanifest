@@ -1,0 +1,30 @@
+{
+  "name": "Fwdpod — AI Engineering Pods",
+  "short_name": "Fwdpod",
+  "description": "Dedicated AI engineering pods for startups and enterprises. Pre-assembled teams for LLM development, RAG systems, AI agents, voice AI, and full-stack AI product engineering.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0066FF",
+  "lang": "en-US",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "technology"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
