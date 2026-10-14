@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    { "src": "^/blog/(.+?)/?$", "status": 301, "headers": { "Location": "/insights/$1" } },
+    { "src": "^/blog/?$", "status": 301, "headers": { "Location": "/insights" } },
+    { "src": "^/(.+)/$", "status": 301, "headers": { "Location": "/$1" } },
+
+    { "src": "^/_pages(?:/.*)?$", "status": 404, "dest": "/_pages/404.html" },
+
+    {
+      "src": "^/admin(?:\\.html|/.*)?$",
+      "headers": { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "no-cache" },
+      "continue": true
+    },
+    { "src": "^/admin(?:/.*)?$", "dest": "/admin.html" },
+
+    { "src": "^/$", "dest": "/_pages/index.html" },
+
+    { "handle": "filesystem" },
+
+    { "src": "^/(.+)$", "dest": "/_pages/$1.html", "check": true },
+    { "src": "^/.*$", "status": 404, "dest": "/_pages/404.html" }
+  ]
+}
