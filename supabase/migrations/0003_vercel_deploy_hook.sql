@@ -62,6 +62,17 @@ declare
 begin
   select * into s from public.deploy_state where id = 1 for update;
 
+  -- The last request failed or timed out: mark the site dirty so it is retried.
+  if s.last_request_id is not null and exists (
+    select 1 from net._http_response r
+    where r.id = s.last_request_id and (r.status_code is null or r.status_code >= 300)
+  ) then
+    update public.deploy_state
+       set dirty = true, last_change_at = coalesce(s.last_dispatch_at, now()), last_request_id = null
+     where id = 1
+     returning * into s;
+  end if;
+
   if s.last_dispatch_at is not null and s.last_dispatch_at > now() - interval '5 minutes' then
     return 'cooldown';
   end if;
@@ -88,7 +99,8 @@ begin
   select net.http_post(
     url     := hook_url,
     headers := jsonb_build_object('Content-Type', 'application/json'),
-    body    := '{}'::jsonb
+    body    := '{}'::jsonb,
+    timeout_milliseconds := 30000
   ) into req_id;
 
   update public.deploy_state
