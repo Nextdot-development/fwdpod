@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Chatbots & Conversational AI', desc: 'Deploy context-aware enterprise chatbots that resolve customer queries, reduce support volume, and integrate with your CRM and ticketing systems.' },
@@ -47,13 +48,7 @@ const FAQS = [
   { q: 'How much does AI development cost?', a: 'Engagement costs vary by scope, team composition, and timeline. Book a consultation for a scoped estimate.' },
 ];
 
-const RELATED = [
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' },
-];
+const RELATED = relatedServices('/services/ai-development');
 
 const JSON_LD = {
   '@context': 'https://schema.org',

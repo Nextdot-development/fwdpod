@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Enterprise Chatbots', desc: 'Build enterprise-grade conversational systems powered by fine-tuned or prompted LLMs that stay on-brand, on-topic, and within compliance guardrails at scale.' },
@@ -43,13 +44,7 @@ const FAQS = [
   { q: 'Does Fwdpod handle LLM security and prompt injection?', a: 'Yes. We implement prompt injection defenses, input/output sanitization, system prompt hardening, and rate limiting to protect LLM-powered systems from adversarial inputs and abuse.' },
 ];
 
-const RELATED = [
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' },
-];
+const RELATED = relatedServices('/services/llm-development');
 
 const JSON_LD = {
   '@context': 'https://schema.org',

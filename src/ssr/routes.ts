@@ -26,6 +26,7 @@ const STATIC_PATHS = [
 /** Static pages whose content date is known, for the sitemap's <lastmod>. */
 const STATIC_LASTMOD: Record<string, string> = {
   '/services/data-annotation': '2026-10-21',
+  '/services/team-augmentation': '2026-10-21',
 };
 
 export interface PrerenderRoute {

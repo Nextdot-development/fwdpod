@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Enterprise Knowledge Bases', desc: 'Build AI-searchable enterprise knowledge bases over your internal wikis, Confluence spaces, SharePoint, and Google Drive — surfacing accurate answers instantly.' },
@@ -41,13 +42,7 @@ const FAQS = [
   { q: 'How long does a RAG development project take?', a: 'Simple RAG systems over a single data source can ship in 4–6 weeks. Enterprise RAG Systems with multiple data sources, custom ingestion pipelines, multi-tenant architecture, and evaluation dashboards typically take 10–16 weeks.' },
 ];
 
-const RELATED = [
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' },
-];
+const RELATED = relatedServices('/services/rag-development');
 
 const JSON_LD = {
   '@context': 'https://schema.org',

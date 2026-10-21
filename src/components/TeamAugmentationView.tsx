@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
-import SEO from './SEO';
+import SEO, { SITE_BASE_URL } from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Scaling AI Engineering Capacity', desc: 'Embed pre-vetted AI engineers into your team to expand throughput on AI feature development without a 6-month hiring cycle — pure AI Team Extension with zero ramp waste.' },
@@ -42,46 +44,49 @@ const FAQS = [
   { q: 'Do augmentation engineers sign NDAs and IP agreements?', a: 'Yes. All Fwdpod engineers sign NDAs, IP assignment agreements, and data handling policies. Any code, models, or systems built during the engagement are fully owned by your organization.' },
 ];
 
-const RELATED = [
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' },
-];
+const RELATED = relatedServices('/services/team-augmentation');
 
-const JSON_LD = {
+const PAGE_URL = `${SITE_BASE_URL}/services/team-augmentation`;
+const TITLE = 'AI Team Augmentation Services: Senior AI Engineers | Fwdpod';
+const DESCRIPTION =
+  'Add senior AI engineers or a full AI pod to your team. LLM, RAG and AI agent specialists who ship production code under one accountable owner.';
+
+const SERVICE_LD = {
   '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/services/team-augmentation#webpage',
-      url: 'https://www.fwdpod.com/services/team-augmentation',
-      name: 'AI Team Augmentation | Embedded Engineering Pods | fwdpod',
-      description: 'Add senior AI and full-stack engineers to your team in weeks. Embedded pods that work in your stack, sprints and tooling — no ramp-up tax.',
-      breadcrumb: {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.fwdpod.com/services/team-augmentation' },
-          { '@type': 'ListItem', position: 3, name: 'AI Team Augmentation Services', item: 'https://www.fwdpod.com/services/team-augmentation' },
-        ],
-      },
-    },
-    {
-      '@type': 'Service',
-      name: 'AI Team Augmentation Services',
-      description: 'AI Team Extension Services: Embedded AI Engineers, Dedicated AI Architects, and AI Engineers on Demand — pre-assembled pods integrated into your team in days, not months.',
-      provider: { '@id': 'https://www.fwdpod.com/#organization' },
-      serviceType: 'AI Team Augmentation',
-      areaServed: 'Worldwide',
-    },
+  '@type': 'Service',
+  name: 'AI Team Augmentation Services',
+  serviceType: 'AI Team Augmentation',
+  description: DESCRIPTION,
+  provider: { '@type': 'Organization', name: 'Fwdpod', url: `${SITE_BASE_URL}/` },
+  url: PAGE_URL,
+};
+
+// Built from FAQS, so the schema text always matches the answers on the page.
+const FAQ_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+
+// There is no services index page, so "Services" points at this service,
+// as on the other service pages.
+const BREADCRUMB_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_BASE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'Services', item: PAGE_URL },
+    { '@type': 'ListItem', position: 3, name: 'Team Augmentation', item: PAGE_URL },
   ],
 };
 
-export default function TeamAugmentationView() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
+const ldScript = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
 
+export default function TeamAugmentationView() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -90,11 +95,12 @@ export default function TeamAugmentationView() {
       transition={{ duration: 0.3 }}
       className="max-w-6xl mx-auto py-6 font-sans space-y-14"
     >
-      <SEO
-        title="AI Team Augmentation | Embedded Engineering Pods | fwdpod"
-        description="Add senior AI and full-stack engineers to your team in weeks. Embedded pods that work in your stack, sprints and tooling — no ramp-up tax."
-        jsonLd={JSON_LD}
-      />
+      <SEO title={TITLE} description={DESCRIPTION} canonical="/services/team-augmentation" />
+      <Helmet>
+        <script type="application/ld+json">{ldScript(SERVICE_LD)}</script>
+        <script type="application/ld+json">{ldScript(FAQ_LD)}</script>
+        <script type="application/ld+json">{ldScript(BREADCRUMB_LD)}</script>
+      </Helmet>
 
       {/* Hero */}
       <section className="space-y-5">
@@ -223,21 +229,17 @@ export default function TeamAugmentationView() {
           <h2 className="text-2xl md:text-3xl font-display font-medium tracking-tight text-[#0A0A0A]">Frequently Asked Questions</h2>
         </div>
         <div className="space-y-3 max-w-3xl">
-          {FAQS.map((faq, i) => (
-            <div key={i} className="border border-[#0A0A0A]/10 rounded-2xl overflow-hidden bg-white">
-              <button
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-[#0A0A0A]/5 transition-colors gap-4"
-              >
+          {/* Native <details>: every answer is in the server HTML and opens without JavaScript */}
+          {FAQS.map(faq => (
+            <details key={faq.q} className="group border border-[#0A0A0A]/10 rounded-2xl overflow-hidden bg-white">
+              <summary className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-[#0A0A0A]/5 transition-colors gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                 <h3 className="text-xs font-semibold text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className={`w-4 h-4 text-[#555555] shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-              </button>
-              {openFaq === i && (
-                <div className="px-5 pb-4 border-t border-[#0A0A0A]/5">
-                  <p className="pt-4 text-xs text-[#555555] leading-relaxed">{faq.a}</p>
-                </div>
-              )}
-            </div>
+                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <div className="px-5 pb-4 border-t border-[#0A0A0A]/5">
+                <p className="pt-4 text-xs text-[#555555] leading-relaxed">{faq.a}</p>
+              </div>
+            </details>
           ))}
         </div>
       </section>

@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Fractional Chief AI Officer', desc: 'Access senior AI leadership on a fractional basis — a Virtual Chief AI Officer who sets your AI strategy, owns vendor relationships, and guides your team without full-time executive overhead.' },
@@ -41,13 +42,7 @@ const FAQS = [
   { q: 'Does Fwdpod offer ongoing AI advisory retainers?', a: 'Yes. Following a consulting engagement, we offer monthly Fractional AI Team advisory retainers that include architecture reviews, technical escalation support, model evaluation guidance, and quarterly roadmap checkpoints as your AI systems evolve.' },
 ];
 
-const RELATED = [
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-];
+const RELATED = relatedServices('/services/ai-consulting');
 
 const JSON_LD = {
   '@context': 'https://schema.org',

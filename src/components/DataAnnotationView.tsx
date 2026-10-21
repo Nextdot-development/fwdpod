@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowRight, ChevronDown, Check, ChevronRight, FileCheck, Gauge, Users, ShieldCheck } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
+import { relatedServices } from '../data/services';
 
 const PAGE_URL = `${SITE_BASE_URL}/services/data-annotation`;
 const TITLE = 'Data Annotation Services for LLM & AI | Fwdpod';
@@ -47,13 +48,7 @@ const FAQS = [
   { q: 'Can data annotation be added to an existing AI engineering pod?', a: 'Yes. Annotation can run inside an LLM, RAG, Agentic Operations, Voice AI or Compliance AI pod, or as a standalone data and evaluation engagement.' },
 ];
 
-const RELATED = [
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'AI Agents', href: '/services/ai-agents' },
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-];
+const RELATED = relatedServices('/services/data-annotation');
 
 const SERVICE_LD = {
   '@context': 'https://schema.org',

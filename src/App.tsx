@@ -35,6 +35,7 @@ import AiAgentsView from './components/AiAgentsView';
 import TeamAugmentationView from './components/TeamAugmentationView';
 import AiConsultingView from './components/AiConsultingView';
 import DataAnnotationView from './components/DataAnnotationView';
+import { SERVICES } from './data/services';
 import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
@@ -616,13 +617,9 @@ export default function App() {
               <nav aria-label="Services links">
                 <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Services</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
-                  <li><Link to="/services/ai-development" className="hover:text-[#0A0A0A] hover:underline transition-all">AI Development</Link></li>
-                  <li><Link to="/services/llm-development" className="hover:text-[#0A0A0A] hover:underline transition-all">LLM Development</Link></li>
-                  <li><Link to="/services/rag-development" className="hover:text-[#0A0A0A] hover:underline transition-all">RAG Development</Link></li>
-                  <li><Link to="/services/ai-agents" className="hover:text-[#0A0A0A] hover:underline transition-all">AI Agents</Link></li>
-                  <li><Link to="/services/data-annotation" className="hover:text-[#0A0A0A] hover:underline transition-all">Data Annotation</Link></li>
-                  <li><Link to="/services/team-augmentation" className="hover:text-[#0A0A0A] hover:underline transition-all">Team Augmentation</Link></li>
-                  <li><Link to="/services/ai-consulting" className="hover:text-[#0A0A0A] hover:underline transition-all">AI Consulting</Link></li>
+                  {SERVICES.map(service => (
+                    <li key={service.href}><Link to={service.href} className="hover:text-[#0A0A0A] hover:underline transition-all">{service.label}</Link></li>
+                  ))}
                 </ul>
               </nav>
 

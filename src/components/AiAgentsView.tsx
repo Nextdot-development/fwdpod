@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO from './SEO';
+import { relatedServices } from '../data/services';
 
 const USE_CASES = [
   { title: 'Sales Agents', desc: 'Deploy autonomous sales agents that research prospects, personalize outreach, update CRM records, and qualify leads — without manual intervention at every step.' },
@@ -41,13 +42,7 @@ const FAQS = [
   { q: 'How long does an AI agent project take?', a: 'Focused single-workflow agents can ship in 4–8 weeks. Complex multi-agent AI systems with many tool integrations, custom memory architectures, and high-reliability requirements typically take 10–16 weeks.' },
 ];
 
-const RELATED = [
-  { label: 'AI Development', href: '/services/ai-development' },
-  { label: 'LLM Development', href: '/services/llm-development' },
-  { label: 'RAG Development', href: '/services/rag-development' },
-  { label: 'Team Augmentation', href: '/services/team-augmentation' },
-  { label: 'AI Consulting', href: '/services/ai-consulting' },
-];
+const RELATED = relatedServices('/services/ai-agents');
 
 const JSON_LD = {
   '@context': 'https://schema.org',
