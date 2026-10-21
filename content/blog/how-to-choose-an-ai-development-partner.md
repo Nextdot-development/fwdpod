@@ -192,7 +192,7 @@ Neither framework replaces the evidence in criteria 1 to 3; they give your risk 
 
 ## How fwdpod approaches partner selection
 
-Fwdpod builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We'd encourage any buyer, including those considering us, to run this scorecard and a paid pilot before committing. Our standard pilot structure is [FWDPOD TO CONFIRM: pilot length, pricing and deliverables], and our security and IP terms are [FWDPOD TO CONFIRM: available on request / published on the security and IP page].
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We'd encourage any buyer, including those considering us, to run this scorecard and a paid pilot before committing. Pilot structure and our security and IP terms are covered in the first conversation with our team.
 
 If you are building a shortlist now, talk to us about scoping a trial sprint against your own success criteria.
 

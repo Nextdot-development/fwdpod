@@ -130,7 +130,7 @@ If any of these is missing, expect delays that no amount of pod skill can fix. H
 
 ## How fwdpod approaches this
 
-Fwdpod builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Pod composition is shaped around the outcome and the phase rather than a fixed roster. [FWDPOD TO CONFIRM: that pod composition is adjusted by outcome and phase.] The standard pod size and default role mix are [FWDPOD TO CONFIRM: typical pod headcount, which of the six roles are standard vs added by phase, and whether delivery lead and MLOps capacity are included]. To see how a pod is scoped for your project, visit the AI engineering pods page.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Each pod is typically 4–6 experts working around a single measurable outcome. To see how a pod would be scoped for your project, [configure your AI engineering pod](/configure) to get a custom pod proposal within 48 hours, or [talk to the team](/contact).
 
 ## Key takeaways
 
