@@ -246,6 +246,10 @@ export default function LlmDevelopmentView() {
       {/* Related Services */}
       <section className="space-y-4">
         <span className="text-[10px] font-mono uppercase tracking-wider text-[#555555] font-bold">Related Services</span>
+        <p className="text-xs text-[#555555]">
+          Need training or evaluation data? See our{' '}
+          <Link to="/services/data-annotation" className="text-[#0066FF] hover:underline">data annotation services</Link>.
+        </p>
         <div className="flex flex-wrap gap-3">
           {RELATED.map(s => (
             <Link key={s.href} to={s.href} className="border border-[#0A0A0A]/15 text-[#0A0A0A] text-xs font-medium px-4 py-2 rounded-full hover:border-[#0066FF] hover:text-[#0066FF] transition-colors">

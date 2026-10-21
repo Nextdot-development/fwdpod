@@ -6,6 +6,25 @@ import { ArrowRight, ChevronRight, CornerRightDown, HelpCircle, RefreshCw, Chevr
 import SEO from './SEO';
 
 // ── FAQ content — optimised for GEO (ChatGPT, Gemini, Perplexity, AI Overviews) ──
+// Phrases in FAQ answers that link to a page. The answer text itself stays
+// plain, so the FAQPage schema and the rendered answer read the same.
+const FAQ_ANSWER_LINKS: Record<string, string> = {
+  'data annotation services': '/services/data-annotation',
+};
+
+function renderFaqAnswer(text: string): React.ReactNode {
+  const phrase = Object.keys(FAQ_ANSWER_LINKS).find(p => text.includes(p));
+  if (!phrase) return text;
+  const at = text.indexOf(phrase);
+  return (
+    <>
+      {text.slice(0, at)}
+      <Link to={FAQ_ANSWER_LINKS[phrase]} className="text-[#0066FF] hover:underline">{phrase}</Link>
+      {text.slice(at + phrase.length)}
+    </>
+  );
+}
+
 const FAQ_ITEMS = [
   {
     q: 'What are AI Engineering Pods?',
@@ -25,7 +44,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What types of AI systems does Fwdpod build?',
-    a: 'Fwdpod specialises in LLM development, RAG (Retrieval-Augmented Generation) systems, multi-agent AI orchestration, voice AI pipelines with sub-150ms latency, compliance AI guardrails, and custom enterprise AI product engineering across cloud and air-gapped environments.'
+    a: 'Fwdpod specialises in LLM development, RAG (Retrieval-Augmented Generation) systems, multi-agent AI orchestration, voice AI pipelines with sub-150ms latency, compliance AI guardrails, and custom enterprise AI product engineering across cloud and air-gapped environments. Fwdpod also provides data annotation services, including RLHF and SFT datasets, LLM evaluation data and PII redaction, delivered inside the same pod.'
   },
   {
     q: 'What is included in a Fwdpod engagement?',
@@ -774,7 +793,7 @@ export default function HomeView({
               className="border border-zinc-200/85 p-6 rounded-2xl bg-white space-y-2.5 hover:border-[#0066FF] hover:bg-zinc-50/50 hover:shadow-sm transition-all duration-300"
             >
               <h3 className="text-sm font-semibold text-[#0A0A0A]">{faq.q}</h3>
-              <p className="text-xs text-[#555555] leading-relaxed">{faq.a}</p>
+              <p className="text-xs text-[#555555] leading-relaxed">{renderFaqAnswer(faq.a)}</p>
             </div>
           ))}
         </div>

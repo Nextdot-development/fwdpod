@@ -34,6 +34,7 @@ import RagDevelopmentView from './components/RagDevelopmentView';
 import AiAgentsView from './components/AiAgentsView';
 import TeamAugmentationView from './components/TeamAugmentationView';
 import AiConsultingView from './components/AiConsultingView';
+import DataAnnotationView from './components/DataAnnotationView';
 import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
@@ -317,6 +318,7 @@ export default function App() {
           <Route path="/services/llm-development" element={<LlmDevelopmentView />} />
           <Route path="/services/rag-development" element={<RagDevelopmentView />} />
           <Route path="/services/ai-agents" element={<AiAgentsView />} />
+          <Route path="/services/data-annotation" element={<DataAnnotationView />} />
           <Route path="/services/team-augmentation" element={<TeamAugmentationView />} />
           <Route path="/services/ai-consulting" element={<AiConsultingView />} />
           <Route path="*" element={<NotFoundView />} />
@@ -618,6 +620,7 @@ export default function App() {
                   <li><Link to="/services/llm-development" className="hover:text-[#0A0A0A] hover:underline transition-all">LLM Development</Link></li>
                   <li><Link to="/services/rag-development" className="hover:text-[#0A0A0A] hover:underline transition-all">RAG Development</Link></li>
                   <li><Link to="/services/ai-agents" className="hover:text-[#0A0A0A] hover:underline transition-all">AI Agents</Link></li>
+                  <li><Link to="/services/data-annotation" className="hover:text-[#0A0A0A] hover:underline transition-all">Data Annotation</Link></li>
                   <li><Link to="/services/team-augmentation" className="hover:text-[#0A0A0A] hover:underline transition-all">Team Augmentation</Link></li>
                   <li><Link to="/services/ai-consulting" className="hover:text-[#0A0A0A] hover:underline transition-all">AI Consulting</Link></li>
                 </ul>

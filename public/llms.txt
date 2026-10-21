@@ -13,6 +13,7 @@
 - [LLM Development](https://www.fwdpod.com/services/llm-development): Enterprise LLM development services for startups and enterprises. Build custom LLM applications — AI copilots, enterprise chatbots, knowledge assistants — with a Dedicated GenAI Team. Production-ready.
 - [RAG Development](https://www.fwdpod.com/services/rag-development): Build enterprise RAG systems and retrieval augmented generation solutions with Fwdpod. RAG chatbot development, vector database consulting, and production-grade knowledge base architectures.
 - [AI Agents](https://www.fwdpod.com/services/ai-agents): Build autonomous AI agents and multi-agent AI systems with Fwdpod's agentic AI development team. Custom AI agent development — CrewAI experts, LangGraph developers, MCP integration specialists.
+- [Data Annotation](https://www.fwdpod.com/services/data-annotation): AI data annotation services for LLMs, RAG and AI agents: RLHF and SFT data, evaluation datasets, audio and document labeling, and PII redaction, delivered inside the same pod that builds your model.
 - [Team Augmentation](https://www.fwdpod.com/services/team-augmentation): Hire embedded AI engineers and dedicated AI architects on demand with Fwdpod. AI Team Extension Services — access AI Experts for Hire faster than traditional recruiting.
 - [AI Consulting](https://www.fwdpod.com/services/ai-consulting): Fwdpod provides Fractional AI Team services and AI Strategy Consulting — Fractional Chief AI Officer, Virtual Chief AI Officer, and AI Capability Center design. Book a consultation.
 

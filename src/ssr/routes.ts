@@ -18,9 +18,15 @@ const STATIC_PATHS = [
   '/services/llm-development',
   '/services/rag-development',
   '/services/ai-agents',
+  '/services/data-annotation',
   '/services/team-augmentation',
   '/services/ai-consulting',
 ];
+
+/** Static pages whose content date is known, for the sitemap's <lastmod>. */
+const STATIC_LASTMOD: Record<string, string> = {
+  '/services/data-annotation': '2026-10-21',
+};
 
 export interface PrerenderRoute {
   path: string;
@@ -35,7 +41,7 @@ export interface PrerenderRoute {
 
 export function getPrerenderRoutes(): PrerenderRoute[] {
   return [
-    ...STATIC_PATHS.map(path => ({ path })),
+    ...STATIC_PATHS.map(path => ({ path, lastmod: STATIC_LASTMOD[path] })),
     // Every published article, from content/blog/ and the CMS, gets its own
     // page and sitemap entry. Placeholder cards are not included: they have no
     // article behind them.
