@@ -177,7 +177,7 @@ export default function CatalogueView(_props: CatalogueViewProps) {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CATALOGUE_JSON_LD} />
 
       {/* 1. Intro */}
-      <section className="pt-2 space-y-3 max-w-3xl" aria-labelledby="catalogue-heading">
+      <section className="pt-2 space-y-2 max-w-3xl" aria-labelledby="catalogue-heading">
         <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Pod catalogue</span>
         <h1 id="catalogue-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
           AI engineering pods
@@ -188,7 +188,7 @@ export default function CatalogueView(_props: CatalogueViewProps) {
       </section>
 
       {/* 2. Pod cards: name only, click to open the details */}
-      <section aria-labelledby="pods-heading" className="flex flex-col gap-8 pt-8 pb-12 md:pb-16">
+      <section aria-labelledby="pods-heading" className="flex flex-col gap-6 pt-6 pb-12 md:pb-16">
         <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
         {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
