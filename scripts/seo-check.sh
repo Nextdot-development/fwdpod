@@ -18,7 +18,7 @@ set -uo pipefail
 BASE_URL="${1:-https://www.fwdpod.com}"
 BASE_URL="${BASE_URL%/}"
 APEX_URL="${APEX_URL:-$(printf '%s' "$BASE_URL" | sed 's#://www[.]#://#')}"
-BODY_SENTENCE="${BODY_SENTENCE:-Traditional consultancies operate by selling warm bodies}"
+BODY_SENTENCE="${BODY_SENTENCE:-We handle sourcing, vetting, payroll, retention and replacement}"
 read -r -a CURL_EXTRA <<< "${CURL_OPTS:-}"
 
 failures=0

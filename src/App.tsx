@@ -8,9 +8,7 @@ import {
 } from 'lucide-react';
 
 import {
-  COPY_OPTIONS,
   POD_DETAILS,
-  LIVE_PODS,
   PodSKU
 } from './data';
 
@@ -114,8 +112,6 @@ export default function App() {
       setSelectedSKU(matched);
     }
   };
-
-  const runningSamplePods = LIVE_PODS.slice(0, 3);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
@@ -268,19 +264,7 @@ export default function App() {
       <main className="flex-grow max-w-7xl w-full mx-auto px-4 md:px-8 pt-2 md:pt-4 pb-12">
         {/* Indexable paths are also listed in src/ssr/routes.ts for prerendering — keep both in sync */}
         <Routes>
-          <Route
-            path="/"
-            element={
-              <HomeView
-                activeHeadline={COPY_OPTIONS[0].headline}
-                activeSubline={COPY_OPTIONS[0].subline}
-                activeCta={COPY_OPTIONS[0].cta}
-                onNavigate={navigateToPage}
-                onSelectPod={handleOpenSpecSheet}
-                livePodsSample={runningSamplePods}
-              />
-            }
-          />
+          <Route path="/" element={<HomeView />} />
           <Route
             path="/catalogue"
             element={
