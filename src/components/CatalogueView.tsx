@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Check } from 'lucide-react';
 import SEO from './SEO';
-import TwoWaysToWork from './marketing/TwoWaysToWork';
 import PricingSection from './marketing/PricingSection';
 import { BookingLink, card, cardHover, primaryButton, sectionClass, SectionHeading } from './marketing/ui';
 import { PODS } from '../content/pods';
@@ -86,10 +85,7 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
         </p>
       </section>
 
-      {/* 2. Two ways to work with us */}
-      <TwoWaysToWork />
-
-      {/* 3. One block per pod */}
+      {/* 2. One block per pod */}
       <section aria-labelledby="pods-heading" className={sectionClass}>
         <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
         <div className="space-y-6">
@@ -164,7 +160,7 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
         </div>
       </section>
 
-      {/* 4. Example pod breakdown */}
+      {/* 3. Example pod breakdown */}
       <section aria-labelledby="breakdown-heading" className={sectionClass}>
         <SectionHeading id="breakdown-heading" label="Inside a pod" title="What a 5-person Agent Development Pod looks like" />
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -181,7 +177,7 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
         </p>
       </section>
 
-      {/* 5. Pricing */}
+      {/* 4. Pricing */}
       <PricingSection source="catalogue" />
     </div>
   );
