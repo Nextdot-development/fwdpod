@@ -502,7 +502,8 @@ export default function App() {
       <footer className="bg-white border-t border-[#0A0A0A]/10 py-14 px-4 md:px-8">
         <div className="max-w-7xl mx-auto space-y-12">
 
-          {/* CTA Banner */}
+          {/* CTA Banner — the homepage ends with its own booking band instead */}
+          {location.pathname !== '/' && (
           <div className="bg-[#0A0A0A] text-white p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border-2 border-[#111111] relative overflow-hidden shadow-xl rounded-3xl">
             <div className="absolute top-0 right-0 w-80 h-80 bg-[#0066FF]/10 rounded-full blur-3xl pointer-events-none -mr-24 -mt-24"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-zinc-900/40 rounded-full blur-2xl pointer-events-none -ml-20 -mb-20"></div>
@@ -530,6 +531,7 @@ export default function App() {
               </Link>
             </div>
           </div>
+          )}
 
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8 text-[#555555]">
 

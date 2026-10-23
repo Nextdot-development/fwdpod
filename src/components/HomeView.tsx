@@ -733,7 +733,7 @@ export default function HomeView() {
       {/* 11. Book a call */}
       <section
         aria-labelledby="book-heading"
-        className="my-16 md:my-20 lg:snap-start bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
+        className="mt-16 md:mt-20 lg:snap-start bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
       >
         <div className="space-y-2 max-w-2xl">
           <h2 id="book-heading" className="text-2xl md:text-3xl font-display font-medium tracking-tight text-white">
