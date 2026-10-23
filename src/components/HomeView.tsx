@@ -7,11 +7,9 @@ import {
   TIME_TO_START,
   SHORTLIST_TIME,
   PILOT_LENGTH,
-  NOTICE_PERIOD,
   REPLACEMENT_WINDOW,
   US_OVERLAP_HOURS,
   LLMOPS_POD_SIZE,
-  HOURLY_FROM,
 } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
@@ -182,25 +180,6 @@ const PODS = [
   },
 ];
 
-const PRICING = [
-  {
-    name: 'Hourly',
-    price: `From ${HOURLY_FROM}/hour`,
-    text: 'Pay for hours worked. Good for short tasks, audits and surge capacity.',
-    cta: 'Book a 30-minute call',
-  },
-  {
-    name: 'Daily',
-    text: 'Book a call with our team to discuss your requirements and pricing.',
-    cta: 'Book a Call with Our Team',
-  },
-  {
-    name: 'Monthly',
-    text: 'A full-time engineer or pod on your team. Book a call with our team to discuss your requirements and pricing.',
-    cta: 'Book a Call with Our Team',
-  },
-];
-
 const STEPS = [
   { name: 'Scope', text: 'A 30-minute call on the roles or the outcome you need.' },
   { name: 'Shortlist', text: `Profiles of vetted engineers, or a pod plan, within ${SHORTLIST_TIME}.` },
@@ -267,9 +246,8 @@ const card = `border border-zinc-200/85 bg-white p-6 md:p-8 rounded-2xl ${cardHo
 const eyebrow = 'text-[#0066FF] text-xs font-semibold uppercase tracking-widest block';
 const h2Class = 'text-3xl md:text-4xl font-display font-medium text-[#0A0A0A] tracking-tight';
 
-// Each section fills at least one screen below the 4rem header, content centred
-const fullSection =
-  'min-h-[calc(100svh-4rem)] flex flex-col justify-center gap-10 md:gap-12 py-16 md:py-20 scroll-mt-0 lg:snap-start';
+// Sections follow one another with even spacing
+const fullSection = 'flex flex-col gap-10 md:gap-12 py-12 md:py-16';
 
 function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
   return (
@@ -474,15 +452,7 @@ function PodDiagram() {
 export default function HomeView() {
   const { hash } = useLocation();
 
-  // On large screens, scrolling settles at the start of the nearest section.
-  // Homepage only, so the classes come off when the page unmounts.
-  useEffect(() => {
-    const snapClasses = ['lg:snap-y', 'lg:snap-proximity'];
-    document.documentElement.classList.add(...snapClasses);
-    return () => document.documentElement.classList.remove(...snapClasses);
-  }, []);
-
-  // Scroll to a section when the URL has an anchor (e.g. /#pricing). Deferred so
+  // Scroll to a section when the URL has an anchor (e.g. /#pods). Deferred so
   // it runs after App's scroll-to-top on route change.
   useEffect(() => {
     if (!hash) return;
@@ -497,7 +467,7 @@ export default function HomeView() {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}
-      <section className="min-h-[calc(100svh-5rem)] py-10 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center lg:snap-start lg:scroll-mt-20" aria-labelledby="hero-heading">
+      <section className="min-h-[calc(100svh-5rem)] py-10 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center" aria-labelledby="hero-heading">
         <div className="lg:col-span-7 space-y-7">
           <h1 id="hero-heading" className="text-[2.5rem] sm:text-5xl xl:text-[3.5rem] font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
             <span className="block">Senior AI engineers from India.</span>{' '}
@@ -628,31 +598,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* 6. Pricing */}
-      <section id="pricing" aria-labelledby="pricing-heading" className={fullSection}>
-        <SectionHeading id="pricing-heading" label="Pricing" title="Simple ways to work with us." />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PRICING.map(plan => (
-            <div key={plan.name} className={`${card} flex flex-col justify-between gap-6`}>
-              <div className="space-y-3">
-                <h3 className="text-lg font-display font-medium text-[#0A0A0A] tracking-tight">{plan.name}</h3>
-                {plan.price && <p className="text-2xl font-display font-medium text-[#0A0A0A]">{plan.price}</p>}
-                <p className="text-sm md:text-base text-[#555555] leading-relaxed">{plan.text}</p>
-              </div>
-              <BookingLink
-                label={plan.cta}
-                source={`pricing ${plan.name.toLowerCase()}`}
-                className={`${plan.price ? primaryButton : secondaryButton} w-full px-5`}
-              />
-            </div>
-          ))}
-        </div>
-        <p className="text-sm text-[#555555]">
-          Scale up or down with {NOTICE_PERIOD} notice. Free replacement within {REPLACEMENT_WINDOW} if someone isn't the right fit.
-        </p>
-      </section>
-
-      {/* 7. How we start */}
+      {/* 6. How we start */}
       <section id="how-we-work" aria-labelledby="how-heading" className={fullSection}>
         <SectionHeading id="how-heading" label="How we work" title={`From first call to first commit in ${TIME_TO_START}.`} />
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -666,7 +612,7 @@ export default function HomeView() {
         </ol>
       </section>
 
-      {/* 8. Why India, why Fwdpod */}
+      {/* 7. Why India, why Fwdpod */}
       <section aria-labelledby="why-heading" className={fullSection}>
         <SectionHeading id="why-heading" label="Why us" title="Why India, why Fwdpod" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -689,7 +635,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* 9. Security and procurement */}
+      {/* 8. Security and procurement */}
       <section aria-labelledby="security-heading" className={fullSection}>
         <SectionHeading id="security-heading" label="Security and procurement" title="Built to pass your security review." />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -702,7 +648,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* 10. Case studies */}
+      {/* 9. Case studies */}
       <section id="case-studies" aria-labelledby="cases-heading" className={fullSection}>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
@@ -730,10 +676,10 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* 11. Book a call */}
+      {/* 10. Book a call */}
       <section
         aria-labelledby="book-heading"
-        className="mt-16 md:mt-20 lg:snap-start bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
+        className="mt-8 md:mt-12 bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
       >
         <div className="space-y-2 max-w-2xl">
           <h2 id="book-heading" className="text-2xl md:text-3xl font-display font-medium tracking-tight text-white">
