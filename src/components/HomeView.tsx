@@ -263,9 +263,13 @@ const secondaryButton =
 // Lift, blue border and shadow on hover, as on the catalogue cards
 const cardHover =
   'transition-all duration-300 ease-out hover:border-[#0066FF] hover:shadow-md hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none';
-const card = `border border-zinc-200/85 bg-white p-6 rounded-2xl ${cardHover}`;
+const card = `border border-zinc-200/85 bg-white p-6 md:p-8 rounded-2xl ${cardHover}`;
 const eyebrow = 'text-[#0066FF] text-xs font-semibold uppercase tracking-widest block';
-const h2Class = 'text-3xl font-display font-medium text-[#0A0A0A] tracking-tight';
+const h2Class = 'text-3xl md:text-4xl font-display font-medium text-[#0A0A0A] tracking-tight';
+
+// Each section fills at least one screen below the 4rem header, content centred
+const fullSection =
+  'min-h-[calc(100svh-4rem)] flex flex-col justify-center gap-10 md:gap-12 py-16 md:py-20 scroll-mt-0 lg:snap-start';
 
 function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
   return (
@@ -470,6 +474,14 @@ function PodDiagram() {
 export default function HomeView() {
   const { hash } = useLocation();
 
+  // On large screens, scrolling settles at the start of the nearest section.
+  // Homepage only, so the classes come off when the page unmounts.
+  useEffect(() => {
+    const snapClasses = ['lg:snap-y', 'lg:snap-proximity'];
+    document.documentElement.classList.add(...snapClasses);
+    return () => document.documentElement.classList.remove(...snapClasses);
+  }, []);
+
   // Scroll to a section when the URL has an anchor (e.g. /#pricing). Deferred so
   // it runs after App's scroll-to-top on route change.
   useEffect(() => {
@@ -481,11 +493,11 @@ export default function HomeView() {
   }, [hash]);
 
   return (
-    <div className="space-y-20 md:space-y-24 bg-white">
+    <div className="bg-white">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}
-      <section className="pt-6 md:pt-12 pb-2 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center" aria-labelledby="hero-heading">
+      <section className="min-h-[calc(100svh-5rem)] py-10 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center lg:snap-start lg:scroll-mt-20" aria-labelledby="hero-heading">
         <div className="lg:col-span-7 space-y-7">
           <h1 id="hero-heading" className="text-[2.5rem] sm:text-5xl xl:text-[3.5rem] font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
             <span className="block">Senior AI engineers from India.</span>{' '}
@@ -520,27 +532,27 @@ export default function HomeView() {
       </section>
 
       {/* 2. The challenge */}
-      <section aria-labelledby="challenge-heading" className="space-y-8">
+      <section aria-labelledby="challenge-heading" className={fullSection}>
         <SectionHeading id="challenge-heading" label="The challenge" title="Your AI roadmap is bigger than your team." />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CHALLENGES.map(item => (
             <div key={item.title} className={card}>
-              <h3 className="text-base font-semibold text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
+              <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.title}</h3>
+              <p className="mt-2 text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* 3. Two ways to work with us */}
-      <section id="services" aria-labelledby="services-heading" className="space-y-8 scroll-mt-6">
+      <section id="services" aria-labelledby="services-heading" className={fullSection}>
         <div className="space-y-4 max-w-3xl">
           <SectionHeading id="services-heading" label="Services" title="Two ways to work with us" />
           <p className="text-base text-[#555555] leading-relaxed">
             We place pre-vetted AI engineers from India inside your team. You direct the work. We handle sourcing, vetting, payroll, retention and replacement.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {ENGAGEMENT_MODELS.map(model => (
             <div key={model.name} className={`${card} p-6 md:p-8 space-y-5`}>
               <div className="space-y-1">
@@ -549,7 +561,7 @@ export default function HomeView() {
               </div>
               <ul className="space-y-2.5">
                 {model.points.map(point => (
-                  <li key={point} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
+                  <li key={point} className="flex gap-2.5 text-sm md:text-base text-[#555555] leading-relaxed">
                     <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
                     <span>{point}</span>
                   </li>
@@ -564,13 +576,13 @@ export default function HomeView() {
       </section>
 
       {/* 4. Skills we deploy */}
-      <section aria-labelledby="skills-heading" className="space-y-8">
+      <section aria-labelledby="skills-heading" className={fullSection}>
         <SectionHeading id="skills-heading" label="Skills we deploy" title="Every role across the AI lifecycle." />
         <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-[#0A0A0A]/10">
           {SKILL_GROUPS.map(group => (
             <div key={group.area} className="group py-5 md:pr-8 border-b border-[#0A0A0A]/10 transition-colors hover:border-[#0066FF]">
               <dt className="text-sm font-semibold text-[#0A0A0A] transition-colors group-hover:text-[#0066FF]">{group.area}</dt>
-              <dd className="mt-1.5 text-sm text-[#555555] leading-relaxed">{group.roles}</dd>
+              <dd className="mt-1.5 text-sm md:text-base text-[#555555] leading-relaxed">{group.roles}</dd>
             </div>
           ))}
         </dl>
@@ -580,51 +592,52 @@ export default function HomeView() {
       <section
         id="pods"
         aria-labelledby="pods-heading"
-        className="space-y-8 p-6 md:p-10 rounded-3xl scroll-mt-6"
-        style={{ backgroundColor: '#fafafa' }}
+        className={fullSection}
       >
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <SectionHeading id="pods-heading" label="Pod options" title="The pods we deploy most." />
-          <Link
-            to="/catalogue"
-            className="text-sm font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
-          >
-            <span>See all pods</span>
-            <ChevronRight className="w-4 h-4" aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {PODS.map(pod => (
-            <div
-              key={pod.name}
-              className={`p-6 rounded-2xl flex flex-col justify-between gap-5 ${cardHover} ${
-                pod.highlighted ? 'bg-[#0A0A0A] text-white border border-[#0A0A0A]' : 'bg-white border border-zinc-200/85'
-              }`}
+        <div className="space-y-10 md:space-y-12 p-6 md:p-10 rounded-3xl" style={{ backgroundColor: '#fafafa' }}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <SectionHeading id="pods-heading" label="Pod options" title="The pods we deploy most." />
+            <Link
+              to="/catalogue"
+              className="text-sm font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
             >
-              <div className="space-y-2">
-                <h3 className={`text-lg font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>
-                  {pod.name}
-                </h3>
-                <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.text}</p>
+              <span>See all pods</span>
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PODS.map(pod => (
+              <div
+                key={pod.name}
+                className={`p-6 md:p-8 rounded-2xl flex flex-col justify-between gap-5 ${cardHover} ${
+                  pod.highlighted ? 'bg-[#0A0A0A] text-white border border-[#0A0A0A]' : 'bg-white border border-zinc-200/85'
+                }`}
+              >
+                <div className="space-y-2">
+                  <h3 className={`text-lg font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>
+                    {pod.name}
+                  </h3>
+                  <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.text}</p>
+                </div>
+                <p className={`text-xs font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`}>
+                  {pod.size} · {pod.timeline}
+                </p>
               </div>
-              <p className={`text-xs font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`}>
-                {pod.size} · {pod.timeline}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* 6. Pricing */}
-      <section id="pricing" aria-labelledby="pricing-heading" className="space-y-8 scroll-mt-6">
+      <section id="pricing" aria-labelledby="pricing-heading" className={fullSection}>
         <SectionHeading id="pricing-heading" label="Pricing" title="Simple ways to work with us." />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PRICING.map(plan => (
             <div key={plan.name} className={`${card} flex flex-col justify-between gap-6`}>
               <div className="space-y-3">
                 <h3 className="text-lg font-display font-medium text-[#0A0A0A] tracking-tight">{plan.name}</h3>
                 {plan.price && <p className="text-2xl font-display font-medium text-[#0A0A0A]">{plan.price}</p>}
-                <p className="text-sm text-[#555555] leading-relaxed">{plan.text}</p>
+                <p className="text-sm md:text-base text-[#555555] leading-relaxed">{plan.text}</p>
               </div>
               <BookingLink
                 label={plan.cta}
@@ -640,23 +653,23 @@ export default function HomeView() {
       </section>
 
       {/* 7. How we start */}
-      <section id="how-we-work" aria-labelledby="how-heading" className="space-y-8 scroll-mt-6">
+      <section id="how-we-work" aria-labelledby="how-heading" className={fullSection}>
         <SectionHeading id="how-heading" label="How we work" title={`From first call to first commit in ${TIME_TO_START}.`} />
-        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {STEPS.map((step, idx) => (
             <li key={step.name} className={card}>
               <span className="text-xs font-mono font-semibold text-[#0066FF]">Step {idx + 1}</span>
-              <h3 className="mt-2 text-base font-semibold text-[#0A0A0A]">{step.name}</h3>
-              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{step.text}</p>
+              <h3 className="mt-2 text-base md:text-lg font-semibold text-[#0A0A0A]">{step.name}</h3>
+              <p className="mt-1.5 text-sm md:text-base text-[#555555] leading-relaxed">{step.text}</p>
             </li>
           ))}
         </ol>
       </section>
 
       {/* 8. Why India, why Fwdpod */}
-      <section aria-labelledby="why-heading" className="space-y-8">
+      <section aria-labelledby="why-heading" className={fullSection}>
         <SectionHeading id="why-heading" label="Why us" title="Why India, why Fwdpod" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             { title: 'Why India', items: WHY_INDIA },
             { title: 'Why Fwdpod', items: WHY_FWDPOD },
@@ -665,7 +678,7 @@ export default function HomeView() {
               <h3 className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">{column.title}</h3>
               <ul className="space-y-3">
                 {column.items.map(item => (
-                  <li key={item} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
+                  <li key={item} className="flex gap-2.5 text-sm md:text-base text-[#555555] leading-relaxed">
                     <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
@@ -677,20 +690,20 @@ export default function HomeView() {
       </section>
 
       {/* 9. Security and procurement */}
-      <section aria-labelledby="security-heading" className="space-y-8">
+      <section aria-labelledby="security-heading" className={fullSection}>
         <SectionHeading id="security-heading" label="Security and procurement" title="Built to pass your security review." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SECURITY.map(item => (
             <div key={item.title} className={card}>
-              <h3 className="text-base font-semibold text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
+              <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.title}</h3>
+              <p className="mt-2 text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* 10. Case studies */}
-      <section id="case-studies" aria-labelledby="cases-heading" className="space-y-8 scroll-mt-6">
+      <section id="case-studies" aria-labelledby="cases-heading" className={fullSection}>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
           <Link
@@ -701,13 +714,13 @@ export default function HomeView() {
             <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CASE_STUDIES.map(item => (
             <div key={item.sector} className={`${card} flex flex-col justify-between gap-5`}>
               <div className="space-y-2">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#555555]">{item.sector}</span>
-                <h3 className="text-base font-semibold text-[#0A0A0A]">{item.pod}</h3>
-                <p className="text-sm text-[#555555] leading-relaxed">{item.text}</p>
+                <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.pod}</h3>
+                <p className="text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
               </div>
               <p className="pt-3 border-t border-[#0A0A0A]/10 text-xs font-semibold text-[#0A0A0A]">
                 {item.weeks} · {item.team}
@@ -720,7 +733,7 @@ export default function HomeView() {
       {/* 11. Book a call */}
       <section
         aria-labelledby="book-heading"
-        className="bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
+        className="my-16 md:my-20 lg:snap-start bg-[#0A0A0A] text-white p-8 md:p-12 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6"
       >
         <div className="space-y-2 max-w-2xl">
           <h2 id="book-heading" className="text-2xl md:text-3xl font-display font-medium tracking-tight text-white">
