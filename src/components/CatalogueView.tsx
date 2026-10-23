@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { Check } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Check, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
 import PricingSection from './marketing/PricingSection';
 import { BookingLink, card, cardHover, primaryButton, sectionClass, SectionHeading } from './marketing/ui';
-import { PODS } from '../content/pods';
+import { PODS, type Pod } from '../content/pods';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'AI Engineering Pods for Agents, RAG and Voice AI | Fwdpod';
@@ -59,11 +59,93 @@ interface CatalogueViewProps {
   onPreselectPod: (podId: string) => void;
 }
 
+function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: () => void }) {
+  const dark = pod.highlighted;
+  const detailsId = `pod-details-${pod.id}`;
+  return (
+    <article
+      id={`pod-heading-${pod.id}`}
+      className={`scroll-mt-6 rounded-3xl border overflow-hidden ${cardHover} ${
+        dark ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : `bg-white ${open ? 'border-[#0066FF]' : 'border-zinc-200/85'}`
+      }`}
+    >
+      <h3>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={detailsId}
+          className="w-full flex items-center justify-between gap-4 p-6 md:p-8 text-left cursor-pointer"
+        >
+          <span className={`text-2xl font-display font-medium tracking-tight ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>
+            {pod.name}
+          </span>
+          <span
+            className={`shrink-0 p-1.5 rounded-full border ${dark ? 'border-white/20 bg-white/5' : 'border-[#0A0A0A]/10 bg-zinc-50'}`}
+            aria-hidden="true"
+          >
+            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${dark ? 'text-white' : 'text-[#0A0A0A]'}`} />
+          </span>
+        </button>
+      </h3>
+
+      {/* Kept in the page when closed, so the details are in the prerendered HTML */}
+      <div id={detailsId} hidden={!open} className="px-6 pb-6 md:px-8 md:pb-8 space-y-6 animate-fadeIn">
+        <p className={`text-sm leading-relaxed ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.builds}</p>
+
+        {pod.typicalWork.length > 0 && (
+          <div className="space-y-3">
+            <h4 className={`text-xs font-mono font-medium uppercase tracking-widest ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>
+              Typical work
+            </h4>
+            <ul className="space-y-2.5">
+              {pod.typicalWork.map(item => (
+                <li key={item} className={`flex gap-2.5 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#555555]'}`}>
+                  <Check className={`w-4 h-4 mt-0.5 shrink-0 ${dark ? 'text-white' : 'text-[#0066FF]'}`} aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <dl className={`grid grid-cols-2 gap-x-6 gap-y-5 rounded-2xl p-5 ${dark ? 'bg-white/5 border border-white/10' : 'bg-zinc-50 border border-zinc-100'}`}>
+          <div>
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>Team size</dt>
+            <dd className={`mt-1 text-sm font-semibold ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.size}</dd>
+          </div>
+          <div>
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>Typical timeline</dt>
+            <dd className={`mt-1 text-sm font-semibold ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.timeline}</dd>
+          </div>
+          <div className="col-span-2">
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>Best for</dt>
+            <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.bestFor}</dd>
+          </div>
+        </dl>
+
+        <BookingLink label="Book a 30-minute call" source={`catalogue ${pod.name}`} className={`${primaryButton} w-full`} />
+      </div>
+    </article>
+  );
+}
+
 export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
-  // Scroll to the pod picked in the footer. Deferred so it runs after App's
-  // scroll-to-top on route change.
+  const [openPods, setOpenPods] = useState<Set<string>>(() => new Set());
+
+  const togglePod = (id: string) =>
+    setOpenPods(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  // Open and scroll to the pod picked in the footer. Deferred so it runs after
+  // App's scroll-to-top on route change.
   useEffect(() => {
     if (!selectedPodId) return;
+    setOpenPods(prev => new Set(prev).add(selectedPodId));
     const timer = window.setTimeout(() => {
       document.getElementById(`pod-heading-${selectedPodId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 0);
@@ -85,77 +167,17 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
         </p>
       </section>
 
-      {/* 2. One block per pod */}
+      {/* 2. Pod cards: name only, click to open the details */}
       <section aria-labelledby="pods-heading" className="flex flex-col gap-8 pt-10 md:pt-12 pb-12 md:pb-16">
         <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
-        <div className="space-y-6">
-          {PODS.map(pod => (
-            <article
-              key={pod.id}
-              id={`pod-heading-${pod.id}`}
-              aria-labelledby={`pod-name-${pod.id}`}
-              className={`scroll-mt-6 rounded-3xl border p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 ${cardHover} ${
-                pod.highlighted ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : 'bg-white border-zinc-200/85'
-              }`}
-            >
-              <div className="lg:col-span-7 space-y-5">
-                <div className="space-y-2">
-                  <h3
-                    id={`pod-name-${pod.id}`}
-                    className={`text-2xl font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}
-                  >
-                    {pod.name}
-                  </h3>
-                  <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
-                    {pod.builds}
-                  </p>
-                </div>
-                {pod.typicalWork.length > 0 && (
-                  <div className="space-y-3">
-                    <h4 className={`text-xs font-mono font-medium uppercase tracking-widest ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
-                      Typical work
-                    </h4>
-                    <ul className="space-y-2.5">
-                      {pod.typicalWork.map(item => (
-                        <li
-                          key={item}
-                          className={`flex gap-2.5 text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-200' : 'text-[#555555]'}`}
-                        >
-                          <Check className={`w-4 h-4 mt-0.5 shrink-0 ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`} aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              <div className="lg:col-span-5 flex flex-col justify-between gap-6">
-                <dl
-                  className={`grid grid-cols-2 gap-x-6 gap-y-5 rounded-2xl p-5 md:p-6 ${
-                    pod.highlighted ? 'bg-white/5 border border-white/10' : 'bg-zinc-50 border border-zinc-100'
-                  }`}
-                >
-                  <div>
-                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Team size</dt>
-                    <dd className={`mt-1 text-sm font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.size}</dd>
-                  </div>
-                  <div>
-                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Typical timeline</dt>
-                    <dd className={`mt-1 text-sm font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.timeline}</dd>
-                  </div>
-                  <div className="col-span-2">
-                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Best for</dt>
-                    <dd className={`mt-1 text-sm leading-relaxed ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.bestFor}</dd>
-                  </div>
-                </dl>
-                <BookingLink
-                  label="Book a 30-minute call"
-                  source={`catalogue ${pod.name}`}
-                  className={`${primaryButton} w-full`}
-                />
-              </div>
-            </article>
+        {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          {[PODS.slice(0, 3), PODS.slice(3)].map((column, idx) => (
+            <div key={idx} className="space-y-6">
+              {column.map(pod => (
+                <PodCard key={pod.id} pod={pod} open={openPods.has(pod.id)} onToggle={() => togglePod(pod.id)} />
+              ))}
+            </div>
           ))}
         </div>
       </section>
