@@ -66,7 +66,7 @@ function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: (
   return (
     <article
       id={`pod-heading-${pod.id}`}
-      className={`scroll-mt-6 rounded-3xl border overflow-hidden shadow-sm ${cardHover} ${
+      className={`scroll-mt-24 rounded-3xl border overflow-hidden shadow-sm ${cardHover} ${
         dark ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : `bg-white ${open ? 'border-[#0066FF]' : 'border-zinc-200/85'}`
       }`}
     >
@@ -177,7 +177,7 @@ export default function CatalogueView(_props: CatalogueViewProps) {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CATALOGUE_JSON_LD} />
 
       {/* 1. Intro */}
-      <section className="pt-4 md:pt-6 space-y-4 max-w-3xl" aria-labelledby="catalogue-heading">
+      <section className="pt-2 space-y-3 max-w-3xl" aria-labelledby="catalogue-heading">
         <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Pod catalogue</span>
         <h1 id="catalogue-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
           AI engineering pods
@@ -188,7 +188,7 @@ export default function CatalogueView(_props: CatalogueViewProps) {
       </section>
 
       {/* 2. Pod cards: name only, click to open the details */}
-      <section aria-labelledby="pods-heading" className="flex flex-col gap-8 pt-10 md:pt-12 pb-12 md:pb-16">
+      <section aria-labelledby="pods-heading" className="flex flex-col gap-8 pt-8 pb-12 md:pb-16">
         <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
         {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">

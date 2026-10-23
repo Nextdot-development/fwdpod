@@ -21,7 +21,7 @@ export const eyebrow = 'text-[#0066FF] text-xs font-mono font-medium uppercase t
 export const h2Class = 'text-3xl font-display font-medium text-[#0A0A0A] tracking-tight';
 
 // Sections follow one another with even spacing
-export const sectionClass = 'flex flex-col gap-10 md:gap-12 py-12 md:py-16';
+export const sectionClass = 'flex flex-col gap-10 md:gap-12 py-12 md:py-16 scroll-mt-16';
 
 export function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
   return (

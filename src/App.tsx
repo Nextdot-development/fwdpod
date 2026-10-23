@@ -121,7 +121,8 @@ export default function App() {
     <div className="min-h-screen bg-[#FFFFFF] text-[#0A0A0A] font-sans selection:bg-[#0066FF] selection:text-white flex flex-col antialiased">
 
       {/* ── Main Navigation Header ─────────────────────────────────────────── */}
-      <header className="bg-white border-b border-[#0A0A0A]/10 px-4 md:px-8 z-40">
+      {/* Sticky on every page; /live-pods pins its filter bar at top-16, just below it */}
+      <header className="sticky top-0 bg-white border-b border-[#0A0A0A]/10 px-4 md:px-8 z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
 
           {/* Logo — renders as <a href="/"> for crawlers */}
