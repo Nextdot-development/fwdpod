@@ -534,7 +534,8 @@ export default function App() {
                         onClick={() => setSelectedPodId(pod.id)}
                         className="hover:text-[#0A0A0A] hover:underline transition-all"
                       >
-                        {pod.name}
+                        {/* The column heading already says "pods"; Custom keeps it */}
+                        {pod.id === 'custom-pod' ? pod.name : pod.name.replace(/ Pod$/, '')}
                       </Link>
                     </li>
                   ))}
