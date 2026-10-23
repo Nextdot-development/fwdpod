@@ -34,6 +34,7 @@ import TeamAugmentationView from './components/TeamAugmentationView';
 import AiConsultingView from './components/AiConsultingView';
 import DataAnnotationView from './components/DataAnnotationView';
 import { SERVICES } from './data/services';
+import { PODS } from './content/pods';
 import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
@@ -526,51 +527,17 @@ export default function App() {
               <nav aria-label="Pod catalogue links">
                 <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Pods catalogue</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
-                  <li>
-                    <Link
-                      to="/catalogue"
-                      onClick={() => setSelectedPodId('voice-ai')}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all"
-                    >
-                      Voice AI Core
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogue"
-                      onClick={() => setSelectedPodId('agentic-ops')}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all"
-                    >
-                      Agentic Operations
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogue"
-                      onClick={() => setSelectedPodId('rag-knowledge')}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all"
-                    >
-                      RAG &amp; Knowledge
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogue"
-                      onClick={() => setSelectedPodId('compliance-ai')}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all"
-                    >
-                      Compliance AI
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogue"
-                      onClick={() => setSelectedPodId('custom-pod')}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all"
-                    >
-                      Custom Pod
-                    </Link>
-                  </li>
+                  {PODS.map(pod => (
+                    <li key={pod.id}>
+                      <Link
+                        to="/catalogue"
+                        onClick={() => setSelectedPodId(pod.id)}
+                        className="hover:text-[#0A0A0A] hover:underline transition-all"
+                      >
+                        {pod.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </nav>
 
