@@ -121,7 +121,7 @@ export default function App() {
     <div className="min-h-screen bg-[#FFFFFF] text-[#0A0A0A] font-sans selection:bg-[#0066FF] selection:text-white flex flex-col antialiased">
 
       {/* ── Main Navigation Header ─────────────────────────────────────────── */}
-      {/* Sticky on every page; /live-pods pins its filter bar at top-16, just below it */}
+      {/* Sticky on every page */}
       <header className="sticky top-0 bg-white border-b border-[#0A0A0A]/10 px-4 md:px-8 z-40">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16">
 
@@ -138,7 +138,7 @@ export default function App() {
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8 text-xs font-medium text-[#555555]">
             <NavLink to="/" end className={desktopNavClass} onClick={() => trackNavClick('Home', '/')}>Home</NavLink>
             <NavLink to="/catalogue" className={desktopNavClass} onClick={() => trackNavClick('Pod Catalogue', '/catalogue')}>Pod Catalogue</NavLink>
-            <NavLink to="/live-pods" className={desktopNavClass} onClick={() => trackNavClick('Live Telemetry', '/live-pods')}>Live Telemetry</NavLink>
+            <NavLink to="/live-pods" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/live-pods')}>Case studies</NavLink>
             <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
             {/* Manifesto opens a modal — stays as button (not a page) */}
             <button
@@ -218,10 +218,10 @@ export default function App() {
                         )}
                       </NavLink>
 
-                      <NavLink to="/live-pods" onClick={() => { closeMobileMenu(); trackNavClick('Live Telemetry (mobile)', '/live-pods'); }} className={mobileNavClass}>
+                      <NavLink to="/live-pods" onClick={() => { closeMobileMenu(); trackNavClick('Case studies (mobile)', '/live-pods'); }} className={mobileNavClass}>
                         {({ isActive }) => (
                           <>
-                            <span>Live Telemetry</span>
+                            <span>Case studies</span>
                             {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
                           </>
                         )}
@@ -579,7 +579,7 @@ export default function App() {
                   </li>
                   <li>
                     <Link to="/live-pods" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Live telemetry
+                      Case studies
                     </Link>
                   </li>
                   <li>

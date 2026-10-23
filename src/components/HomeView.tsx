@@ -14,6 +14,7 @@ import {
   SectionHeading,
 } from './marketing/ui';
 import { PODS } from '../content/pods';
+import { CASE_STUDIES } from '../content/case-studies';
 import {
   TIME_TO_START,
   SHORTLIST_TIME,
@@ -152,30 +153,6 @@ const SECURITY = [
   { title: 'Continuity', text: `Documented handovers, named backups and free replacement within ${REPLACEMENT_WINDOW}.` },
   { title: 'Compliance', text: 'Data processing terms available on request.' },
   { title: 'Easy contracting', text: 'One master agreement and USD invoicing.' },
-];
-
-const CASE_STUDIES = [
-  {
-    sector: 'Financial brokerage',
-    pod: 'Compliance AI Pod',
-    text: 'Built privacy filters that keep sensitive client and trading data out of AI tools.',
-    weeks: '6 weeks to live',
-    team: '6 engineers',
-  },
-  {
-    sector: 'Logistics network',
-    pod: 'Agent Development Pod',
-    text: 'AI agents that check invoices and manage delivery dispatch, with automatic error recovery.',
-    weeks: '11 weeks to live',
-    team: '5 engineers',
-  },
-  {
-    sector: 'Healthcare services',
-    pod: 'Voice AI Pod',
-    text: 'A voice agent that books patient appointments in real time across many calls at once.',
-    weeks: '3 weeks to live',
-    team: '5 engineers',
-  },
 ];
 
 // ── Hero diagram: the four roles inside a pod ────────────────────────────────
@@ -546,7 +523,7 @@ export default function HomeView() {
               <div className="space-y-2">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-[#555555]">{item.sector}</span>
                 <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.pod}</h3>
-                <p className="text-sm text-[#555555] leading-relaxed">{item.text}</p>
+                <p className="text-sm text-[#555555] leading-relaxed">{item.built}</p>
               </div>
               <p className="pt-3 border-t border-[#0A0A0A]/10 text-[10px] font-mono text-[#555555]">
                 {item.weeks} · {item.team}
