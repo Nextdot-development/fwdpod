@@ -346,7 +346,8 @@ export default function HomeView() {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}
-      <section className="min-h-[calc(100svh-5rem)] py-10 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center" aria-labelledby="hero-heading">
+      {/* Fills the first screen below the header; content sits a little above centre (optical centre) */}
+      <section className="py-8 lg:pt-4 lg:pb-16 lg:min-h-[calc(100svh-5rem)] grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center" aria-labelledby="hero-heading">
         <div className="lg:col-span-7 space-y-7">
           <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.10] text-balance">
             <span className="block">Senior AI engineers from India.</span>{' '}
