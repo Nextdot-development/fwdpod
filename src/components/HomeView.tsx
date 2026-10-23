@@ -3,22 +3,30 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Check, ChevronRight } from 'lucide-react';
 import SEO from './SEO';
 import { trackCtaClick } from '../utils/analytics';
+import TwoWaysToWork from './marketing/TwoWaysToWork';
+import {
+  BOOKING_PATH,
+  primaryButton,
+  secondaryButton,
+  cardHover,
+  card,
+  sectionClass,
+  SectionHeading,
+  BookingLink,
+} from './marketing/ui';
+import { PODS } from '../content/pods';
 import {
   TIME_TO_START,
   SHORTLIST_TIME,
   PILOT_LENGTH,
   REPLACEMENT_WINDOW,
   US_OVERLAP_HOURS,
-  LLMOPS_POD_SIZE,
 } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'AI Engineers and AI Pods from India | Fwdpod';
 const PAGE_DESCRIPTION =
   'Add pre-vetted senior AI engineers from India to your team: one specialist or a full AI pod, hourly or full-time.';
-
-// Booking goes through the contact page form.
-const BOOKING_PATH = '/contact';
 
 // ── Home page JSON-LD: Organization + WebSite + WebPage ──────────────────────
 const HOME_JSON_LD = {
@@ -108,29 +116,6 @@ const CHALLENGES = [
   },
 ];
 
-const ENGAGEMENT_MODELS = [
-  {
-    name: 'Individual specialists',
-    tagline: 'Fill one skill gap, fast.',
-    points: [
-      'Works inside your team, tools and stand-ups',
-      'Hourly or monthly full-time',
-      'From data annotators to forward deployed engineers',
-    ],
-    bestFor: 'adding capacity to a team you already run',
-  },
-  {
-    name: 'AI pods',
-    tagline: 'Hand over a full workstream.',
-    points: [
-      '4–6 engineers who already work together',
-      'One pod lead accountable to you',
-      'Covers build, deployment and support',
-    ],
-    bestFor: 'shipping an agent, RAG system or voice product end to end',
-  },
-];
-
 const SKILL_GROUPS = [
   { area: 'Data and evaluation', roles: 'Data annotators, RLHF and evaluation specialists, data QA analysts' },
   { area: 'Data engineering', roles: 'Data engineers, pipeline and vector database specialists' },
@@ -138,46 +123,6 @@ const SKILL_GROUPS = [
   { area: 'Voice and multimodal', roles: 'Voice AI engineers, speech and computer vision specialists' },
   { area: 'Run', roles: 'MLOps and LLMOps engineers, cloud and DevOps, AI monitoring' },
   { area: 'Lead and integrate', roles: 'Forward deployed engineers, AI solution architects, pod leads' },
-];
-
-const PODS = [
-  {
-    name: 'Agent Development Pod',
-    text: 'Builds AI agents that automate workflows across your systems.',
-    size: '5 people',
-    timeline: '10–14 weeks to production',
-  },
-  {
-    name: 'RAG and Knowledge Pod',
-    text: 'Connects LLMs to your documents and data, with accuracy testing.',
-    size: '4 people',
-    timeline: '8–12 weeks',
-  },
-  {
-    name: 'Voice AI Pod',
-    text: 'Builds real-time voice agents for support, scheduling and intake.',
-    size: '5 people',
-    timeline: '8–12 weeks',
-  },
-  {
-    name: 'Compliance AI Pod',
-    text: 'Adds privacy filters, audit logs and safety testing to AI systems.',
-    size: '6 people',
-    timeline: '12–16 weeks',
-  },
-  {
-    name: 'LLMOps Pod',
-    text: 'Deploys, monitors and controls the cost of models in production.',
-    size: `${LLMOPS_POD_SIZE} people`,
-    timeline: 'ongoing',
-  },
-  {
-    name: 'Custom Pod',
-    text: 'Built around your stack, your data and your goal.',
-    size: '4–6 people',
-    timeline: 'scoped together',
-    highlighted: true,
-  },
 ];
 
 const STEPS = [
@@ -233,42 +178,6 @@ const CASE_STUDIES = [
     team: '5 engineers',
   },
 ];
-
-// ── Shared styles ────────────────────────────────────────────────────────────
-const primaryButton =
-  'bg-[#0066FF] text-white hover:bg-[#0055DD] py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
-const secondaryButton =
-  'border border-[#0A0A0A]/15 hover:border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A]/5 py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
-// Lift, blue border and shadow on hover, as on the catalogue cards
-const cardHover =
-  'transition-all duration-300 ease-out hover:border-[#0066FF] hover:shadow-md hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none';
-const card = `border border-zinc-200/85 bg-white p-6 md:p-8 rounded-2xl ${cardHover}`;
-const eyebrow = 'text-[#0066FF] text-xs font-semibold uppercase tracking-widest block';
-const h2Class = 'text-3xl md:text-4xl font-display font-medium text-[#0A0A0A] tracking-tight';
-
-// Sections follow one another with even spacing
-const fullSection = 'flex flex-col gap-10 md:gap-12 py-12 md:py-16';
-
-function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
-  return (
-    <div className="space-y-3">
-      <span className={eyebrow}>{label}</span>
-      <h2 id={id} className={h2Class}>{title}</h2>
-    </div>
-  );
-}
-
-function BookingLink({ label, source, className }: { label: string; source: string; className: string }) {
-  return (
-    <Link
-      to={BOOKING_PATH}
-      onClick={() => trackCtaClick(`${label} (${source})`, BOOKING_PATH)}
-      className={className}
-    >
-      {label}
-    </Link>
-  );
-}
 
 // ── Hero diagram: the four roles inside a pod ────────────────────────────────
 type PodRole = 'lead' | 'devops' | 'obs' | 'dev';
@@ -502,7 +411,7 @@ export default function HomeView() {
       </section>
 
       {/* 2. The challenge */}
-      <section aria-labelledby="challenge-heading" className={fullSection}>
+      <section aria-labelledby="challenge-heading" className={sectionClass}>
         <SectionHeading id="challenge-heading" label="The challenge" title="Your AI roadmap is bigger than your team." />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CHALLENGES.map(item => (
@@ -515,38 +424,10 @@ export default function HomeView() {
       </section>
 
       {/* 3. Two ways to work with us */}
-      <section id="services" aria-labelledby="services-heading" className={fullSection}>
-        <div className="space-y-4 max-w-3xl">
-          <SectionHeading id="services-heading" label="Services" title="Two ways to work with us" />
-          <p className="text-base text-[#555555] leading-relaxed">
-            We place pre-vetted AI engineers from India inside your team. You direct the work. We handle sourcing, vetting, payroll, retention and replacement.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {ENGAGEMENT_MODELS.map(model => (
-            <div key={model.name} className={`${card} p-6 md:p-8 space-y-5`}>
-              <div className="space-y-1">
-                <h3 className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">{model.name}</h3>
-                <p className="text-sm font-medium text-[#0066FF]">{model.tagline}</p>
-              </div>
-              <ul className="space-y-2.5">
-                {model.points.map(point => (
-                  <li key={point} className="flex gap-2.5 text-sm md:text-base text-[#555555] leading-relaxed">
-                    <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="pt-4 border-t border-[#0A0A0A]/10 text-sm text-[#0A0A0A]">
-                <span className="font-semibold">Best for:</span> {model.bestFor}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <TwoWaysToWork id="services" />
 
       {/* 4. Skills we deploy */}
-      <section aria-labelledby="skills-heading" className={fullSection}>
+      <section aria-labelledby="skills-heading" className={sectionClass}>
         <SectionHeading id="skills-heading" label="Skills we deploy" title="Every role across the AI lifecycle." />
         <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-[#0A0A0A]/10">
           {SKILL_GROUPS.map(group => (
@@ -562,7 +443,7 @@ export default function HomeView() {
       <section
         id="pods"
         aria-labelledby="pods-heading"
-        className={fullSection}
+        className={sectionClass}
       >
         <div className="space-y-10 md:space-y-12 p-6 md:p-10 rounded-3xl" style={{ backgroundColor: '#fafafa' }}>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -587,7 +468,7 @@ export default function HomeView() {
                   <h3 className={`text-lg font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>
                     {pod.name}
                   </h3>
-                  <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.text}</p>
+                  <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.builds}</p>
                 </div>
                 <p className={`text-xs font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`}>
                   {pod.size} · {pod.timeline}
@@ -599,7 +480,7 @@ export default function HomeView() {
       </section>
 
       {/* 6. How we start */}
-      <section id="how-we-work" aria-labelledby="how-heading" className={fullSection}>
+      <section id="how-we-work" aria-labelledby="how-heading" className={sectionClass}>
         <SectionHeading id="how-heading" label="How we work" title={`From first call to first commit in ${TIME_TO_START}.`} />
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {STEPS.map((step, idx) => (
@@ -613,7 +494,7 @@ export default function HomeView() {
       </section>
 
       {/* 7. Why India, why Fwdpod */}
-      <section aria-labelledby="why-heading" className={fullSection}>
+      <section aria-labelledby="why-heading" className={sectionClass}>
         <SectionHeading id="why-heading" label="Why us" title="Why India, why Fwdpod" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -636,7 +517,7 @@ export default function HomeView() {
       </section>
 
       {/* 8. Security and procurement */}
-      <section aria-labelledby="security-heading" className={fullSection}>
+      <section aria-labelledby="security-heading" className={sectionClass}>
         <SectionHeading id="security-heading" label="Security and procurement" title="Built to pass your security review." />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SECURITY.map(item => (
@@ -649,7 +530,7 @@ export default function HomeView() {
       </section>
 
       {/* 9. Case studies */}
-      <section id="case-studies" aria-labelledby="cases-heading" className={fullSection}>
+      <section id="case-studies" aria-labelledby="cases-heading" className={sectionClass}>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
           <Link
