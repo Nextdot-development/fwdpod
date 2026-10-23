@@ -367,13 +367,13 @@ export default function HomeView() {
               <span>Book a 30-minute call</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
-            <a
-              href="#pods"
-              onClick={() => trackCtaClick('See pod options (hero)', '#pods')}
+            <Link
+              to="/catalogue"
+              onClick={() => trackCtaClick('See pod options (hero)', '/catalogue')}
               className={secondaryButton}
             >
               See pod options
-            </a>
+            </Link>
           </div>
           <p className="text-xs font-medium text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
         </div>
