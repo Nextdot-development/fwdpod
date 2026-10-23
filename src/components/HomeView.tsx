@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Check, ChevronRight } from 'lucide-react';
 import SEO from './SEO';
@@ -285,6 +285,185 @@ function BookingLink({ label, source, className }: { label: string; source: stri
   );
 }
 
+// ── Hero diagram: the four roles inside a pod ────────────────────────────────
+type PodRole = 'lead' | 'devops' | 'obs' | 'dev';
+
+const POD_ROLES: Record<PodRole, { label: string; title: string; role: string }> = {
+  lead: {
+    label: 'Lead',
+    title: 'Pod lead and solution architect',
+    role: 'Plans the system, checks quality and security, and is your single point of contact.',
+  },
+  devops: {
+    label: 'DevOps',
+    title: 'Deployment and DevOps engineer',
+    role: 'Sets up cloud environments, CI/CD pipelines and secure deployment.',
+  },
+  obs: {
+    label: 'Monitoring',
+    title: 'Observability and monitoring engineer',
+    role: 'Tracks speed, accuracy and model costs once your system is live.',
+  },
+  dev: {
+    label: 'Developers',
+    title: 'AI and software developers',
+    role: 'Build the agents, voice pipelines and search over your documents that make up your product.',
+  },
+};
+
+// Hexagon geometry for each node: centre, outer (selected) ring and inner shape
+const POD_NODES: { id: PodRole; code: string; cx: number; cy: number; icon: string }[] = [
+  { id: 'lead', code: 'LD', cx: 120, cy: 40, icon: 'M -4 2.5 L -5.5 -1.5 L -2.5 0 L 0 -4 L 2.5 0 L 5.5 -1.5 L 4 2.5 Z' },
+  { id: 'devops', code: 'DO', cx: 60, cy: 100, icon: 'M -3.5 0 C -3.5 -1.8 -1.2 -1.8 0 0 C 1.2 1.8 3.5 1.8 3.5 0 C 3.5 -1.8 1.2 -1.8 0 0 C -1.2 1.8 -3.5 1.8 -3.5 0 Z' },
+  { id: 'obs', code: 'OB', cx: 180, cy: 100, icon: 'M -4.5 0 L -2.5 2.5 L 0 -3.5 L 2.5 3.5 L 4.5 0' },
+  { id: 'dev', code: 'DV', cx: 120, cy: 160, icon: 'M -3.5 -2.5 L -5.5 0 L -3.5 2.5 M 3.5 -2.5 L 5.5 0 L 3.5 2.5' },
+];
+
+const hexPoints = (cx: number, cy: number, r: number) =>
+  [0, 1, 2, 3, 4, 5]
+    .map(i => {
+      const a = (Math.PI / 3) * i - Math.PI / 2;
+      return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+    })
+    .join(' ');
+
+function PodDiagram() {
+  const [selected, setSelected] = useState<PodRole>('lead');
+  const verticalActive = selected === 'lead' || selected === 'dev';
+  const horizontalActive = selected === 'devops' || selected === 'obs';
+
+  return (
+    <div className="lg:col-span-5 lg:mt-2 border border-zinc-200/80 p-6 bg-white rounded-3xl shadow-sm hover:border-[#0066FF] hover:shadow-md transition-all duration-300 ease-out">
+      <div className="mb-4 text-[10px] font-mono tracking-widest text-[#555555] font-bold uppercase">
+        Fig 1.0 // Inside an AI pod
+      </div>
+
+      <div className="relative h-64 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
+        <svg width="100%" height="100%" className="absolute inset-0" viewBox="0 0 240 200" role="group" aria-label="The four roles in an AI pod. Select a role to read what it does.">
+          <defs>
+            <pattern id="node-grid" width="16" height="16" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="0.75" fill="#e4e4e7" />
+            </pattern>
+            <marker id="arrow-start" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#a1a1aa" opacity="0.6" />
+            </marker>
+            <marker id="arrow-end" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#a1a1aa" opacity="0.6" />
+            </marker>
+            <marker id="arrow-blue-start" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#0066FF" />
+            </marker>
+            <marker id="arrow-blue-end" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#0066FF" />
+            </marker>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#node-grid)" />
+
+          <circle cx="120" cy="100" r="70" stroke="#f4f4f5" strokeWidth="1" strokeDasharray="4,4" fill="none" />
+          <circle cx="120" cy="100" r="45" stroke="#f4f4f5" strokeWidth="1" strokeDasharray="3,3" fill="none" />
+
+          {['M 120 40 L 60 100', 'M 120 40 L 180 100', 'M 60 100 L 120 160', 'M 180 100 L 120 160'].map(d => (
+            <path key={d} d={d} stroke="#d4d4d8" strokeWidth="1" strokeDasharray="3,3" fill="none" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
+          ))}
+
+          {[
+            { d: 'M 120 40 L 120 160', active: verticalActive },
+            { d: 'M 60 100 L 180 100', active: horizontalActive },
+          ].map(({ d, active }) => (
+            <path
+              key={d}
+              d={d}
+              stroke={active ? '#0066FF' : '#d4d4d8'}
+              strokeOpacity={active ? 1 : 0.4}
+              strokeWidth={active ? 2 : 1}
+              fill="none"
+              markerStart={active ? 'url(#arrow-blue-start)' : 'url(#arrow-start)'}
+              markerEnd={active ? 'url(#arrow-blue-end)' : 'url(#arrow-end)'}
+              className="transition-all duration-300"
+            />
+          ))}
+
+          {/* Dots moving along the links between roles */}
+          <circle r="2.5" fill="#0066FF">
+            <animateMotion dur="4s" repeatCount="indefinite" path="M 120 40 L 60 100 L 120 160 L 180 100 Z" />
+          </circle>
+          <circle r="2.5" fill="#3b82f6" opacity="0.6">
+            <animateMotion dur="4s" begin="-2s" repeatCount="indefinite" path="M 120 40 L 60 100 L 120 160 L 180 100 Z" />
+          </circle>
+          <circle r="2" fill="#0066FF">
+            <animateMotion dur="3s" repeatCount="indefinite" path="M 120 40 L 120 160" />
+          </circle>
+          <circle r="2" fill="#0066FF">
+            <animateMotion dur="3s" repeatCount="indefinite" path="M 60 100 L 180 100" />
+          </circle>
+
+          {POD_NODES.map(node => {
+            const active = selected === node.id;
+            return (
+              <g
+                key={node.id}
+                role="button"
+                tabIndex={0}
+                aria-label={POD_ROLES[node.id].title}
+                aria-pressed={active}
+                className="cursor-pointer group select-none focus:outline-none"
+                onClick={() => setSelected(node.id)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelected(node.id);
+                  }
+                }}
+              >
+                {active && (
+                  <polygon points={hexPoints(node.cx, node.cy, 25)} fill="none" stroke="#0066FF" strokeWidth="1.5" strokeOpacity="0.4" className="animate-pulse" />
+                )}
+                <polygon
+                  points={hexPoints(node.cx, node.cy, 20)}
+                  fill={active ? '#0066FF' : '#FFFFFF'}
+                  stroke={active ? '#0066FF' : '#09090b'}
+                  strokeWidth={active ? 2 : 1.5}
+                  className="transition-all duration-300"
+                />
+                <g transform={`translate(${node.cx}, ${node.cy - 6})`} className="pointer-events-none">
+                  <path
+                    d={node.icon}
+                    fill="none"
+                    stroke={active ? '#FFFFFF' : node.id === 'lead' ? '#0066FF' : '#71717a'}
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </g>
+                <text
+                  x={node.cx}
+                  y={node.cy + 11}
+                  fontFamily="Inter, system-ui, sans-serif"
+                  fontSize="7"
+                  fontWeight="800"
+                  letterSpacing="0.05em"
+                  fill={active ? '#FFFFFF' : '#09090b'}
+                  textAnchor="middle"
+                >
+                  {node.code}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+
+      <div className="mt-4 p-4 border border-zinc-100 bg-zinc-50/50 space-y-1.5 min-h-[95px] rounded-2xl" aria-live="polite">
+        <div className="text-[10px] font-mono text-[#0066FF] uppercase font-bold tracking-widest">
+          Role: {POD_ROLES[selected].label}
+        </div>
+        <p className="text-sm font-bold text-[#0A0A0A]">{POD_ROLES[selected].title}</p>
+        <p className="text-xs text-[#555555] leading-relaxed">{POD_ROLES[selected].role}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function HomeView() {
   const { hash } = useLocation();
 
@@ -303,8 +482,8 @@ export default function HomeView() {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}
-      <section className="pt-6 md:pt-12 pb-2" aria-labelledby="hero-heading">
-        <div className="max-w-3xl space-y-7">
+      <section className="pt-6 md:pt-12 pb-2 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start" aria-labelledby="hero-heading">
+        <div className="lg:col-span-7 space-y-7">
           <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.1]">
             Senior AI engineers from India. On your team in {TIME_TO_START}.
           </h1>
@@ -330,6 +509,8 @@ export default function HomeView() {
           </div>
           <p className="text-sm text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
         </div>
+
+        <PodDiagram />
       </section>
 
       {/* 2. The challenge */}
