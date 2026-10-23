@@ -76,18 +76,18 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
 
       {/* 1. Intro */}
       <section className="pt-10 pb-6 md:pt-16 md:pb-10 space-y-5 max-w-3xl" aria-labelledby="catalogue-heading">
-        <span className="text-[#0066FF] text-xs font-semibold uppercase tracking-widest block">Pod catalogue</span>
+        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Pod catalogue</span>
         <h1 id="catalogue-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
           AI engineering pods
         </h1>
-        <p className="text-base md:text-lg text-[#555555] leading-relaxed">
+        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
           Hand over a full workstream to 4–6 engineers who already work together, with one pod lead accountable to you.
         </p>
       </section>
 
       {/* 2. One block per pod */}
       <section aria-labelledby="pods-heading" className={sectionClass}>
-        <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." compact />
+        <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
         <div className="space-y-6">
           {PODS.map(pod => (
             <article
@@ -102,17 +102,17 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
                 <div className="space-y-2">
                   <h3
                     id={`pod-name-${pod.id}`}
-                    className={`text-xl md:text-2xl font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}
+                    className={`text-2xl font-display font-medium tracking-tight ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}
                   >
                     {pod.name}
                   </h3>
-                  <p className={`text-sm md:text-base leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
+                  <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
                     {pod.builds}
                   </p>
                 </div>
                 {pod.typicalWork.length > 0 && (
                   <div className="space-y-3">
-                    <h4 className={`text-xs font-semibold uppercase tracking-widest ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
+                    <h4 className={`text-xs font-mono font-medium uppercase tracking-widest ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>
                       Typical work
                     </h4>
                     <ul className="space-y-2.5">
@@ -137,15 +137,15 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
                   }`}
                 >
                   <div>
-                    <dt className={`text-xs font-semibold uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Team size</dt>
+                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Team size</dt>
                     <dd className={`mt-1 text-sm font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.size}</dd>
                   </div>
                   <div>
-                    <dt className={`text-xs font-semibold uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Typical timeline</dt>
+                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Typical timeline</dt>
                     <dd className={`mt-1 text-sm font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.timeline}</dd>
                   </div>
                   <div className="col-span-2">
-                    <dt className={`text-xs font-semibold uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Best for</dt>
+                    <dt className={`text-[10px] font-mono uppercase tracking-wider ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>Best for</dt>
                     <dd className={`mt-1 text-sm leading-relaxed ${pod.highlighted ? 'text-white' : 'text-[#0A0A0A]'}`}>{pod.bestFor}</dd>
                   </div>
                 </dl>
@@ -162,17 +162,17 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
 
       {/* 3. Example pod breakdown */}
       <section aria-labelledby="breakdown-heading" className={sectionClass}>
-        <SectionHeading id="breakdown-heading" label="Inside a pod" title="What a 5-person Agent Development Pod looks like" compact />
+        <SectionHeading id="breakdown-heading" label="Inside a pod" title="What a 5-person Agent Development Pod looks like" />
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {AGENT_POD_ROLES.map(item => (
             <li key={item.role} className={card}>
               <span className="text-xs font-mono font-semibold text-[#0066FF]">×{item.count}</span>
-              <h3 className="mt-2 text-base font-semibold text-[#0A0A0A]">{item.role}</h3>
+              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.role}</h3>
               <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{item.text}</p>
             </li>
           ))}
         </ul>
-        <p className="text-lg md:text-xl font-display font-medium tracking-tight text-[#0A0A0A]">
+        <p className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">
           One team. One contract. One accountable lead.
         </p>
       </section>

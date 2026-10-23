@@ -17,19 +17,17 @@ export const secondaryButton =
 export const cardHover =
   'transition-all duration-300 ease-out hover:border-[#0066FF] hover:shadow-md hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none';
 export const card = `border border-zinc-200/85 bg-white p-6 md:p-8 rounded-2xl ${cardHover}`;
-export const eyebrow = 'text-[#0066FF] text-xs font-semibold uppercase tracking-widest block';
-export const h2Class = 'text-3xl md:text-4xl font-display font-medium text-[#0A0A0A] tracking-tight';
-export const h2CompactClass = 'text-2xl md:text-3xl font-display font-medium text-[#0A0A0A] tracking-tight';
+export const eyebrow = 'text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block';
+export const h2Class = 'text-3xl font-display font-medium text-[#0A0A0A] tracking-tight';
 
 // Sections follow one another with even spacing
 export const sectionClass = 'flex flex-col gap-10 md:gap-12 py-12 md:py-16';
 
-/** `compact` uses a smaller heading, for pages with denser content. */
-export function SectionHeading({ label, title, id, compact = false }: { label: string; title: string; id: string; compact?: boolean }) {
+export function SectionHeading({ label, title, id }: { label: string; title: string; id: string }) {
   return (
     <div className="space-y-3">
       <span className={eyebrow}>{label}</span>
-      <h2 id={id} className={compact ? h2CompactClass : h2Class}>{title}</h2>
+      <h2 id={id} className={h2Class}>{title}</h2>
     </div>
   );
 }

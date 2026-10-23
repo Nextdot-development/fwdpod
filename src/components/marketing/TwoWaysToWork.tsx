@@ -31,7 +31,7 @@ export default function TwoWaysToWork({ id }: { id?: string }) {
     <section id={id} aria-labelledby="services-heading" className={sectionClass}>
       <div className="space-y-4 max-w-3xl">
         <SectionHeading id="services-heading" label="Services" title="Two ways to work with us" />
-        <p className="text-base text-[#555555] leading-relaxed">
+        <p className="text-sm text-[#555555] leading-relaxed">
           We place pre-vetted AI engineers from India inside your team. You direct the work. We handle sourcing, vetting, payroll, retention and replacement.
         </p>
       </div>
@@ -44,13 +44,13 @@ export default function TwoWaysToWork({ id }: { id?: string }) {
             </div>
             <ul className="space-y-2.5">
               {model.points.map(point => (
-                <li key={point} className="flex gap-2.5 text-sm md:text-base text-[#555555] leading-relaxed">
+                <li key={point} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
                   <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
                   <span>{point}</span>
                 </li>
               ))}
             </ul>
-            <p className="pt-4 border-t border-[#0A0A0A]/10 text-sm text-[#0A0A0A]">
+            <p className="pt-4 border-t border-[#0A0A0A]/10 text-xs text-[#0A0A0A]">
               <span className="font-semibold">Best for:</span> {model.bestFor}
             </p>
           </div>

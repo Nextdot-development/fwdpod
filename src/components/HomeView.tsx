@@ -378,13 +378,13 @@ export default function HomeView() {
       {/* 1. Hero */}
       <section className="min-h-[calc(100svh-5rem)] py-10 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center content-center" aria-labelledby="hero-heading">
         <div className="lg:col-span-7 space-y-7">
-          <h1 id="hero-heading" className="text-[2.5rem] sm:text-5xl xl:text-[3.5rem] font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
+          <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.10] text-balance">
             <span className="block">Senior AI engineers from India.</span>{' '}
             <span className="block text-[#0066FF]">
               On your team in <span className="whitespace-nowrap">{TIME_TO_START}.</span>
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-[#555555] leading-relaxed max-w-xl">
+          <p className="text-base text-[#555555] leading-relaxed max-w-lg">
             Add one specialist or a full AI pod, hourly or full-time, to build and run agents, RAG systems, voice AI and LLMOps.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 pt-1">
@@ -404,7 +404,7 @@ export default function HomeView() {
               See pod options
             </a>
           </div>
-          <p className="text-sm font-medium text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
+          <p className="text-xs font-medium text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
         </div>
 
         <PodDiagram />
@@ -416,8 +416,8 @@ export default function HomeView() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CHALLENGES.map(item => (
             <div key={item.title} className={card}>
-              <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
+              <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
+              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
@@ -432,8 +432,8 @@ export default function HomeView() {
         <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-[#0A0A0A]/10">
           {SKILL_GROUPS.map(group => (
             <div key={group.area} className="group py-5 md:pr-8 border-b border-[#0A0A0A]/10 transition-colors hover:border-[#0066FF]">
-              <dt className="text-sm font-semibold text-[#0A0A0A] transition-colors group-hover:text-[#0066FF]">{group.area}</dt>
-              <dd className="mt-1.5 text-sm md:text-base text-[#555555] leading-relaxed">{group.roles}</dd>
+              <dt className="text-lg font-display font-medium tracking-tight text-[#0A0A0A] transition-colors group-hover:text-[#0066FF]">{group.area}</dt>
+              <dd className="mt-1.5 text-sm text-[#555555] leading-relaxed">{group.roles}</dd>
             </div>
           ))}
         </dl>
@@ -450,7 +450,7 @@ export default function HomeView() {
             <SectionHeading id="pods-heading" label="Pod options" title="The pods we deploy most." />
             <Link
               to="/catalogue"
-              className="text-sm font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
+              className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
             >
               <span>See all pods</span>
               <ChevronRight className="w-4 h-4" aria-hidden="true" />
@@ -470,7 +470,7 @@ export default function HomeView() {
                   </h3>
                   <p className={`text-sm leading-relaxed ${pod.highlighted ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.builds}</p>
                 </div>
-                <p className={`text-xs font-semibold ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`}>
+                <p className={`text-[11px] font-mono font-medium ${pod.highlighted ? 'text-white' : 'text-[#0066FF]'}`}>
                   {pod.size} · {pod.timeline}
                 </p>
               </div>
@@ -486,8 +486,8 @@ export default function HomeView() {
           {STEPS.map((step, idx) => (
             <li key={step.name} className={card}>
               <span className="text-xs font-mono font-semibold text-[#0066FF]">Step {idx + 1}</span>
-              <h3 className="mt-2 text-base md:text-lg font-semibold text-[#0A0A0A]">{step.name}</h3>
-              <p className="mt-1.5 text-sm md:text-base text-[#555555] leading-relaxed">{step.text}</p>
+              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{step.name}</h3>
+              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{step.text}</p>
             </li>
           ))}
         </ol>
@@ -505,7 +505,7 @@ export default function HomeView() {
               <h3 className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">{column.title}</h3>
               <ul className="space-y-3">
                 {column.items.map(item => (
-                  <li key={item} className="flex gap-2.5 text-sm md:text-base text-[#555555] leading-relaxed">
+                  <li key={item} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
                     <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
@@ -522,8 +522,8 @@ export default function HomeView() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SECURITY.map(item => (
             <div key={item.title} className={card}>
-              <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
+              <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
+              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
             </div>
           ))}
         </div>
@@ -535,7 +535,7 @@ export default function HomeView() {
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
           <Link
             to="/live-pods"
-            className="text-sm font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
+            className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
           >
             <span>See case studies</span>
             <ChevronRight className="w-4 h-4" aria-hidden="true" />
@@ -545,11 +545,11 @@ export default function HomeView() {
           {CASE_STUDIES.map(item => (
             <div key={item.sector} className={`${card} flex flex-col justify-between gap-5`}>
               <div className="space-y-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#555555]">{item.sector}</span>
-                <h3 className="text-base md:text-lg font-semibold text-[#0A0A0A]">{item.pod}</h3>
-                <p className="text-sm md:text-base text-[#555555] leading-relaxed">{item.text}</p>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#555555]">{item.sector}</span>
+                <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.pod}</h3>
+                <p className="text-sm text-[#555555] leading-relaxed">{item.text}</p>
               </div>
-              <p className="pt-3 border-t border-[#0A0A0A]/10 text-xs font-semibold text-[#0A0A0A]">
+              <p className="pt-3 border-t border-[#0A0A0A]/10 text-[10px] font-mono text-[#555555]">
                 {item.weeks} · {item.team}
               </p>
             </div>
@@ -566,7 +566,7 @@ export default function HomeView() {
           <h2 id="book-heading" className="text-2xl md:text-3xl font-display font-medium tracking-tight text-white">
             Tell us the role or the outcome.
           </h2>
-          <p className="text-sm md:text-base text-zinc-300 leading-relaxed">
+          <p className="text-sm text-zinc-300 leading-relaxed">
             We'll send matched profiles or a pod plan within {SHORTLIST_TIME}.
           </p>
         </div>
