@@ -65,7 +65,7 @@ function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: (
   return (
     <article
       id={`pod-heading-${pod.id}`}
-      className={`scroll-mt-6 rounded-3xl border overflow-hidden ${cardHover} ${
+      className={`scroll-mt-6 rounded-3xl border overflow-hidden shadow-sm ${cardHover} ${
         dark ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : `bg-white ${open ? 'border-[#0066FF]' : 'border-zinc-200/85'}`
       }`}
     >
@@ -75,22 +75,37 @@ function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: (
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={detailsId}
-          className="w-full flex items-center justify-between gap-4 p-6 md:p-8 text-left cursor-pointer"
+          className={`w-full flex items-center justify-between gap-4 p-6 md:p-10 text-left cursor-pointer transition-colors ${dark ? 'hover:bg-white/5' : 'hover:bg-[#0A0A0A]/[0.03]'}`}
         >
-          <span className={`text-2xl font-display font-medium tracking-tight ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>
-            {pod.name}
+          <span className="space-y-3 min-w-0">
+            {/* ID and timeline, as on the earlier catalogue cards */}
+            <span className="flex flex-wrap items-center gap-2">
+              <span className={`text-[10px] font-mono uppercase ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>ID: {pod.id}</span>
+              <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0066FF]'}`}>
+                {pod.timeline}
+              </span>
+            </span>
+            <span className={`block text-2xl font-display font-medium tracking-tight ${dark ? 'text-white' : 'text-[#0A0A0A]'}`}>
+              {pod.name}
+            </span>
           </span>
-          <span
-            className={`shrink-0 p-1.5 rounded-full border ${dark ? 'border-white/20 bg-white/5' : 'border-[#0A0A0A]/10 bg-zinc-50'}`}
-            aria-hidden="true"
-          >
-            <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${dark ? 'text-white' : 'text-[#0A0A0A]'}`} />
+          <span className="flex items-center gap-4 shrink-0" aria-hidden="true">
+            <span className={`hidden sm:inline-block text-xs font-medium ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>
+              {open ? 'Collapse spec' : 'Expand spec'}
+            </span>
+            <span className={`p-1.5 rounded-full border ${dark ? 'border-white/20 bg-white/5' : 'border-[#0A0A0A]/10 bg-zinc-50'}`}>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${dark ? 'text-white' : 'text-[#0A0A0A]'}`} />
+            </span>
           </span>
         </button>
       </h3>
 
       {/* Kept in the page when closed, so the details are in the prerendered HTML */}
-      <div id={detailsId} hidden={!open} className="px-6 pb-6 md:px-8 md:pb-8 space-y-6 animate-fadeIn">
+      <div
+        id={detailsId}
+        hidden={!open}
+        className={`px-6 pb-6 md:px-10 md:pb-10 pt-6 md:pt-8 space-y-6 border-t animate-fadeIn ${dark ? 'border-white/10' : 'border-[#0A0A0A]/10'}`}
+      >
         <p className={`text-sm leading-relaxed ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>{pod.builds}</p>
 
         {pod.typicalWork.length > 0 && (
