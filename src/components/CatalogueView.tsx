@@ -75,7 +75,7 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CATALOGUE_JSON_LD} />
 
       {/* 1. Intro */}
-      <section className="pt-10 pb-6 md:pt-16 md:pb-10 space-y-5 max-w-3xl" aria-labelledby="catalogue-heading">
+      <section className="pt-4 md:pt-6 space-y-4 max-w-3xl" aria-labelledby="catalogue-heading">
         <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Pod catalogue</span>
         <h1 id="catalogue-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
           AI engineering pods
@@ -86,7 +86,7 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
       </section>
 
       {/* 2. One block per pod */}
-      <section aria-labelledby="pods-heading" className={sectionClass}>
+      <section aria-labelledby="pods-heading" className="flex flex-col gap-8 pt-10 md:pt-12 pb-12 md:pb-16">
         <SectionHeading id="pods-heading" label="Our pods" title="Pick the pod that fits your goal." />
         <div className="space-y-6">
           {PODS.map(pod => (
