@@ -37,6 +37,7 @@ import { SERVICES } from './data/services';
 import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
+import BookCallBand from './components/marketing/BookCallBand';
 
 // ── Route map — maps legacy page-name strings to URL paths ────────────────────
 const ROUTE_MAP: Record<string, string> = {
@@ -498,40 +499,14 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* ── Book a call band, above the footer on every page ──────────────── */}
+      <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pb-14">
+        <BookCallBand />
+      </div>
+
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
       <footer className="bg-white border-t border-[#0A0A0A]/10 py-14 px-4 md:px-8">
         <div className="max-w-7xl mx-auto space-y-12">
-
-          {/* CTA Banner — the homepage ends with its own booking band instead */}
-          {location.pathname !== '/' && (
-          <div className="bg-[#0A0A0A] text-white p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border-2 border-[#111111] relative overflow-hidden shadow-xl rounded-3xl">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-[#0066FF]/10 rounded-full blur-3xl pointer-events-none -mr-24 -mt-24"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-zinc-900/40 rounded-full blur-2xl pointer-events-none -ml-20 -mb-20"></div>
-
-            <div className="space-y-3 max-w-2xl relative z-10 font-sans">
-              <span className="text-[#0066FF] text-[11px] font-mono uppercase tracking-wider font-bold">
-                Ready to accelerate execution?
-              </span>
-              <h3 className="text-2xl md:text-3xl font-display font-medium tracking-tight text-white leading-tight">
-                Instantiate your custom AI engineering unit.
-              </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 max-w-xl leading-relaxed">
-                Define your delivery outcomes, compute maturity level, and operational constraints. Receive a fully pre-assembled, compliant pod scope and architectural blueprint within 48 hours.
-              </p>
-            </div>
-
-            {/* Link renders as <a href="/configure"> — crawlable CTA */}
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto shrink-0 relative z-10">
-              <Link
-                to="/configure"
-                onClick={() => trackCtaClick('Configure Your Pod (footer)', '/configure')}
-                className="bg-[#0066FF] hover:bg-[#0055DD] text-white text-xs font-semibold py-3.5 px-8 rounded-full transition-colors uppercase tracking-wider text-center"
-              >
-                Configure Your Pod
-              </Link>
-            </div>
-          </div>
-          )}
 
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8 text-[#555555]">
 
