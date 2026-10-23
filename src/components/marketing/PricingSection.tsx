@@ -5,7 +5,7 @@ import { HOURLY_FROM, NOTICE_PERIOD, REPLACEMENT_WINDOW } from '../../content/bu
 const PRICING = [
   {
     name: 'Hourly',
-    price: `From ${HOURLY_FROM}/hour`,
+    price: `From ${HOURLY_FROM}/hour onwards`,
     text: 'Pay for hours worked. Good for short tasks, audits and surge capacity.',
     cta: 'Book a 30-minute call',
   },
