@@ -529,9 +529,10 @@ export default function App() {
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
                   {PODS.map(pod => (
                     <li key={pod.id}>
+                      {/* The pod travels with this one navigation, so a later visit opens nothing */}
                       <Link
                         to="/catalogue"
-                        onClick={() => setSelectedPodId(pod.id)}
+                        state={{ podId: pod.id }}
                         className="hover:text-[#0A0A0A] hover:underline transition-all"
                       >
                         {/* The column heading already says "pods"; Custom keeps it */}

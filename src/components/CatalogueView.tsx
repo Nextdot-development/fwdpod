@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Check, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
 import PricingSection from './marketing/PricingSection';
@@ -53,9 +54,9 @@ const AGENT_POD_ROLES = [
 ];
 
 interface CatalogueViewProps {
-  /** Pod to scroll to, set by the footer's pod links. */
+  /** Kept for App's route wiring; the footer now passes the pod in the link's state instead. */
   selectedPodId: string | null;
-  /** Kept for App's route wiring; the pod blocks now book a call instead of opening /configure. */
+  /** Kept for App's route wiring; the pod cards now book a call instead of opening /configure. */
   onPreselectPod: (podId: string) => void;
 }
 
@@ -145,7 +146,10 @@ function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: (
   );
 }
 
-export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
+export default function CatalogueView(_props: CatalogueViewProps) {
+  const location = useLocation();
+  // Set only by a footer pod link, for that one navigation
+  const linkedPodId = (location.state as { podId?: string } | null)?.podId ?? null;
   const [openPods, setOpenPods] = useState<Set<string>>(() => new Set());
 
   const togglePod = (id: string) =>
@@ -157,15 +161,16 @@ export default function CatalogueView({ selectedPodId }: CatalogueViewProps) {
     });
 
   // Open and scroll to the pod picked in the footer. Deferred so it runs after
-  // App's scroll-to-top on route change.
+  // App's scroll-to-top on route change. Keyed on the navigation, so the same
+  // footer link clicked again while on this page still works.
   useEffect(() => {
-    if (!selectedPodId) return;
-    setOpenPods(prev => new Set(prev).add(selectedPodId));
+    if (!linkedPodId) return;
+    setOpenPods(prev => new Set(prev).add(linkedPodId));
     const timer = window.setTimeout(() => {
-      document.getElementById(`pod-heading-${selectedPodId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.getElementById(`pod-heading-${linkedPodId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [selectedPodId]);
+  }, [linkedPodId, location.key]);
 
   return (
     <div className="bg-white">
