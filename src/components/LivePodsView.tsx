@@ -42,7 +42,7 @@ const CASE_STUDIES_JSON_LD = {
   ]
 };
 
-const label = 'text-[10px] font-mono uppercase tracking-widest text-[#555555]';
+const label = 'text-[10px] font-mono uppercase tracking-widest text-[#0066FF]';
 
 export default function LivePodsView() {
   return (

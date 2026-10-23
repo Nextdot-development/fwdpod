@@ -515,7 +515,7 @@ export default function HomeView() {
           {CASE_STUDIES.map(item => (
             <div key={item.sector} className={`${card} flex flex-col justify-between gap-5`}>
               <div className="space-y-2">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#555555]">{item.sector}</span>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#0066FF]">{item.sector}</span>
                 <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.pod}</h3>
                 <p className="text-sm text-[#555555] leading-relaxed">{item.built}</p>
               </div>
