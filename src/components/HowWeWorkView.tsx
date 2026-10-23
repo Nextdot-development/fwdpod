@@ -94,7 +94,7 @@ export default function HowWeWorkView() {
       </section>
 
       {/* 2. What we believe */}
-      <section aria-labelledby="beliefs-heading" className={`${sectionClass} pt-8`}>
+      <section aria-labelledby="beliefs-heading" className="flex flex-col gap-10 md:gap-12 pt-6 pb-12 md:pb-16">
         <SectionHeading id="beliefs-heading" label="What we believe" title="Five principles behind every engagement." />
         <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PRINCIPLES.map((item, idx) => (
