@@ -46,7 +46,7 @@ const ROUTE_MAP: Record<string, string> = {
   home:        '/',
   catalogue:   '/catalogue',
   configure:   '/configure',
-  'live-pods': '/live-pods',
+  'live-pods': '/case-studies',
   blogs:       '/insights',
   contact:     '/contact',
 };
@@ -139,7 +139,7 @@ export default function App() {
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8 text-xs font-medium text-[#555555]">
             <NavLink to="/" end className={desktopNavClass} onClick={() => trackNavClick('Home', '/')}>Home</NavLink>
             <NavLink to="/catalogue" className={desktopNavClass} onClick={() => trackNavClick('Pod Catalogue', '/catalogue')}>Pod Catalogue</NavLink>
-            <NavLink to="/live-pods" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/live-pods')}>Case studies</NavLink>
+            <NavLink to="/case-studies" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/case-studies')}>Case studies</NavLink>
             <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
             <NavLink to="/how-we-work" className={desktopNavClass} onClick={() => trackNavClick('How we work', '/how-we-work')}>How we work</NavLink>
             <NavLink to="/contact" className={desktopNavClass} onClick={() => trackNavClick('Contact Us', '/contact')}>Contact Us</NavLink>
@@ -213,7 +213,7 @@ export default function App() {
                         )}
                       </NavLink>
 
-                      <NavLink to="/live-pods" onClick={() => { closeMobileMenu(); trackNavClick('Case studies (mobile)', '/live-pods'); }} className={mobileNavClass}>
+                      <NavLink to="/case-studies" onClick={() => { closeMobileMenu(); trackNavClick('Case studies (mobile)', '/case-studies'); }} className={mobileNavClass}>
                         {({ isActive }) => (
                           <>
                             <span>Case studies</span>
@@ -283,7 +283,9 @@ export default function App() {
               />
             }
           />
-          <Route path="/live-pods" element={<LivePodsView />} />
+          <Route path="/case-studies" element={<LivePodsView />} />
+          {/* Old URL: the server 301s it; this catches in-app links to it */}
+          <Route path="/live-pods" element={<Navigate to="/case-studies" replace />} />
           <Route path="/how-we-work" element={<HowWeWorkView />} />
           <Route path="/insights" element={<BlogsView />} />
           <Route path="/insights/category/:slug" element={<CategoryView />} />
@@ -572,7 +574,7 @@ export default function App() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/live-pods" className="hover:text-[#0A0A0A] hover:underline transition-all">
+                    <Link to="/case-studies" className="hover:text-[#0A0A0A] hover:underline transition-all">
                       Case studies
                     </Link>
                   </li>

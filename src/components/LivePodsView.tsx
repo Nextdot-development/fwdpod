@@ -13,8 +13,8 @@ const CASE_STUDIES_JSON_LD = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/#live-pods',
-      'url': 'https://www.fwdpod.com/live-pods',
+      '@id': 'https://www.fwdpod.com/#case-studies',
+      'url': 'https://www.fwdpod.com/case-studies',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
       'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
@@ -22,7 +22,7 @@ const CASE_STUDIES_JSON_LD = {
         '@type': 'BreadcrumbList',
         'itemListElement': [
           { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Case studies', 'item': 'https://www.fwdpod.com/live-pods' }
+          { '@type': 'ListItem', 'position': 2, 'name': 'Case studies', 'item': 'https://www.fwdpod.com/case-studies' }
         ]
       }
     },
@@ -36,7 +36,7 @@ const CASE_STUDIES_JSON_LD = {
         'position': idx + 1,
         'name': `${item.sector}: ${item.pod}`,
         'description': item.built,
-        'url': `https://www.fwdpod.com/live-pods#${item.id}`
+        'url': `https://www.fwdpod.com/case-studies#${item.id}`
       }))
     }
   ]

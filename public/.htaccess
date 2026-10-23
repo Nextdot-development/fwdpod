@@ -14,6 +14,8 @@ RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^blog/(.+?)/?$ https://www.fwdpod.com/insights/$1 [R=301,L]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^blog/?$ https://www.fwdpod.com/insights [R=301,L]
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^live-pods/?$ https://www.fwdpod.com/case-studies [R=301,L]
 
 # ── Renamed CMS articles ────────────────────────────────────────────────────
 # 301s from a CMS post's earlier slugs to its current one. scripts/prerender.mjs

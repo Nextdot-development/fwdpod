@@ -504,7 +504,7 @@ export default function HomeView() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
           <Link
-            to="/live-pods"
+            to="/case-studies"
             className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
           >
             <span>See case studies</span>

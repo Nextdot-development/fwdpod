@@ -1,5 +1,5 @@
 /**
- * The case studies shown on the homepage and the case studies page (/live-pods).
+ * The case studies shown on the homepage and the case studies page (/case-studies).
  *
  * Sector, pod, what was built, weeks to live and team size are the figures
  * approved for the homepage. `problem` was written for the case studies page
