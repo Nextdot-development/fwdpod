@@ -318,12 +318,12 @@ function PodDiagram() {
   const horizontalActive = selected === 'devops' || selected === 'obs';
 
   return (
-    <div className={`lg:col-span-5 w-full max-w-md mx-auto lg:mr-0 border border-zinc-200/80 p-5 bg-white rounded-3xl shadow-sm ${cardHover}`}>
+    <div className={`lg:col-span-5 w-full max-w-xl mx-auto lg:mr-0 border border-zinc-200/80 p-5 md:p-6 bg-white rounded-3xl shadow-sm ${cardHover}`}>
       <div className="mb-3 text-[10px] font-mono tracking-widest text-[#555555] font-bold uppercase">
         Fig 1.0 // Inside an AI pod
       </div>
 
-      <div className="relative h-52 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
+      <div className="relative h-64 md:h-72 xl:h-80 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
         <svg width="100%" height="100%" className="absolute inset-0" viewBox="0 0 240 200" role="group" aria-label="The four roles in an AI pod. Select a role to read what it does.">
           <defs>
             <pattern id="node-grid" width="16" height="16" patternUnits="userSpaceOnUse">
@@ -442,8 +442,8 @@ function PodDiagram() {
         <div className="text-[10px] font-mono text-[#0066FF] uppercase font-bold tracking-widest">
           Role: {POD_ROLES[selected].label}
         </div>
-        <p className="text-sm font-bold text-[#0A0A0A]">{POD_ROLES[selected].title}</p>
-        <p className="text-xs text-[#555555] leading-relaxed">{POD_ROLES[selected].role}</p>
+        <p className="text-base font-bold text-[#0A0A0A]">{POD_ROLES[selected].title}</p>
+        <p className="text-sm text-[#555555] leading-relaxed">{POD_ROLES[selected].role}</p>
       </div>
     </div>
   );
