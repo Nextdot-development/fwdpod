@@ -81,7 +81,7 @@ function PodCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: (
             {/* ID and timeline, as on the earlier catalogue cards */}
             <span className="flex flex-wrap items-center gap-2">
               <span className={`text-[10px] font-mono uppercase ${dark ? 'text-zinc-300' : 'text-[#555555]'}`}>ID: {pod.id}</span>
-              <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0066FF]'}`}>
+              <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0055DD]'}`}>
                 {pod.timeline}
               </span>
             </span>
