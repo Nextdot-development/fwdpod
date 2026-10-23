@@ -39,6 +39,7 @@ import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
 import BookCallBand from './components/marketing/BookCallBand';
+import HowWeWorkView from './components/HowWeWorkView';
 
 // ── Route map — maps legacy page-name strings to URL paths ────────────────────
 const ROUTE_MAP: Record<string, string> = {
@@ -140,13 +141,7 @@ export default function App() {
             <NavLink to="/catalogue" className={desktopNavClass} onClick={() => trackNavClick('Pod Catalogue', '/catalogue')}>Pod Catalogue</NavLink>
             <NavLink to="/live-pods" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/live-pods')}>Case studies</NavLink>
             <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
-            {/* Manifesto opens a modal — stays as button (not a page) */}
-            <button
-              onClick={() => { setManifestoModal(true); trackManifestoEvent('open'); }}
-              className="hover:text-[#0A0A0A] transition-colors py-1"
-            >
-              Manifesto
-            </button>
+            <NavLink to="/how-we-work" className={desktopNavClass} onClick={() => trackNavClick('How we work', '/how-we-work')}>How we work</NavLink>
             <NavLink to="/contact" className={desktopNavClass} onClick={() => trackNavClick('Contact Us', '/contact')}>Contact Us</NavLink>
           </nav>
 
@@ -238,12 +233,14 @@ export default function App() {
 
                       <div className="border-t border-zinc-100 my-1"></div>
 
-                      <button
-                        onClick={() => { setManifestoModal(true); closeMobileMenu(); trackManifestoEvent('open'); }}
-                        className="w-full text-left px-4 py-2.5 text-xs font-semibold text-zinc-900 transition-all hover:bg-zinc-50 flex items-center justify-between"
-                      >
-                        <span>Read Manifesto</span>
-                      </button>
+                      <NavLink to="/how-we-work" onClick={() => { closeMobileMenu(); trackNavClick('How we work (mobile)', '/how-we-work'); }} className={mobileNavClass}>
+                        {({ isActive }) => (
+                          <>
+                            <span>How we work</span>
+                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
+                          </>
+                        )}
+                      </NavLink>
 
                       <NavLink to="/contact" onClick={() => { closeMobileMenu(); trackNavClick('Contact Us (mobile)', '/contact'); }} className={mobileNavClass}>
                         {({ isActive }) => (
@@ -287,6 +284,7 @@ export default function App() {
             }
           />
           <Route path="/live-pods" element={<LivePodsView />} />
+          <Route path="/how-we-work" element={<HowWeWorkView />} />
           <Route path="/insights" element={<BlogsView />} />
           <Route path="/insights/category/:slug" element={<CategoryView />} />
           <Route path="/insights/category/:slug/page/:page" element={<CategoryView />} />
@@ -404,7 +402,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ── Manifesto modal ──────────────────────────────────────────────────── */}
+      {/* ── Manifesto modal: no longer opened (How we work is a page now); kept for reference ──────────────────────────────────────────────────── */}
       <AnimatePresence>
         {manifestoModal && (
           <div className="fixed inset-0 z-50 bg-[#0A0A0A]/75 flex items-center justify-center p-4 backdrop-blur-sm">
@@ -564,13 +562,9 @@ export default function App() {
                     </Link>
                   </li>
                   <li>
-                    {/* Modal action — stays as button */}
-                    <button
-                      onClick={() => setManifestoModal(true)}
-                      className="hover:text-[#0A0A0A] hover:underline transition-all text-[13px] font-medium text-[#555555]"
-                    >
-                      Read the manifesto
-                    </button>
+                    <Link to="/how-we-work" className="hover:text-[#0A0A0A] hover:underline transition-all">
+                      How we work
+                    </Link>
                   </li>
                   <li>
                     <Link to="/contact" className="hover:text-[#0A0A0A] hover:underline transition-all">
