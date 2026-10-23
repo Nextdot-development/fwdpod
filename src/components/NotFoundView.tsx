@@ -10,7 +10,7 @@ export default function NotFoundView() {
   if (renderStatus) renderStatus.notFound = true;
 
   return (
-    <div className="flex flex-col items-center justify-center py-32 space-y-6 text-center">
+    <div className="flex flex-col items-center justify-center py-32 space-y-6 text-center animate-page-enter">
       <SEO
         title="Page not found | Fwdpod"
         description="This route doesn't exist. Head back home or explore the pod catalogue."

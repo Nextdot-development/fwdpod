@@ -199,7 +199,7 @@ function PodDiagram() {
   return (
     <div className={`lg:col-span-5 w-full max-w-xl mx-auto lg:mr-0 border border-zinc-200/80 p-5 md:p-6 bg-white rounded-3xl shadow-sm ${cardHover}`}>
       <div className="mb-3 text-[10px] font-mono tracking-widest text-[#555555] font-bold uppercase">
-        Fig 1.0 // Inside an AI pod
+        Inside an AI pod
       </div>
 
       <div className="relative h-64 md:h-72 xl:h-80 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
@@ -342,7 +342,7 @@ export default function HomeView() {
   }, [hash]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}

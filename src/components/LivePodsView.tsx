@@ -46,7 +46,7 @@ const label = 'text-[10px] font-mono uppercase tracking-widest text-[#0066FF]';
 
 export default function LivePodsView() {
   return (
-    <div className="bg-white">
+    <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CASE_STUDIES_JSON_LD} />
 
       {/* 1. Intro */}

@@ -79,7 +79,7 @@ const SECURITY = [
 
 export default function HowWeWorkView() {
   return (
-    <div className="bg-white">
+    <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOW_WE_WORK_JSON_LD} />
 
       {/* 1. Intro */}

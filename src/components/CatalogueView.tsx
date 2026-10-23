@@ -173,7 +173,7 @@ export default function CatalogueView(_props: CatalogueViewProps) {
   }, [linkedPodId, location.key]);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CATALOGUE_JSON_LD} />
 
       {/* 1. Intro */}
