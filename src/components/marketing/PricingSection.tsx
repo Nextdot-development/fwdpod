@@ -25,14 +25,14 @@ const PRICING = [
 export default function PricingSection({ id = 'pricing', source }: { id?: string; source: string }) {
   return (
     <section id={id} aria-labelledby="pricing-heading" className={sectionClass}>
-      <SectionHeading id="pricing-heading" label="Pricing" title="Simple ways to work with us." />
+      <SectionHeading id="pricing-heading" label="Pricing" title="Simple ways to work with us." compact />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {PRICING.map(plan => (
           <div key={plan.name} className={`${card} flex flex-col justify-between gap-6`}>
             <div className="space-y-3">
               <h3 className="text-lg font-display font-medium text-[#0A0A0A] tracking-tight">{plan.name}</h3>
-              {plan.price && <p className="text-2xl font-display font-medium text-[#0A0A0A]">{plan.price}</p>}
-              <p className="text-sm md:text-base text-[#555555] leading-relaxed">{plan.text}</p>
+              {plan.price && <p className="text-xl font-display font-medium text-[#0A0A0A]">{plan.price}</p>}
+              <p className="text-sm text-[#555555] leading-relaxed">{plan.text}</p>
             </div>
             <BookingLink
               label={plan.cta}
