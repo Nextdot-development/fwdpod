@@ -260,7 +260,10 @@ const primaryButton =
   'bg-[#0066FF] text-white hover:bg-[#0055DD] py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
 const secondaryButton =
   'border border-[#0A0A0A]/15 hover:border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A]/5 py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
-const card = 'border border-zinc-200/85 bg-white p-6 rounded-2xl';
+// Lift, blue border and shadow on hover, as on the catalogue cards
+const cardHover =
+  'transition-all duration-300 ease-out hover:border-[#0066FF] hover:shadow-md hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none';
+const card = `border border-zinc-200/85 bg-white p-6 rounded-2xl ${cardHover}`;
 const eyebrow = 'text-[#0066FF] text-xs font-semibold uppercase tracking-widest block';
 const h2Class = 'text-3xl font-display font-medium text-[#0A0A0A] tracking-tight';
 
@@ -333,12 +336,12 @@ function PodDiagram() {
   const horizontalActive = selected === 'devops' || selected === 'obs';
 
   return (
-    <div className="lg:col-span-5 lg:mt-2 border border-zinc-200/80 p-6 bg-white rounded-3xl shadow-sm hover:border-[#0066FF] hover:shadow-md transition-all duration-300 ease-out">
-      <div className="mb-4 text-[10px] font-mono tracking-widest text-[#555555] font-bold uppercase">
+    <div className={`lg:col-span-5 w-full max-w-md mx-auto lg:mr-0 border border-zinc-200/80 p-5 bg-white rounded-3xl shadow-sm ${cardHover}`}>
+      <div className="mb-3 text-[10px] font-mono tracking-widest text-[#555555] font-bold uppercase">
         Fig 1.0 // Inside an AI pod
       </div>
 
-      <div className="relative h-64 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
+      <div className="relative h-52 border border-zinc-100 bg-zinc-50/30 rounded-2xl overflow-hidden">
         <svg width="100%" height="100%" className="absolute inset-0" viewBox="0 0 240 200" role="group" aria-label="The four roles in an AI pod. Select a role to read what it does.">
           <defs>
             <pattern id="node-grid" width="16" height="16" patternUnits="userSpaceOnUse">
@@ -482,12 +485,15 @@ export default function HomeView() {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={HOME_JSON_LD} />
 
       {/* 1. Hero */}
-      <section className="pt-6 md:pt-12 pb-2 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start" aria-labelledby="hero-heading">
+      <section className="pt-6 md:pt-12 pb-2 grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center" aria-labelledby="hero-heading">
         <div className="lg:col-span-7 space-y-7">
-          <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.1]">
-            Senior AI engineers from India. On your team in {TIME_TO_START}.
+          <h1 id="hero-heading" className="text-[2.5rem] sm:text-5xl xl:text-[3.5rem] font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
+            <span className="block">Senior AI engineers from India.</span>{' '}
+            <span className="block text-[#0066FF]">
+              On your team in <span className="whitespace-nowrap">{TIME_TO_START}.</span>
+            </span>
           </h1>
-          <p className="text-base md:text-lg text-[#555555] leading-relaxed max-w-2xl">
+          <p className="text-lg md:text-xl text-[#555555] leading-relaxed max-w-xl">
             Add one specialist or a full AI pod, hourly or full-time, to build and run agents, RAG systems, voice AI and LLMOps.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 pt-1">
@@ -507,7 +513,7 @@ export default function HomeView() {
               See pod options
             </a>
           </div>
-          <p className="text-sm text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
+          <p className="text-sm font-medium text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
         </div>
 
         <PodDiagram />
@@ -562,8 +568,8 @@ export default function HomeView() {
         <SectionHeading id="skills-heading" label="Skills we deploy" title="Every role across the AI lifecycle." />
         <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-[#0A0A0A]/10">
           {SKILL_GROUPS.map(group => (
-            <div key={group.area} className="py-5 md:pr-8 border-b border-[#0A0A0A]/10">
-              <dt className="text-sm font-semibold text-[#0A0A0A]">{group.area}</dt>
+            <div key={group.area} className="group py-5 md:pr-8 border-b border-[#0A0A0A]/10 transition-colors hover:border-[#0066FF]">
+              <dt className="text-sm font-semibold text-[#0A0A0A] transition-colors group-hover:text-[#0066FF]">{group.area}</dt>
               <dd className="mt-1.5 text-sm text-[#555555] leading-relaxed">{group.roles}</dd>
             </div>
           ))}
@@ -591,7 +597,7 @@ export default function HomeView() {
           {PODS.map(pod => (
             <div
               key={pod.name}
-              className={`p-6 rounded-2xl flex flex-col justify-between gap-5 ${
+              className={`p-6 rounded-2xl flex flex-col justify-between gap-5 ${cardHover} ${
                 pod.highlighted ? 'bg-[#0A0A0A] text-white border border-[#0A0A0A]' : 'bg-white border border-zinc-200/85'
               }`}
             >
