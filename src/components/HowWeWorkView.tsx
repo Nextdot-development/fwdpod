@@ -96,12 +96,13 @@ export default function HowWeWorkView() {
       {/* 2. What we believe */}
       <section aria-labelledby="beliefs-heading" className="flex flex-col gap-10 md:gap-12 pt-6 pb-12 md:pb-16">
         <SectionHeading id="beliefs-heading" label="What we believe" title="Five principles behind every engagement." />
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* One long card per principle, stacked: number, then title and text side by side */}
+        <ol className="space-y-4">
           {PRINCIPLES.map((item, idx) => (
-            <li key={item.title} className={card}>
+            <li key={item.title} className={`${card} grid grid-cols-1 md:grid-cols-[2.5rem_minmax(0,2fr)_minmax(0,3fr)] gap-3 md:gap-6 md:items-center`}>
               <span className="text-xs font-mono font-semibold text-[#0066FF]">{String(idx + 1).padStart(2, '0')}</span>
-              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{item.text}</p>
+              <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
+              <p className="text-sm text-[#555555] leading-relaxed">{item.text}</p>
             </li>
           ))}
         </ol>
