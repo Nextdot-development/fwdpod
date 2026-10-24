@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import SEO from './SEO';
+import { trackCtaClick } from '../utils/analytics';
 import NotFoundView from './NotFoundView';
 import BlogImage from './blog/BlogImage';
 import BlogCard from './blog/BlogCard';
@@ -129,7 +130,6 @@ export default function BlogPostView() {
         )}
       </article>
 
-      {/* TODO(copy): CTA wording to be confirmed. */}
       <section
         aria-labelledby="article-cta-heading"
         className="border border-zinc-200/85 rounded-3xl bg-zinc-50/60 p-8 md:p-10 space-y-3"
@@ -138,16 +138,17 @@ export default function BlogPostView() {
           Planning an AI deployment?
         </h2>
         <p className="text-sm text-[#555555] leading-relaxed max-w-xl">
-          Fwdpod builds dedicated AI engineering pods that work inside your product and
-          delivery process. Configure one against your roadmap, or browse the pods that
-          are already assembled.
+          Fwdpod places pre-vetted AI engineers from India inside your team, as one
+          specialist or a full AI pod. Book a call about your roadmap, or browse the pods
+          we deploy most.
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link
-            to="/configure"
+            to="/contact"
+            onClick={() => trackCtaClick('Book a 30-minute call (article)', '/contact')}
             className="inline-flex items-center gap-1.5 bg-[#0A0A0A] hover:bg-[#0066FF] text-white text-xs font-semibold px-6 py-3 rounded-full transition-colors"
           >
-            Configure your AI engineering pod
+            Book a 30-minute call
             <span aria-hidden="true">→</span>
           </Link>
           <Link

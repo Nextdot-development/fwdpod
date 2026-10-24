@@ -40,7 +40,7 @@ Use this table as your scorecard.
 | Observability and tracing | Every model call and tool call traced with inputs, outputs, latency and cost | "Walk me through debugging a bad run from last Tuesday." |
 | Failure handling | Retries with backoff, idempotent tools, timeouts, graceful escalation to a human | "A tool returns a 500 halfway through. Then what?" |
 
-For the architecture behind each row, see [how to build a production AI agent](/insights/how-to-build-a-production-ai-agent).
+For how these agents run in production, see [LangGraph in production](/insights/langgraph-in-production).
 
 ### Tool design is the underrated skill
 
@@ -104,7 +104,7 @@ Use these in the technical deep-dive. The notes describe the shape of a good ans
 
 ## What are the red flags in an agent developer's portfolio?
 
-Demo-only portfolios are the most common trap when you hire AI agent developers, and most of the gaps below map to the reasons [AI agents fail in production](/insights/why-ai-agents-fail-in-production). Watch for:
+Demo-only portfolios are the most common trap when you hire AI agent developers, and most of the gaps below map to the [failure modes agents hit in production](/insights/langgraph-in-production). Watch for:
 
 - **Only happy-path videos, no evals.** No failure cases, no traces, or evals that run each case once.
 - **Every API wrapped as a tool.** Forty tools where six would do usually means the candidate has not watched a model choose between them.
@@ -121,9 +121,9 @@ Either way, a vendor's team should pass the exercise above as readily as a singl
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery. If you would rather evaluate a ready-formed pod, such as our Agentic Operations pod, put the questions in this guide to our engineers.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery. If you would rather evaluate a ready-formed pod, such as our [Agent Development Pod](/catalogue), put the questions in this guide to our engineers.
 
-**Next step:** [configure your AI engineering pod](/configure) to get a custom pod proposal, or [talk to the team](/contact) and bring your use case for an architecture and eval-plan walkthrough.
+**Next step:** [book a 30-minute call](/contact) and bring your use case for an architecture and eval-plan walkthrough.
 
 ---
 

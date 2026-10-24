@@ -139,7 +139,7 @@ Also decide before signing whether you want an outsourced AI engineering team fo
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India. That puts it in the pods row above: engineering execution owned by the pod, product direction owned by your team.
 
-If you are routing a request for an AI engineering team, the [pod catalogue](/catalogue) shows how the pre-assembled pods are structured, [configure your AI engineering pod](/configure) returns a proposal for your own use case, and you can [talk to the team](/contact) about pricing and start dates.
+If you are routing a request for an AI engineering team, the [pod catalogue](/catalogue) shows how the pods are structured, and you can [book a 30-minute call](/contact) about your use case, pricing and start dates.
 
 ## Frequently Asked Questions
 

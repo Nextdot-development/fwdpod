@@ -173,7 +173,7 @@ Whatever the model, five clauses decide whether an AI engagement ends well:
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India.
 
-To see how these options are structured commercially, browse the [pod catalogue](/catalogue), [configure your AI engineering pod](/configure) for a proposal built around your own use case, or [talk to the team](/contact) about pricing.
+To see how these options are structured commercially, browse the [pod catalogue](/catalogue), or [book a 30-minute call](/contact) to talk through your own use case and pricing.
 
 ## Frequently Asked Questions
 

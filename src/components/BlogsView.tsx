@@ -74,14 +74,21 @@ export default function BlogsView() {
           Put a dedicated AI engineering pod on your product.
         </h2>
         <p className="text-sm text-[#555555] max-w-md mx-auto leading-relaxed">
-          Answer five questions and a Technical Principal replies with a scoped proposal.
+          See the six pods we deploy most, and recent pods already in production.
         </p>
-        <div className="pt-2">
+        {/* Booking lives in the band below; this points into the pod and case study pages */}
+        <div className="pt-2 flex flex-wrap justify-center gap-3">
           <Link
-            to="/configure"
+            to="/catalogue"
             className="inline-block bg-[#0066FF] hover:bg-[#0055DD] text-white text-xs font-semibold py-3.5 px-8 rounded-full transition-colors"
           >
-            Configure your pod
+            See pod options
+          </Link>
+          <Link
+            to="/case-studies"
+            className="inline-block border border-[#0A0A0A]/15 hover:border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A]/5 text-xs font-semibold py-3.5 px-8 rounded-full transition-colors"
+          >
+            See case studies
           </Link>
         </div>
       </section>

@@ -1,11 +1,12 @@
 # Fwdpod
 
-> Fwdpod builds dedicated AI engineering pods for enterprise teams, covering LLM development, RAG systems, AI agents, and production delivery.
+> Fwdpod adds pre-vetted senior AI engineers from India to enterprise teams: one specialist or a full AI pod of 4–6 engineers, hourly or full-time, to build and run AI agents, RAG systems, voice AI and LLMOps.
 
 ## Pods
 
-- [Pod Catalogue](https://www.fwdpod.com/catalogue): Browse Fwdpod's five pre-assembled AI engineering pods: Voice AI, Agentic Operations, RAG & Knowledge, Compliance AI, and Custom pods. Fixed scope.
-- [Configure Your Pod](https://www.fwdpod.com/configure): Answer 5 questions and receive a custom AI engineering pod proposal within 48 hours. Specify your industry, timeline, budget, and compliance requirements.
+- [AI engineering pods](https://www.fwdpod.com/catalogue): Six pods of 4–6 engineers who already work together, each with one accountable pod lead: Agent Development, RAG and Knowledge, Voice AI, Compliance AI, LLMOps and Custom. Team size, typical timeline and best fit for each, plus hourly, daily and monthly ways to engage.
+- [Case studies](https://www.fwdpod.com/case-studies): Recent AI pods in production: a Compliance AI Pod for a financial brokerage, an Agent Development Pod for a logistics network and a Voice AI Pod for healthcare services, each with the problem, what was built, time to live and team size.
+- [How we work](https://www.fwdpod.com/how-we-work): The principles behind every engagement, the four steps from first call to start (scope, shortlist, interview, start), how quality is kept high, and how your environment, IP and NDAs are handled.
 
 ## Services
 
@@ -19,7 +20,7 @@
 
 ## Resources
 
-- [Contact Us](https://www.fwdpod.com/contact): Reach Fwdpod's operations team to discuss your AI engineering requirements. Deploy a dedicated AI pod in under one week.
+- [Contact Us](https://www.fwdpod.com/contact): Book a 30-minute call about the roles or the outcome you need. Fwdpod sends matched profiles or a pod plan within 48 hours.
 
 ## Insights
 

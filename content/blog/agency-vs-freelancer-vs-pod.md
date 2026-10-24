@@ -104,7 +104,7 @@ IP is a risk in all three. Under US law, commissioned work counts as "made for h
 
 - The AI system will live in production and keep changing, with new data, new use cases and model upgrades.
 - No one in-house has shipped production LLM or agent systems, so you need judgment as well as hands.
-- You want one team accountable for outcomes without building an AI department first. If the longer-term question is whether to build that department, read our [build vs buy AI capability guide](/insights/build-vs-buy-ai-capability).
+- You want one team accountable for outcomes without building an AI department first. If the longer-term question is whether to build that department, read our guide to [how enterprises buy AI engineering capacity](/insights/how-enterprises-buy-ai-engineering-capacity), which covers what a partner owns and what stays in-house.
 
 ## What red flags should you watch for?
 
@@ -143,9 +143,9 @@ Whatever the mix, one party should own the end-to-end outcome. Split ownership i
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. When a buyer is choosing between an agency, a freelancer and a pod, the first question is how long the system has to live and change after launch. If the honest answer is "a few weeks", a pod is probably more than you need. Fwdpod pods are typically 4–6 experts working around a single measurable outcome, and the pod templates on the configure page (Voice AI, Agentic Operations, RAG and Knowledge, Compliance AI and Custom) run 8–16 weeks. Engagement length and handover terms for your build are things the team can walk you through on a first call.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. When a buyer is choosing between an agency, a freelancer and a pod, the first question is how long the system has to live and change after launch. If the honest answer is "a few weeks", a pod is probably more than you need. Fwdpod pods are typically 4–6 experts working around a single measurable outcome, and the [pod catalogue](/catalogue) lists six pods (Agent Development, RAG and Knowledge, Voice AI, Compliance AI, LLMOps and Custom). Build pods typically run 8–16 weeks; LLMOps is ongoing. Engagement length and handover terms for your build are things the team can walk you through on a first call.
 
-Pricing depends on scope and team shape; for current terms, [talk to the team](/contact), or [configure your AI engineering pod](/configure) to get a custom pod proposal within 48 hours.
+Pricing depends on scope and team shape; for current terms, [book a 30-minute call](/contact). We'll send matched profiles or a pod plan within 48 hours.
 
 ## Frequently Asked Questions
 

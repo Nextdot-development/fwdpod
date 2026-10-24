@@ -34,7 +34,7 @@ Score each candidate against five questions:
 4. **Can a human catch mistakes?** Drafts, suggestions and triage that a person approves are safer first bets than actions that run on their own.
 5. **Can you measure it?** Time saved per ticket, search success rate, draft acceptance rate. If you cannot name the metric, you cannot tell whether it worked.
 
-Features that usually pass: summarizing long records, drafting replies a user edits, classifying and routing inbound requests, and search or Q&A over your own help content. Features that usually fail as a *first* build: autonomous agents that change money, permissions or customer records, and anything where one wrong answer creates legal exposure. Those can come later, once you have evaluation and monitoring in place. If you want the distinction between assistants and agents, see our [AI agent vs chatbot](/insights/ai-agent-vs-chatbot) explainer.
+Features that usually pass: summarizing long records, drafting replies a user edits, classifying and routing inbound requests, and search or Q&A over your own help content. Features that usually fail as a *first* build: autonomous agents that change money, permissions or customer records, and anything where one wrong answer creates legal exposure. Those can come later, once you have evaluation and monitoring in place.
 
 ## Step 2: What should you write down before choosing a route?
 
@@ -117,7 +117,7 @@ Hiring may make sense later, once AI is clearly core to your product and you kno
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. When a product team comes without AI engineers, the useful first conversation is about the first feature and its pass mark, not team size.
 
-If you want an outsourced AI engineering team to build that first feature with you, a Fwdpod pod is typically 4–6 experts working around a single measurable outcome. To scope the feature, [configure your AI engineering pod](/configure) and get a custom pod proposal within 48 hours, or [talk to the team](/contact) about pricing.
+If you want an outsourced AI engineering team to build that first feature with you, a Fwdpod pod is typically 4–6 experts working around a single measurable outcome. To scope the feature and talk through pricing, [book a 30-minute call](/contact). We'll send matched profiles or a pod plan within 48 hours.
 
 ## Frequently Asked Questions
 

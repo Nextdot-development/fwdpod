@@ -144,7 +144,7 @@ In those cases a [dedicated AI engineering pod](/insights/what-is-an-ai-pod), a 
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and the Gulf.
 
-If you are weighing a hire against a pod, the [pod catalogue](/catalogue) shows how each pod is put together, or [configure your AI engineering pod](/configure) to get a proposal for your own use case. For pricing, [talk to the team](/contact).
+If you are weighing a hire against a pod, the [pod catalogue](/catalogue) shows how each pod is put together, or [book a 30-minute call](/contact) to talk through your own use case. For pricing, [talk to the team](/contact).
 
 ## Key takeaways
 

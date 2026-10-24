@@ -119,7 +119,7 @@ Send questions 3, 6 and 7 in writing before the first call; the written answers 
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We would rather be scored against these nine questions than a slide deck.
 
-[Configure your AI engineering pod](/configure) and score our proposal against the nine questions, or [talk to the team](/contact) about terms and pricing.
+[Book a 30-minute call](/contact) about terms and pricing, then score our pod plan against the nine questions.
 
 ## Frequently Asked Questions
 

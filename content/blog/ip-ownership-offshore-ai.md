@@ -115,7 +115,7 @@ These questions belong in the security and legal gates of your buying process, n
 
 Before any pod starts, check the contract against the checklist above with your counsel. More guides like this sit in the [Security, Compliance & Offshore Delivery](/insights/category/security-compliance) section, and the [pod catalogue](/catalogue) shows how engagements are structured.
 
-When your terms are ready, [configure your AI engineering pod](/configure) for a proposal, or [talk to the team](/contact) about your contract questions.
+When your terms are ready, [book a 30-minute call](/contact) to talk through your use case and contract questions.
 
 ## Frequently Asked Questions
 
