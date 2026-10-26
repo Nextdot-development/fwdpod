@@ -5,6 +5,7 @@ meta_description: "Running LangGraph in production: checkpointers, durability mo
 slug: langgraph-in-production
 category: Agentic AI & LLM Engineering
 date: 2026-10-01
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/langgraph-in-production.jpg
 image_alt: "Glass tiles climbing a stone staircase on a desk, from state design through checkpointing and durability, human in the loop, retries and timeouts, observability and tracing, and testing and evals to a production-ready panel, beside a notebook sketch titled from prototype to production"

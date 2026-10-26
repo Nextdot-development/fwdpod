@@ -5,6 +5,7 @@ meta_description: "What roles are in an AI pod? Six seats, from delivery lead to
 slug: roles-in-an-ai-engineering-pod
 category: AI Pods & Engineering Teams
 date: 2026-10-15
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/roles-in-an-ai-engineering-pod.png
 image_alt: "The Six Roles Inside an AI Engineering Pod and What Each One Owns — AI Pods & Engineering Teams"

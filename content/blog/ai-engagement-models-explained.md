@@ -5,6 +5,7 @@ meta_description: "AI development engagement models explained: T&M, fixed scope,
 slug: ai-engagement-models-explained
 category: AI Pods & Engineering Teams
 date: 2026-09-26
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/ai-engagement-models-explained.jpg
 image_alt: "Seven AI development engagement models arranged around a central AI cube: time and materials, fixed scope, dedicated pods, staff augmentation, forward deployed engineers, build-operate-transfer and outcome-based"

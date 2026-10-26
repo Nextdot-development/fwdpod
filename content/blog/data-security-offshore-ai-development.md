@@ -5,6 +5,7 @@ meta_description: "Twelve data security controls to require from an offshore AI 
 slug: data-security-offshore-ai-development
 category: Security, Compliance & Offshore Delivery
 date: 2026-10-03
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/data-security-offshore-ai-development.jpg
 image_alt: "A glass checklist titled 12 Security Controls, ticking off access and identity, data protection, model security, monitoring, incident response and vendor controls, beside a globe carrying a padlock shield and ringed by cloud, database, code, document and team icons"

@@ -154,7 +154,7 @@ export function buildArticleSchema(post: BlogPost) {
         author: postAuthor(post),
         publisher: { '@id': `${SITE_BASE_URL}/#organization` },
         datePublished: post.isoDate,
-        dateModified: post.isoDate,
+        dateModified: post.modifiedIsoDate ?? post.isoDate,
         image: post.image
           ? {
               '@type': 'ImageObject',

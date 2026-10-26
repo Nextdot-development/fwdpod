@@ -26,6 +26,12 @@ const STATIC_PATHS = [
 
 /** Static pages whose content date is known, for the sitemap's <lastmod>. */
 const STATIC_LASTMOD: Record<string, string> = {
+  // Redesign steps 1-4, live on 2026-10-26
+  '/': '2026-10-26',
+  '/catalogue': '2026-10-26',
+  '/case-studies': '2026-10-26',
+  '/how-we-work': '2026-10-26',
+  '/insights': '2026-10-26',
   '/services/data-annotation': '2026-10-21',
   '/services/team-augmentation': '2026-10-21',
 };
@@ -47,7 +53,7 @@ export function getPrerenderRoutes(): PrerenderRoute[] {
     // Every published article, from content/blog/ and the CMS, gets its own
     // page and sitemap entry. Placeholder cards are not included: they have no
     // article behind them.
-    ...PUBLISHED_POSTS.map(post => ({ path: `/insights/${post.slug}`, lastmod: post.isoDate })),
+    ...PUBLISHED_POSTS.map(post => ({ path: `/insights/${post.slug}`, lastmod: post.modifiedIsoDate ?? post.isoDate })),
     // Every category gets a page and a sitemap entry, including one with no
     // posts yet: the taxonomy is the site's published structure, so all five
     // are crawlable and self-canonical from the start. lastmod is only set

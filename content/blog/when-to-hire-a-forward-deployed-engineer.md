@@ -5,6 +5,7 @@ meta_description: "When to hire a forward deployed engineer: seven signals you n
 slug: when-to-hire-a-forward-deployed-engineer
 category: Forward Deployed Engineering
 date: 2026-10-06
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/when-to-hire-a-forward-deployed-engineer.jpg
 image_alt: "An engineer at a desk facing a signpost between two doorways: Hire an FDE, with a team at a workflow diagram and a whiteboard checking integrate, customize, deploy and drive adoption; and Don't Hire an FDE, with a quiet office and a whiteboard listing off-the-shelf tool, works out of the box, existing team and no integration needs"

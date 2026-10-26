@@ -5,6 +5,7 @@ meta_description: "Forward deployed engineer vs solutions engineer: one wins the
 slug: fde-vs-solutions-engineer
 category: Forward Deployed Engineering
 date: 2026-10-05
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/fde-vs-solutions-engineer.jpg
 image_alt: "Split office scene: on the pre-sale side a solutions engineer presents a product demo to two colleagues, on the post-sale side a forward deployed engineer writes code beside a screen linking customer systems, production and real data"

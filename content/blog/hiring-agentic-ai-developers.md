@@ -5,6 +5,7 @@ meta_description: "Want to hire agentic AI developers? Screen for tool design, M
 slug: hiring-agentic-ai-developers
 category: AI Pods & Engineering Teams
 date: 2026-10-19
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/hiring-agentic-ai-developers.png
 image_alt: "Hiring Agentic AI and AI Agent Developers: What to Actually Screen For — AI Pods & Engineering Teams"

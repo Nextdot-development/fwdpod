@@ -5,6 +5,7 @@ meta_description: "What is a forward deployed engineer? The 2026 definition: whe
 slug: what-is-a-forward-deployed-engineer
 category: forward-deployed-engineering
 date: 2026-09-23
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/what-is-a-forward-deployed-engineer.png
 image_alt: "Illustration of a forward deployed engineer working inside a customer's operations while sending feedback to the product team"

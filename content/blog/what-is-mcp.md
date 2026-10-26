@@ -5,6 +5,7 @@ meta_description: "What is MCP? A plain guide to the Model Context Protocol: hos
 slug: what-is-mcp
 category: Agentic AI & LLM Engineering
 date: 2026-09-30
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/what-is-mcp.jpg
 image_alt: "A glowing MCP hub on a desk wired to AI apps such as ChatGPT, Claude, Gemini, Copilot and VS Code on one side and enterprise databases, files, CRM and ticketing on the other, above three tiles for tools, resources and prompts"

@@ -5,6 +5,7 @@ meta_description: "What is an AI pod? A small, cross-functional team that owns o
 slug: what-is-an-ai-pod
 category: AI Pods & Engineering Teams
 date: 2026-09-24
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/what-is-an-ai-pod.jpg
 image_alt: "Four engineers working together at a table in a pod room, labelled as product manager, AI/ML engineer, data engineer and full-stack engineer, with an AI solution flow from data to model to deploy to impact on the whiteboard and a plan, build, deploy, monitor sequence alongside"

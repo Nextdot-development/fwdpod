@@ -5,6 +5,7 @@ meta_description: "How to hire AI engineers in 2026: define the role, source tal
 slug: how-to-hire-ai-engineers
 category: AI Pods & Engineering Teams
 date: 2026-09-25
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/how-to-hire-ai-engineers.jpg
 image_alt: "An AI engineer being interviewed across a desk, with a RAG pipeline from documents to retrieve to generate to evaluate, evaluation metrics and a six-step hiring checklist shown alongside"

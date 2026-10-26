@@ -56,6 +56,7 @@ export default function BlogPostView() {
         description={post.excerpt}
         ogType="article"
         articlePublishedTime={post.isoDate}
+        articleModifiedTime={post.modifiedIsoDate}
         ogImage={post.image ? absoluteImageUrl(post.image) : undefined}
         jsonLd={buildArticleSchema(post)}
       />

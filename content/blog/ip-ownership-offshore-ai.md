@@ -5,6 +5,7 @@ meta_description: "Who owns the IP when you outsource AI development? By default
 slug: ip-ownership-offshore-ai
 category: Security, Compliance & Offshore Delivery
 date: 2026-09-29
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/ip-ownership-offshore-ai.jpg
 image_alt: "A signed contract and pen on a desk beside law books labelled US law, UK law and India law, and a wooden box marked IP holding cards for code, data, AI model and prompts"

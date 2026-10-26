@@ -66,6 +66,12 @@ export interface BlogPost {
   date: string;
   /** YYYY-MM-DD, for schema and <lastmod>. */
   isoDate?: string;
+  /**
+   * YYYY-MM-DD the article last changed, from an `updated:` front matter line.
+   * Used for <lastmod>, dateModified and article:modified_time; the publish date
+   * (isoDate) still decides the listing order.
+   */
+  modifiedIsoDate?: string;
   readTime: string;
   author: string;
   /** Path under public/, e.g. /blog-images/my-post.jpg. Falls back to a panel. */
@@ -215,6 +221,7 @@ export const STATIC_BLOG_POSTS: BlogPost[] = Object.entries(rawFiles)
       content: body,
       date: meta.date ? formatDate(meta.date) : '',
       isoDate: meta.date && !Number.isNaN(Date.parse(meta.date)) ? meta.date : undefined,
+      modifiedIsoDate: meta.updated && !Number.isNaN(Date.parse(meta.updated)) ? meta.updated : undefined,
       readTime: estimateReadTime(body),
       author: 'Fwdpod',
       image: meta.image || undefined,

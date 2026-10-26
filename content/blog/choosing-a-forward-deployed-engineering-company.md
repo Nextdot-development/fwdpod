@@ -5,6 +5,7 @@ meta_description: "Nine questions to ask any forward deployed engineering compan
 slug: choosing-a-forward-deployed-engineering-company
 category: Forward Deployed Engineering
 date: 2026-10-07
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/choosing-a-forward-deployed-engineering-company.jpg
 image_alt: "A small robot points at a clipboard listing nine numbered questions: team, production, security, handover, time zone, IP ownership, exit, quality and commercial model"

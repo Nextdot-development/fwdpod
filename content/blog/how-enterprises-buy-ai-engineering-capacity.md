@@ -5,6 +5,7 @@ meta_description: "How enterprises buy AI engineering capacity in 2026: six sour
 slug: how-enterprises-buy-ai-engineering-capacity
 category: AI Strategy: Pilot to Production
 date: 2026-09-28
+updated: 2026-10-26
 author: Fwdpod
 image: /blog-images/how-enterprises-buy-ai-engineering-capacity.jpg
 image_alt: "An empty enterprise boardroom with a laptop and printed reports on the table, and six sourcing channels pinned to the glass wall: global SIs and consultancies, hyperscaler partners, dedicated pods, specialist AI firms, staff augmentation and freelancers"
