@@ -39,6 +39,16 @@ export function trackContactFormSubmit(podArchetype: string): void {
   });
 }
 
+// Booking request form on /configure — fire once per submit attempt with its result
+export function trackBookingRequest(result: 'success' | 'error', need: string, engagement: string): void {
+  trackEvent(result === 'success' ? 'booking_request_submit' : 'booking_request_error', {
+    event_category: 'conversion',
+    event_label: 'booking_form',
+    need,
+    engagement,
+  });
+}
+
 // Blog search — fire after debounce when query >= 2 chars
 export function trackSearchPerformed(query: string, resultsCount: number): void {
   trackEvent('search', { search_term: query, results_count: resultsCount });
