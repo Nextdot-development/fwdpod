@@ -9,7 +9,8 @@ import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { primaryButton } from './ui';
 import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
-import { CONTACT_EMAIL, isBot, sendToInbox } from '../../utils/web3forms';
+import { CONTACT_EMAIL, isBot } from '../../utils/web3forms';
+import { deliverSubmission } from '../../utils/formStore';
 
 interface ContactValues {
   name: string;
@@ -69,16 +70,28 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
     const botcheck = isBot(e.currentTarget);
     setStatus('submitting');
     try {
-      await sendToInbox({
-        subject: `Contact message: ${values.company.trim()}`,
-        from_name: 'fwdpod.com contact form',
-        replyto: values.email.trim(),
-        botcheck,
-        source_page: '/contact',
-        name: values.name.trim(),
-        email: values.email.trim(),
-        company: values.company.trim(),
-        message: values.message.trim(),
+      await deliverSubmission({
+        bot: botcheck,
+        email: {
+          subject: `Contact message: ${values.company.trim()}`,
+          from_name: 'fwdpod.com contact form',
+          replyto: values.email.trim(),
+          botcheck,
+          source_page: '/contact',
+          name: values.name.trim(),
+          email: values.email.trim(),
+          company: values.company.trim(),
+          message: values.message.trim(),
+        },
+        // Shown in the admin under Contact messages
+        table: 'contact_messages',
+        row: {
+          source_page: '/contact',
+          name: values.name.trim(),
+          email: values.email.trim(),
+          company: values.company.trim(),
+          message: values.message.trim(),
+        },
       });
       onResult('success');
       setStatus('success');

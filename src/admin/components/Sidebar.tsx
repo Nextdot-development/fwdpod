@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, FileText, Image, FolderTree, LogOut, X } from "lucide-react";
+import { LayoutDashboard, FileText, Image, FolderTree, CalendarCheck, Inbox, LogOut, X } from "lucide-react";
 import { logout } from "@admin/hooks/useAuth";
 import { cn } from "@admin/lib/utils";
 
@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { to: "/admin/blogs", label: "Blogs", icon: FileText, end: false },
   { to: "/admin/media", label: "Media", icon: Image, end: false },
   { to: "/admin/categories", label: "Categories", icon: FolderTree, end: false },
+  { to: "/admin/bookings", label: "Bookings", icon: CalendarCheck, end: false },
+  { to: "/admin/contact-messages", label: "Contact messages", icon: Inbox, end: false },
 ];
 
 /**

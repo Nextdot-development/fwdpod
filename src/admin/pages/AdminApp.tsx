@@ -7,6 +7,8 @@ import BlogList from "./BlogList";
 import BlogEditor from "./BlogEditor";
 import Categories from "./Categories";
 import Media from "./Media";
+import Bookings from "./Bookings";
+import ContactMessages from "./ContactMessages";
 
 /**
  * The blog admin, mounted at /admin from its own entry (src/admin/main.tsx).
@@ -25,6 +27,8 @@ export default function AdminApp() {
           <Route path="/admin/blogs/:id/edit" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
           <Route path="/admin/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
           <Route path="/admin/media" element={<ProtectedRoute><Media /></ProtectedRoute>} />
+          <Route path="/admin/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
+          <Route path="/admin/contact-messages" element={<ProtectedRoute><ContactMessages /></ProtectedRoute>} />
 
           <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
         </Routes>
