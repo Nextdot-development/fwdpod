@@ -503,10 +503,12 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ── Book a call band, above the footer on every page ──────────────── */}
-      <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pb-14">
-        <BookCallBand />
-      </div>
+      {/* ── Book a call band, above the footer on every page except the two booking pages ── */}
+      {!['/contact', '/configure'].includes(location.pathname) && (
+        <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pb-14">
+          <BookCallBand />
+        </div>
+      )}
 
       {/* ── Footer ──────────────────────────────────────────────────────────── */}
       <footer className="bg-white border-t border-[#0A0A0A]/10 py-14 px-4 md:px-8">

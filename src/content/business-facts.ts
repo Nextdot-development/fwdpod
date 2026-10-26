@@ -28,3 +28,6 @@ export const LLMOPS_POD_SIZE = '3–4';
 
 // PENDING CONFIRMATION
 export const HOURLY_FROM = '$15';
+
+// PENDING CONFIRMATION
+export const REPLY_TIME = 'one business day';
