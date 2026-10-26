@@ -147,7 +147,7 @@ If you plan to hire MCP developers, test for the things this guide flags: scope 
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for LLM development, RAG systems and [AI agents](/services/ai-agents), for startups and enterprise teams in the US, UK, EU and Gulf, with engineering delivery from India. The [pod catalogue](/catalogue) shows how engagements are structured.
 
-To scope a first server for one internal system, [book a 30-minute call](/contact).
+To scope a first server for one internal system, [book a 30-minute call](/configure).
 
 ## Frequently Asked Questions
 

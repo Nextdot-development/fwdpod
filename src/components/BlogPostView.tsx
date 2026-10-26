@@ -145,8 +145,8 @@ export default function BlogPostView() {
         </p>
         <div className="flex flex-wrap items-center gap-3 pt-1">
           <Link
-            to="/contact"
-            onClick={() => trackCtaClick('Book a 30-minute call (article)', '/contact')}
+            to="/configure"
+            onClick={() => trackCtaClick('Book a 30-minute call (article)', '/configure')}
             className="inline-flex items-center gap-1.5 bg-[#0A0A0A] hover:bg-[#0066FF] text-white text-xs font-semibold px-6 py-3 rounded-full transition-colors"
           >
             Book a 30-minute call

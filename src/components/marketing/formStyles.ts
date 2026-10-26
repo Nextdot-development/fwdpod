@@ -1,0 +1,12 @@
+/** Shared look for the website's forms (booking on /configure, contact on /contact). */
+export const labelClass = 'block text-sm font-medium text-[#0A0A0A]';
+export const hintClass = 'text-xs text-[#555555]';
+export const errorClass = 'mt-1.5 text-xs text-red-600';
+export const formCard = 'rounded-3xl border border-zinc-200/85 bg-white shadow-sm p-6 md:p-8 space-y-6';
+
+export const inputClass = (invalid: boolean) =>
+  `mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm text-[#0A0A0A] placeholder:text-zinc-400 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0066FF]/20 ${
+    invalid ? 'border-red-500 focus:border-red-500' : 'border-zinc-300 focus:border-[#0066FF]'
+  }`;
+
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

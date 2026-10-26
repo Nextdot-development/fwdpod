@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Check, Mail, Send, Server } from 'lucide-react';
+import { AlertCircle, ArrowRight, CheckCircle2, Loader2, Mail } from 'lucide-react';
 import SEO from './SEO';
+import { cardHover, primaryButton } from './marketing/ui';
+import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './marketing/formStyles';
+import { CONTACT_EMAIL, isBot, sendToInbox } from '../utils/web3forms';
 import { trackContactFormSubmit } from '../utils/analytics';
+import { SHORTLIST_TIME } from '../content/business-facts';
+
+// ── Page metadata ────────────────────────────────────────────────────────────
+const PAGE_TITLE = 'Contact Fwdpod | AI Engineers and AI Pods from India';
+const PAGE_DESCRIPTION =
+  'Questions about AI engineers, AI pods or how we work? Send us a message or email contact.fwdpod@gmail.com. To scope a project, book a 30-minute call.';
 
 const CONTACT_JSON_LD = {
   '@context': 'https://schema.org',
@@ -12,369 +20,249 @@ const CONTACT_JSON_LD = {
       '@type': ['WebPage', 'ContactPage'],
       '@id': 'https://www.fwdpod.com/#contact',
       'url': 'https://www.fwdpod.com/contact',
-      'name': 'Contact Fwdpod — Hire a Dedicated AI Engineering Team',
-      'description': 'Reach Fwdpod\'s operations team to discuss your AI engineering requirements. Deploy a dedicated AI pod in under one week.',
+      'name': PAGE_TITLE,
+      'description': PAGE_DESCRIPTION,
       'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
       'about': { '@id': 'https://www.fwdpod.com/#organization' },
       'breadcrumb': {
         '@type': 'BreadcrumbList',
         'itemListElement': [
           { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Contact Us', 'item': 'https://www.fwdpod.com/contact' }
+          { '@type': 'ListItem', 'position': 2, 'name': 'Contact', 'item': 'https://www.fwdpod.com/contact' }
         ]
       }
     },
     {
       '@type': 'ContactPoint',
       'contactType': 'customer support',
+      'email': CONTACT_EMAIL,
       'areaServed': 'Worldwide',
-      'availableLanguage': ['English'],
-      'hoursAvailable': {
-        '@type': 'OpeningHoursSpecification',
-        'dayOfWeek': ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-        'opens': '00:00',
-        'closes': '23:59'
-      }
+      'availableLanguage': ['English']
     }
   ]
 };
 
+interface FormValues {
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+}
+
+type FieldErrors = Partial<Record<'name' | 'email' | 'message', string>>;
+
+const EMPTY: FormValues = { name: '', email: '', company: '', message: '' };
+
+function validate(values: FormValues): FieldErrors {
+  const errors: FieldErrors = {};
+  if (!values.name.trim()) errors.name = 'Enter your name.';
+  if (!values.email.trim()) errors.email = 'Enter your email.';
+  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = 'Enter a valid email address, like name@company.com.';
+  if (!values.message.trim()) errors.message = 'Write a short message.';
+  return errors;
+}
+
 interface ContactViewProps {
+  /** Kept for App's route wiring; not used by this page. */
   onNavigate: (pageName: string, preselectedPodId?: string) => void;
   triggerNotification?: (msg: string) => void;
 }
 
-export default function ContactView({ onNavigate, triggerNotification }: ContactViewProps) {
-  // Form submission and validation states
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [archetype, setArchetype] = useState('agentic-ops');
-  const [message, setMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+export default function ContactView(_props: ContactViewProps) {
+  const [values, setValues] = useState<FormValues>(EMPTY);
+  const [touched, setTouched] = useState<Partial<Record<keyof FormValues, boolean>>>({});
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const errors = validate(values);
+  // Show a field's error once the visitor has left it, or after a submit attempt
+  const errorFor = (field: keyof FieldErrors) => (touched[field] || submitAttempted ? errors[field] : undefined);
+  const onText = (field: keyof FormValues) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setValues(prev => ({ ...prev, [field]: e.target.value }));
+  const onBlur = (field: keyof FormValues) => () => setTouched(prev => ({ ...prev, [field]: true }));
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!name || !email || !message) {
-      if (triggerNotification) {
-        triggerNotification("Please fill in all required fields.");
-      }
+    setSubmitAttempted(true);
+    if (Object.keys(errors).length > 0) {
+      const first = (['name', 'email', 'message'] as const).find(f => errors[f]);
+      if (first) e.currentTarget.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
-
-    setIsSubmitting(true);
-    // Simulate API request processing
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      trackContactFormSubmit(archetype);
-      if (triggerNotification) {
-        triggerNotification(`Message from ${name} successfully transmitted to Fwdpod Operations.`);
-      }
-    }, 1200);
+    const botcheck = isBot(e.currentTarget);
+    setStatus('submitting');
+    try {
+      await sendToInbox({
+        subject: `Website message: ${values.name.trim()}${values.company.trim() ? ` (${values.company.trim()})` : ''}`,
+        from_name: 'fwdpod.com contact form',
+        replyto: values.email.trim(),
+        botcheck,
+        source_page: '/contact',
+        name: values.name.trim(),
+        email: values.email.trim(),
+        company: values.company.trim() || 'Not given',
+        message: values.message.trim(),
+      });
+      trackContactFormSubmit('success');
+      setStatus('success');
+    } catch (err) {
+      console.error('Contact message failed:', err);
+      trackContactFormSubmit('error');
+      setStatus('error');
+    }
   };
 
-  const handleReset = () => {
-    setName('');
-    setEmail('');
-    setCompany('');
-    setArchetype('agentic-ops');
-    setMessage('');
-    setIsSubmitted(false);
+  const reset = () => {
+    setValues(EMPTY);
+    setTouched({});
+    setSubmitAttempted(false);
+    setStatus('idle');
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.3 }}
-      className="max-w-6xl mx-auto py-6 font-sans space-y-12"
-      id="contact-view-page"
-    >
-      <SEO
-        title="Contact Fwdpod — Hire a Dedicated AI Engineering Team"
-        description="Reach Fwdpod's operations team to discuss your AI engineering requirements. Deploy a dedicated AI pod in under one week."
-        jsonLd={CONTACT_JSON_LD}
-      />
-      {/* Page Header Area */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <span className="bg-[#0066FF]/5 text-[#0066FF] text-[9px] font-mono uppercase px-3 py-1 font-bold tracking-widest rounded-md border border-[#0066FF]/10">
-            Operations desk // Active live
-          </span>
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-          </span>
-        </div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-          <div className="space-y-2 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-tight">
-              Initiate transmission. Deploy next-gen output.
-            </h1>
-            <p className="text-[#555555] text-sm md:text-base leading-relaxed">
-              Ready to instantiate a pre-formed AI engineering pod or customize standard execution SLAs? Reach our operations team directly or build a custom layout.
-            </p>
-          </div>
-          <Link
-            to="/"
-            className="text-xs font-mono text-zinc-500 hover:text-[#0A0A0A] underline cursor-pointer shrink-0 text-center"
-          >
-            ← Return to Home
-          </Link>
-        </div>
-      </div>
+    <div className="bg-white animate-page-enter">
+      <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={CONTACT_JSON_LD} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
-        {/* Left Side: Contact Form Container */}
-        <div className="lg:col-span-7 bg-white border border-[#0A0A0A]/10 p-6 md:p-8 rounded-3xl shadow-sm relative overflow-hidden">
-          
-          <AnimatePresence mode="wait">
-            {!isSubmitted ? (
-              <motion.form 
-                key="contact-form"
-                onSubmit={handleSubmit} 
-                className="space-y-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <div className="space-y-1 border-b border-[#0A0A0A]/5 pb-4">
-                  <h2 className="text-lg font-medium text-[#0A0A0A] tracking-tight">Direct Transmission Form</h2>
-                  <p className="text-[11px] text-zinc-400 font-mono uppercase">Operational routing code: INBOUND-W-2026</p>
-                </div>
+      {/* Intro */}
+      <section className="pt-2 space-y-3 max-w-3xl" aria-labelledby="contact-heading">
+        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Contact</span>
+        <h1 id="contact-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
+          Contact us
+        </h1>
+        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
+          Questions about our engineers, pods or how we work? Send us a message and we'll reply by email.
+        </p>
+      </section>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono font-semibold uppercase text-[#555555]" id="label-name">
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="input-name"
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g., Sarah Jenkins"
-                      className="w-full bg-[#0A0A0A]/5 text-[#0A0A0A] text-xs font-medium px-4 py-3 rounded-xl border border-transparent focus:border-[#0066FF] focus:bg-white outline-none transition-all"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono font-semibold uppercase text-[#555555]" id="label-email">
-                      Work Email <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      id="input-email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="e.g., s.jenkins@enterprise.com"
-                      className="w-full bg-[#0A0A0A]/5 text-[#0A0A0A] text-xs font-medium px-4 py-3 rounded-xl border border-transparent focus:border-[#0066FF] focus:bg-white outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono font-semibold uppercase text-[#555555]" id="label-company">
-                      Organization Name
-                    </label>
-                    <input
-                      id="input-company"
-                      type="text"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      placeholder="e.g., NextDot Global"
-                      className="w-full bg-[#0A0A0A]/5 text-[#0A0A0A] text-xs font-medium px-4 py-3 rounded-xl border border-transparent focus:border-[#0066FF] focus:bg-white outline-none transition-all"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-xs font-mono font-semibold uppercase text-[#555555]" id="label-archetype">
-                      Target Pod Composition
-                    </label>
-                    <select
-                      id="input-archetype"
-                      value={archetype}
-                      onChange={(e) => setArchetype(e.target.value)}
-                      className="w-full bg-[#0A0A0A]/5 text-[#0A0A0A] text-xs font-medium px-4 py-3 rounded-xl border border-transparent focus:border-[#0066FF] focus:bg-white outline-none transition-all cursor-pointer appearance-none"
-                    >
-                      <option value="agentic-ops">Agentic Operations Pod</option>
-                      <option value="voice-ai">Voice AI Core Pod</option>
-                      <option value="rag-system">Enterprise Knowledge RAG Pod</option>
-                      <option value="compliance-guard">Compliance & AI Guardrails Pod</option>
-                      <option value="custom">Fully Customized Hybrid Composition</option>
-                    </select>
-                  </div>
-                </div>
-
+      <div className="pt-8 pb-12 md:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        {/* Message form */}
+        <div className="lg:col-span-7">
+          {status === 'success' ? (
+            <section role="status" aria-live="polite" className="rounded-3xl border border-[#0066FF]/30 bg-[#0066FF]/5 p-6 md:p-8 space-y-4">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="w-6 h-6 text-[#0066FF] shrink-0" aria-hidden="true" />
                 <div className="space-y-2">
-                  <label className="block text-xs font-mono font-semibold uppercase text-[#555555]" id="label-message">
-                    Inquiry Details & Target Deliverables <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    id="input-message"
-                    required
-                    rows={4}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Describe your current bottlenecks, target product deadlines, or team composition specifications..."
-                    className="w-full bg-[#0A0A0A]/5 text-[#0A0A0A] text-xs font-medium px-4 py-3 rounded-xl border border-transparent focus:border-[#0066FF] focus:bg-white outline-none transition-all resize-none"
+                  <h2 className="text-xl font-display font-medium tracking-tight text-[#0A0A0A]">
+                    Thanks, {values.name.trim().split(' ')[0]}. Your message is in.
+                  </h2>
+                  <p className="text-sm text-[#555555] leading-relaxed">
+                    We'll reply to <strong className="text-[#0A0A0A] font-medium">{values.email.trim()}</strong>.
+                  </p>
+                </div>
+              </div>
+              <button type="button" onClick={reset} className="text-sm font-medium text-[#0066FF] hover:underline">
+                Send another message
+              </button>
+            </section>
+          ) : (
+            <form noValidate onSubmit={handleSubmit} aria-labelledby="contact-form-heading" className={formCard}>
+              <h2 id="contact-form-heading" className="text-xl font-display font-medium tracking-tight text-[#0A0A0A]">
+                Send a message
+              </h2>
+
+              {status === 'error' && (
+                <div role="alert" className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4">
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" aria-hidden="true" />
+                  <p className="text-sm text-red-700 leading-relaxed">
+                    We couldn't send your message. Please try again, or email us at{' '}
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium underline">{CONTACT_EMAIL}</a>.
+                    Your message is still here.
+                  </p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="contact-name" className={labelClass}>Name <span className="text-red-600">*</span></label>
+                  <input
+                    id="contact-name" name="name" type="text" autoComplete="name"
+                    value={values.name} onChange={onText('name')} onBlur={onBlur('name')}
+                    aria-invalid={Boolean(errorFor('name')) || undefined}
+                    aria-describedby={errorFor('name') ? 'contact-name-error' : undefined}
+                    className={inputClass(Boolean(errorFor('name')))}
                   />
+                  {errorFor('name') && <p id="contact-name-error" className={errorClass}>{errorFor('name')}</p>}
                 </div>
+                <div>
+                  <label htmlFor="contact-email" className={labelClass}>Email <span className="text-red-600">*</span></label>
+                  <input
+                    id="contact-email" name="email" type="email" autoComplete="email" inputMode="email"
+                    value={values.email} onChange={onText('email')} onBlur={onBlur('email')}
+                    aria-invalid={Boolean(errorFor('email')) || undefined}
+                    aria-describedby={errorFor('email') ? 'contact-email-error' : undefined}
+                    className={inputClass(Boolean(errorFor('email')))}
+                  />
+                  {errorFor('email') && <p id="contact-email-error" className={errorClass}>{errorFor('email')}</p>}
+                </div>
+              </div>
 
-                <div className="pt-2">
-                  <button
-                    id="btn-submit-contact"
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-[#0066FF] hover:bg-[#0055DD] text-white font-semibold text-xs py-3.5 px-6 rounded-full transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm shadow-[#0066FF]/10 disabled:opacity-75"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <Server className="w-4 h-4 animate-spin" />
-                        <span>Transmitting Pod Request...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Transmit Configuration Request</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </motion.form>
-            ) : (
-              <motion.div 
-                key="success-form"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                className="py-10 text-center space-y-6"
-                id="contact-success-state"
-              >
-                <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto border border-green-100 shadow-sm">
-                  <Check className="w-8 h-8" />
-                </div>
-                
-                <div className="space-y-2 max-w-md mx-auto">
-                  <h3 className="text-2xl font-display font-medium text-[#0A0A0A]">
-                    Transmission Confirmed
-                  </h3>
-                  <p className="text-xs text-[#555555] font-mono uppercase text-green-600 font-bold tracking-wider">
-                    SECURE INTAKE // COMPLETED
-                  </p>
-                  <p className="text-xs sm:text-sm text-[#555555] leading-relaxed">
-                    Thank you, <strong className="text-black font-semibold">{name}</strong>. Your requirement payload for the <strong className="text-[#0066FF] font-semibold">{archetype.replace('-', ' ').toUpperCase()}</strong> has been routed to our Lead Solutions Architect.
-                  </p>
-                </div>
+              <div>
+                <label htmlFor="contact-company" className={labelClass}>
+                  Company <span className="text-[#555555] font-normal">(optional)</span>
+                </label>
+                <input
+                  id="contact-company" name="company" type="text" autoComplete="organization"
+                  value={values.company} onChange={onText('company')}
+                  className={inputClass(false)}
+                />
+              </div>
 
-                <div className="bg-[#0A0A0A]/5 p-4 rounded-2xl max-w-sm mx-auto text-left space-y-2 border border-[#0A0A0A]/5 font-mono text-[11px]">
-                  <div className="flex justify-between">
-                    <span className="text-[#555555]">TICKET REF:</span>
-                    <span className="text-black font-bold">FWD-{(Math.floor(Math.random() * 89999) + 10000)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#555555]">FORWARD ROUTING:</span>
-                    <span className="text-black">FOUNDER_STREAMS</span>
-                  </div>
-                </div>
+              <div>
+                <label htmlFor="contact-message" className={labelClass}>Message <span className="text-red-600">*</span></label>
+                <textarea
+                  id="contact-message" name="message" rows={5} maxLength={3000}
+                  value={values.message} onChange={onText('message')} onBlur={onBlur('message')}
+                  aria-invalid={Boolean(errorFor('message')) || undefined}
+                  aria-describedby={errorFor('message') ? 'contact-message-error' : undefined}
+                  className={`${inputClass(Boolean(errorFor('message')))} resize-y`}
+                />
+                {errorFor('message') && <p id="contact-message-error" className={errorClass}>{errorFor('message')}</p>}
+              </div>
 
-                <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
-                  <button
-                    onClick={handleReset}
-                    className="border border-zinc-200 hover:border-black text-zinc-600 hover:text-black hover:bg-zinc-50 text-xs font-semibold py-3 px-6 rounded-full transition-all cursor-pointer"
-                  >
-                    Send Another Transmission
-                  </button>
-                  <Link
-                    to="/"
-                    className="bg-[#0066FF] hover:bg-[#0055DD] text-white text-xs font-semibold py-3 px-6 rounded-full transition-all cursor-pointer text-center"
-                  >
-                    Go Back Home
-                  </Link>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {/* Spam trap, hidden from people and screen readers */}
+              <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
 
+              <div className="pt-2 space-y-3">
+                <button type="submit" disabled={status === 'submitting'} className={`${primaryButton} w-full sm:w-auto disabled:opacity-70 disabled:cursor-wait`}>
+                  {status === 'submitting' ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                      <span>Sending…</span>
+                    </>
+                  ) : (
+                    'Send message'
+                  )}
+                </button>
+                <p className={hintClass}>
+                  <span className="text-red-600">*</span> Required. We only use your details to reply to you.
+                </p>
+              </div>
+            </form>
+          )}
         </div>
 
-        {/* Right Side: Operational Metadata / Hotline Direct Blocks */}
-        <div className="lg:col-span-5 space-y-6">
-          
-          {/* Active Status SLA Widget */}
-          <div className="bg-[#0A0A0A] text-white p-6 rounded-3xl border border-zinc-800 space-y-4 shadow-xl">
-            <div className="flex items-center gap-2 justify-between">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-                Service Level Assurance
-              </span>
-              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-bold">
-                Online // Perfect
-              </span>
-            </div>
-            <div className="space-y-1">
-              <h3 className="text-xl font-display font-medium text-white leading-tight">
-                2-Hour Solution SLA
-              </h3>
-              <p className="text-xs text-zinc-400">
-                All customized specifications are triaged within two hours, with pre-assembled core pods fully mapped to architecture blueprints in under 48 hours.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3 pt-2 text-center text-xs font-mono">
-              <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-2xl">
-                <span className="text-[10px] block text-zinc-500 uppercase">Coverage</span>
-                <span className="font-semibold text-white">24/7/365 Global</span>
-              </div>
-              <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-2xl">
-                <span className="text-[10px] block text-zinc-500 uppercase">Avg Response</span>
-                <span className="font-semibold text-emerald-400">47 Minutes</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Direct contact. contact.fwdpod@gmail.com is the confirmed working mailbox.
-              The fictional 555 hotline stays removed; a phone number can be added here
-              once a real one is verified. */}
-          <div className="space-y-4">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-[#555555] font-bold">
-              Direct Access Paths
-            </h4>
-
-            <a
-              href="mailto:contact.fwdpod@gmail.com"
-              className="p-5 border border-zinc-200/85 bg-zinc-50/40 hover:border-[#0066FF] hover:bg-zinc-50 hover:shadow-sm rounded-2xl transition-all duration-200 flex items-center gap-4 group text-left block"
-            >
-              <div className="w-12 h-12 bg-[#0066FF]/5 text-[#0066FF] rounded-full flex items-center justify-center shrink-0 border border-[#0066FF]/10 group-hover:bg-[#0066FF] group-hover:text-white transition-all">
-                <Mail className="w-5 h-5" />
-              </div>
-              <div className="flex-1">
-                <span className="text-[10px] uppercase font-mono text-zinc-400 tracking-wider block">Email</span>
-                <span className="text-sm sm:text-base font-semibold text-[#0A0A0A] group-hover:text-[#0066FF] transition-colors font-mono">
-                  contact.fwdpod@gmail.com
-                </span>
-              </div>
+        {/* Other ways to reach us */}
+        <aside className="lg:col-span-5 space-y-6" aria-label="Other ways to reach us">
+          <div className={`rounded-3xl border border-zinc-200/85 bg-white p-6 md:p-8 space-y-3 ${cardHover}`}>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#0066FF] block">Email</span>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-2 text-base font-medium text-[#0A0A0A] hover:text-[#0066FF] break-all">
+              <Mail className="w-4 h-4 shrink-0 text-[#0066FF]" aria-hidden="true" />
+              {CONTACT_EMAIL}
             </a>
           </div>
 
-          {/* Secure Assurance Label */}
-          <div className="p-4 border border-zinc-100 rounded-2xl bg-zinc-50/20 text-[11px] text-zinc-500 leading-relaxed font-sans space-y-1">
-            <span className="font-semibold text-[#0A0A0A] block">Secure Routing Assured</span>
-            <p>
-              Your enterprise information is treated with sovereign confidentiality. Inbound data is secured end-to-end, audited against strict privacy guardrails, and not shared with external aggregators or model scrapers.
+          <div className={`rounded-3xl border border-zinc-200/85 bg-white p-6 md:p-8 space-y-3 ${cardHover}`}>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#0066FF] block">Planning a project?</span>
+            <h2 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">Book a 30-minute call</h2>
+            <p className="text-sm text-[#555555] leading-relaxed">
+              Tell us the role or the outcome. We'll send matched profiles or a pod plan within {SHORTLIST_TIME}.
             </p>
+            <Link to="/configure" className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0066FF] hover:underline">
+              Book a call <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
           </div>
-
-        </div>
-
+        </aside>
       </div>
-
-    </motion.div>
+    </div>
   );
 }

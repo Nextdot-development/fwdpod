@@ -118,7 +118,7 @@ Hiring may make sense later, once AI is clearly core to your product and you kno
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. When a product team comes without AI engineers, the useful first conversation is about the first feature and its pass mark, not team size.
 
-If you want an outsourced AI engineering team to build that first feature with you, a Fwdpod pod is typically 4–6 experts working around a single measurable outcome. To scope the feature and talk through pricing, [book a 30-minute call](/contact). We'll send matched profiles or a pod plan within 48 hours.
+If you want an outsourced AI engineering team to build that first feature with you, a Fwdpod pod is typically 4–6 experts working around a single measurable outcome. To scope the feature and talk through pricing, [book a 30-minute call](/configure). We'll send matched profiles or a pod plan within 48 hours.
 
 ## Frequently Asked Questions
 

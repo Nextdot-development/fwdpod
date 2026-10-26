@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import SEO from './SEO';
+import { Link } from 'react-router-dom';
 import { primaryButton } from './marketing/ui';
+import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './marketing/formStyles';
+import { CONTACT_EMAIL, isBot, sendToInbox } from '../utils/web3forms';
 import { trackBookingRequest } from '../utils/analytics';
 import { SHORTLIST_TIME } from '../content/business-facts';
 
@@ -25,13 +28,6 @@ const CONFIGURE_JSON_LD = {
     ]
   }
 };
-
-// ── Submission ───────────────────────────────────────────────────────────────
-// Requests are emailed to the Fwdpod inbox through Web3Forms. The access key is
-// public by design and set per environment (see .env.example).
-const FORM_ENDPOINT = import.meta.env.VITE_BOOKING_FORM_ENDPOINT || 'https://api.web3forms.com/submit';
-const ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
-const CONTACT_EMAIL = 'contact.fwdpod@gmail.com';
 
 const NEED_OPTIONS = ['Individual specialist', 'AI pod', 'Not sure yet'];
 const ENGAGEMENT_OPTIONS = ['Hourly', 'Daily', 'Monthly', 'Not sure'];
@@ -64,20 +60,11 @@ function validate(values: FormValues): FieldErrors {
   const errors: FieldErrors = {};
   if (!values.name.trim()) errors.name = 'Enter your name.';
   if (!values.email.trim()) errors.email = 'Enter your work email.';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) errors.email = 'Enter a valid email address, like name@company.com.';
+  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = 'Enter a valid email address, like name@company.com.';
   if (!values.company.trim()) errors.company = 'Enter your company name.';
   if (!values.need) errors.need = 'Choose what you need.';
   return errors;
 }
-
-// ── Styles ───────────────────────────────────────────────────────────────────
-const labelClass = 'block text-sm font-medium text-[#0A0A0A]';
-const hintClass = 'text-xs text-[#555555]';
-const inputClass = (invalid: boolean) =>
-  `mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm text-[#0A0A0A] placeholder:text-zinc-400 transition-colors focus:outline-none focus:ring-2 focus:ring-[#0066FF]/20 ${
-    invalid ? 'border-red-500 focus:border-red-500' : 'border-zinc-300 focus:border-[#0066FF]'
-  }`;
-const errorClass = 'mt-1.5 text-xs text-red-600';
 
 function ChoiceGroup({
   name,
@@ -163,17 +150,11 @@ export default function ConfigureView(_props: ConfigureViewProps) {
       return;
     }
 
-    // Spam trap: bots fill hidden fields, people don't
-    const botcheck = (e.currentTarget.elements.namedItem('botcheck') as HTMLInputElement | null)?.checked ?? false;
+    const botcheck = isBot(e.currentTarget);
 
     setStatus('submitting');
     try {
-      if (!ACCESS_KEY) throw new Error('Booking form is not configured: VITE_WEB3FORMS_ACCESS_KEY is not set.');
-      const response = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: ACCESS_KEY,
+      await sendToInbox({
           subject: `Booking request: ${values.company.trim()} (${values.need})`,
           from_name: 'fwdpod.com booking form',
           replyto: values.email.trim(),
@@ -187,10 +168,7 @@ export default function ConfigureView(_props: ConfigureViewProps) {
           engagement: values.engagement || 'Not given',
           start_date: values.start_date || 'Not given',
           message: values.message.trim() || 'Not given',
-        }),
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.success === false) throw new Error(result.message || `Request failed with status ${response.status}`);
       trackBookingRequest('success', values.need, values.engagement || 'Not given');
       setStatus('success');
     } catch (err) {
@@ -250,7 +228,7 @@ export default function ConfigureView(_props: ConfigureViewProps) {
             noValidate
             onSubmit={handleSubmit}
             aria-labelledby="booking-heading"
-            className="rounded-3xl border border-zinc-200/85 bg-white shadow-sm p-6 md:p-8 space-y-6"
+            className={formCard}
           >
             {status === 'error' && (
               <div role="alert" className="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4">
@@ -361,6 +339,7 @@ export default function ConfigureView(_props: ConfigureViewProps) {
               </button>
               <p className={hintClass}>
                 <span className="text-red-600">*</span> Required. We only use your details to reply to this request.
+                {' '}A general question instead? <Link to="/contact" className="text-[#0066FF] underline hover:text-[#0055DD]">Contact us</Link>.
               </p>
             </div>
           </form>

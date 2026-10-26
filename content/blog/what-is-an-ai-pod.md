@@ -152,7 +152,7 @@ Often this is the real question behind "what is an AI pod." In short: engage a s
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Pods are designed around the practices described above: evaluation from the start, data and integration work inside the team, and a production handover your engineers can own.
 
-If you are weighing whether a pod fits your roadmap, the [pod catalogue](/catalogue) shows the pre-assembled pods and what each one covers, or you can [book a 30-minute call](/contact) to talk through your own use case.
+If you are weighing whether a pod fits your roadmap, the [pod catalogue](/catalogue) shows the pre-assembled pods and what each one covers, or you can [book a 30-minute call](/configure) to talk through your own use case.
 
 ## Key takeaways
 

@@ -97,7 +97,7 @@ Once you have decided an FDE is right, the next step is checking that the person
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We would rather tell a buyer they need a readiness assessment or an off-the-shelf tool than place an engineer with no clear problem to solve. Our [AI consulting](/services/ai-consulting) work includes readiness assessments for exactly that case.
 
-To scope your case and talk through pricing and how engagements are structured, [book a 30-minute call](/contact).
+To scope your case and talk through pricing and how engagements are structured, [book a 30-minute call](/configure).
 
 ## Frequently Asked Questions
 

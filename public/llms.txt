@@ -20,7 +20,8 @@
 
 ## Resources
 
-- [Contact Us](https://www.fwdpod.com/contact): Book a 30-minute call about the roles or the outcome you need. Fwdpod sends matched profiles or a pod plan within 48 hours.
+- [Book a 30-minute call](https://www.fwdpod.com/configure): Request a call about the roles or the outcome you need. Fwdpod sends matched profiles or a pod plan within 48 hours.
+- [Contact Us](https://www.fwdpod.com/contact): Send Fwdpod a message about AI engineers, AI pods or how engagements work, or email contact.fwdpod@gmail.com.
 
 ## Insights
 

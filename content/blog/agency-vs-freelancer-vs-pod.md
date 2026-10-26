@@ -146,7 +146,7 @@ Whatever the mix, one party should own the end-to-end outcome. Split ownership i
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. When a buyer is choosing between an agency, a freelancer and a pod, the first question is how long the system has to live and change after launch. If the honest answer is "a few weeks", a pod is probably more than you need. Fwdpod pods are typically 4–6 experts working around a single measurable outcome, and the [pod catalogue](/catalogue) lists six pods (Agent Development, RAG and Knowledge, Voice AI, Compliance AI, LLMOps and Custom). Build pods typically run 8–16 weeks; LLMOps is ongoing. Engagement length and handover terms for your build are things the team can walk you through on a first call.
 
-Pricing depends on scope and team shape; for current terms, [book a 30-minute call](/contact). We'll send matched profiles or a pod plan within 48 hours.
+Pricing depends on scope and team shape; for current terms, [book a 30-minute call](/configure). We'll send matched profiles or a pod plan within 48 hours.
 
 ## Frequently Asked Questions
 

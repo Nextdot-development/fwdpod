@@ -124,7 +124,7 @@ Either way, a vendor's team should pass the exercise above as readily as a singl
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery. If you would rather evaluate a ready-formed pod, such as our [Agent Development Pod](/catalogue), put the questions in this guide to our engineers.
 
-**Next step:** [book a 30-minute call](/contact) and bring your use case for an architecture and eval-plan walkthrough.
+**Next step:** [book a 30-minute call](/configure) and bring your use case for an architecture and eval-plan walkthrough.
 
 ---
 

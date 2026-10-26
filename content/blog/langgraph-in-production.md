@@ -221,7 +221,7 @@ For the wider screening process, including a take-home exercise and red flags, s
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering LLM development, RAG systems and [AI agents](/services/ai-agents), with delivery from India. LangGraph is the framework those pods use for stateful, multi-step agents, built with observability and human-in-the-loop checkpoints rather than adding them after launch. The [pod catalogue](/catalogue) shows how engagements are structured.
 
-If you have a LangGraph prototype that needs to reach production, or you want to hire LangGraph developers as a dedicated pod rather than individual contractors, [book a 30-minute call](/contact).
+If you have a LangGraph prototype that needs to reach production, or you want to hire LangGraph developers as a dedicated pod rather than individual contractors, [book a 30-minute call](/configure).
 
 ## Frequently Asked Questions
 

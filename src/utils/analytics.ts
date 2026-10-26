@@ -30,12 +30,13 @@ export function trackNavClick(label: string, destination: string): void {
   trackEvent('navigation_click', { event_category: 'navigation', event_label: label, destination });
 }
 
-// Contact form successful submission
-export function trackContactFormSubmit(podArchetype: string): void {
-  trackEvent('contact_form_submit', {
+// Contact form on /contact — same event name as before for a successful send,
+// plus an error event. (The old form's pod dropdown, and its pod_archetype
+// parameter, are gone.)
+export function trackContactFormSubmit(result: 'success' | 'error' = 'success'): void {
+  trackEvent(result === 'success' ? 'contact_form_submit' : 'contact_form_error', {
     event_category: 'conversion',
     event_label: 'contact_form',
-    pod_archetype: podArchetype,
   });
 }
 

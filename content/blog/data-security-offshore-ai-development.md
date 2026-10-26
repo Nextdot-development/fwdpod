@@ -159,7 +159,7 @@ A good vendor answers each control with evidence: a screenshot of IdP groups, a 
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, serving buyers in the US, UK, EU and Gulf, with engineering delivery from India. The twelve controls above describe how we think any offshore AI engagement should be set up, whoever the vendor is.
 
-If you want to test these controls against your own compliance requirements before you commit, [book a 30-minute call](/contact) about how a pod would be set up inside your environment. For more on offshore delivery risk, browse our [Security, Compliance & Offshore Delivery](/insights/category/security-compliance) guides.
+If you want to test these controls against your own compliance requirements before you commit, [book a 30-minute call](/configure) about how a pod would be set up inside your environment. For more on offshore delivery risk, browse our [Security, Compliance & Offshore Delivery](/insights/category/security-compliance) guides.
 
 ## Frequently Asked Questions
 

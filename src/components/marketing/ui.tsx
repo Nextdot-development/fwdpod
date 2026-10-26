@@ -6,8 +6,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { trackCtaClick } from '../../utils/analytics';
 
-// Booking goes through the contact page form.
-export const BOOKING_PATH = '/contact';
+// Booking goes through the "Book a 30-minute call" form on /configure.
+export const BOOKING_PATH = '/configure';
 
 export const primaryButton =
   'bg-[#0066FF] text-white hover:bg-[#0055DD] py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';

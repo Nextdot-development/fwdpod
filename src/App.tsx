@@ -145,18 +145,20 @@ export default function App() {
             <NavLink to="/contact" className={desktopNavClass} onClick={() => trackNavClick('Contact Us', '/contact')}>Contact Us</NavLink>
           </nav>
 
-          {/* CTA "Configure pod" — NavLink renders as <a href="/configure"> */}
+          {/* CTA "Book a 30-minute call" — NavLink renders as <a href="/configure"> */}
           <div className="flex items-center gap-2 relative">
             <NavLink
               to="/configure"
-              onClick={() => trackCtaClick('Configure pod', '/configure')}
+              onClick={() => trackCtaClick('Book a 30-minute call (header)', '/configure')}
               className={({ isActive }) =>
                 `bg-[#0066FF] hover:bg-[#0055DD] text-white font-semibold text-xs px-5 py-2.5 transition-all duration-150 rounded-full ${
                   isActive ? 'ring-2 ring-offset-1 ring-[#0066FF]' : ''
                 }`
               }
             >
-              Configure pod
+              {/* Shorter label on small screens so the header fits */}
+              <span className="hidden sm:inline">Book a 30-minute call</span>
+              <span className="sm:hidden">Book a call</span>
             </NavLink>
 
             {/* Mobile three-dot menu — toggle only, no href needed */}
@@ -556,11 +558,11 @@ export default function App() {
 
               {/* Scoping Engine */}
               <nav aria-label="Site navigation links">
-                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Scoping engine</span>
+                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Company</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
                   <li>
                     <Link to="/configure" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Hire a pod
+                      Book a 30-minute call
                     </Link>
                   </li>
                   <li>
