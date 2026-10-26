@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
 import SEO from './SEO';
-import BookingForm from './marketing/BookingForm';
+import ContactForm from './marketing/ContactForm';
 import { card, cardHover, sectionClass, SectionHeading } from './marketing/ui';
 import { CONTACT_EMAIL } from '../utils/web3forms';
 import { trackContactFormSubmit } from '../utils/analytics';
@@ -78,11 +78,8 @@ export default function ContactView(_props: ContactViewProps) {
       {/* b) Form + side panel */}
       <div className="pt-8 pb-12 md:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         <div className="lg:col-span-8">
-          <BookingForm
-            variant="short"
-            sourcePage="/contact"
+          <ContactForm
             labelledBy="contact-heading"
-            submitLabel="Book a 30-minute call"
             note={<>We reply within {REPLY_TIME}.</>}
             renderSuccess={({ firstName, email }) => (
               <>
@@ -90,7 +87,7 @@ export default function ContactView(_props: ContactViewProps) {
                   Thanks, {firstName}. We'll be in touch within {REPLY_TIME}.
                 </h2>
                 <p className="text-sm text-[#555555] leading-relaxed">
-                  We'll reply to <strong className="text-[#0A0A0A] font-medium">{email}</strong> to set up the call.
+                  We'll reply to <strong className="text-[#0A0A0A] font-medium">{email}</strong>.
                 </p>
               </>
             )}

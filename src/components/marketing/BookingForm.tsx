@@ -1,9 +1,8 @@
 /**
- * The "Book a 30-minute call" form, shared by /configure and /contact.
+ * The "Book a 30-minute call" form on /configure.
  *
- * Sends to the Fwdpod inbox through Web3Forms (utils/web3forms). Each page
- * passes its own button text, success message and analytics callback, so the
- * two pages keep their own conversion events.
+ * Sends to the Fwdpod inbox through Web3Forms (utils/web3forms). The contact
+ * page has its own, shorter form (ContactForm) that sends to the same inbox.
  */
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
@@ -27,9 +26,6 @@ export interface BookingValues {
 
 type FieldErrors = Partial<Record<'name' | 'email' | 'company' | 'need', string>>;
 
-/** "full": the booking form on /configure. "short": name, email, company and anything else (/contact). */
-export type BookingVariant = 'full' | 'short';
-
 const EMPTY: BookingValues = {
   name: '',
   email: '',
@@ -41,13 +37,13 @@ const EMPTY: BookingValues = {
   message: '',
 };
 
-function validate(values: BookingValues, variant: BookingVariant): FieldErrors {
+function validate(values: BookingValues): FieldErrors {
   const errors: FieldErrors = {};
   if (!values.name.trim()) errors.name = 'Please enter your name.';
   if (!values.email.trim()) errors.email = 'Please enter a work email.';
   else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = 'Please enter a valid email address, like name@company.com.';
   if (!values.company.trim()) errors.company = 'Please enter your company name.';
-  if (variant === 'full' && !values.need) errors.need = 'Please choose what you need.';
+  if (!values.need) errors.need = 'Please choose what you need.';
   return errors;
 }
 
@@ -106,7 +102,6 @@ function ChoiceGroup({
 }
 
 interface BookingFormProps {
-  variant?: BookingVariant;
   /** Page the form sits on, sent with the email, e.g. "/contact". */
   sourcePage: string;
   /** id of the heading that names the form, for aria-labelledby. */
@@ -120,14 +115,13 @@ interface BookingFormProps {
   onResult: (result: 'success' | 'error', values: BookingValues) => void;
 }
 
-export default function BookingForm({ variant = 'full', sourcePage, labelledBy, submitLabel, note, renderSuccess, onResult }: BookingFormProps) {
-  const full = variant === 'full';
+export default function BookingForm({ sourcePage, labelledBy, submitLabel, note, renderSuccess, onResult }: BookingFormProps) {
   const [values, setValues] = useState<BookingValues>(EMPTY);
   const [touched, setTouched] = useState<Partial<Record<keyof BookingValues, boolean>>>({});
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const errors = validate(values, variant);
+  const errors = validate(values);
   // Show a field's error once the visitor has left it, or after a submit attempt
   const errorFor = (field: keyof FieldErrors) => (touched[field] || submitAttempted ? errors[field] : undefined);
 
@@ -149,9 +143,7 @@ export default function BookingForm({ variant = 'full', sourcePage, labelledBy, 
     setStatus('submitting');
     try {
       await sendToInbox({
-        subject: full
-          ? `Booking request: ${values.company.trim()} (${values.need})`
-          : `Booking request: ${values.company.trim()}`,
+        subject: `Booking request: ${values.company.trim()} (${values.need})`,
         from_name: 'fwdpod.com booking form',
         replyto: values.email.trim(),
         botcheck,
@@ -159,12 +151,10 @@ export default function BookingForm({ variant = 'full', sourcePage, labelledBy, 
         name: values.name.trim(),
         email: values.email.trim(),
         company: values.company.trim(),
-        ...(full && {
-          need: values.need,
-          role_or_outcome: values.role_or_outcome.trim() || 'Not given',
-          engagement: values.engagement || 'Not given',
-          start_date: values.start_date || 'Not given',
-        }),
+        need: values.need,
+        role_or_outcome: values.role_or_outcome.trim() || 'Not given',
+        engagement: values.engagement || 'Not given',
+        start_date: values.start_date || 'Not given',
         message: values.message.trim() || 'Not given',
       });
       onResult('success', values);
@@ -248,8 +238,6 @@ export default function BookingForm({ variant = 'full', sourcePage, labelledBy, 
         {errorFor('company') && <p id="booking-company-error" className={errorClass}>{errorFor('company')}</p>}
       </div>
 
-      {full && (
-      <>
       <ChoiceGroup
         name="need" legend="What do you need?" options={NEED_OPTIONS} required
         value={values.need} onChange={v => { set('need')(v); setTouched(prev => ({ ...prev, need: true })); }}
@@ -283,8 +271,6 @@ export default function BookingForm({ variant = 'full', sourcePage, labelledBy, 
           className={`${inputClass(false)} sm:max-w-xs`}
         />
       </div>
-      </>
-      )}
 
       <div>
         <label htmlFor="booking-message" className={labelClass}>
