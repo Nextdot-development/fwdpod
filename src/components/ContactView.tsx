@@ -79,6 +79,7 @@ export default function ContactView(_props: ContactViewProps) {
       <div className="pt-8 pb-12 md:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         <div className="lg:col-span-8">
           <BookingForm
+            variant="short"
             sourcePage="/contact"
             labelledBy="contact-heading"
             submitLabel="Book a 30-minute call"
