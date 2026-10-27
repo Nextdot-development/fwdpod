@@ -7,7 +7,7 @@
 -- Anyone visiting the site can add a row (the forms post here with the
 -- publishable key), but only admins (public.is_admin(), see 0001) can read,
 -- update or delete them. Every submission is also emailed to the inbox
--- through Web3Forms, so nothing is lost if one of the two fails.
+-- (api/send-form.ts, Resend), so nothing is lost if one of the two fails.
 --
 -- Run once in the Supabase SQL Editor after 0001_cms_schema.sql. Safe to re-run.
 -- ============================================================================
