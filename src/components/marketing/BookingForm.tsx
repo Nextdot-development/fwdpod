@@ -1,14 +1,15 @@
 /**
  * The "Book a 30-minute call" form on /configure.
  *
- * Sends to the Fwdpod inbox through Web3Forms (utils/web3forms). The contact
- * page has its own, shorter form (ContactForm) that sends to the same inbox.
+ * Emails the Fwdpod inbox through /api/send-form (Resend) and saves the request
+ * for the admin. The contact page has its own, shorter form (ContactForm) that
+ * goes to the same inbox.
  */
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { primaryButton } from './ui';
 import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
-import { CONTACT_EMAIL, isBot } from '../../utils/web3forms';
+import { CONTACT_EMAIL, isBot } from '../../utils/formEmail';
 import { deliverSubmission } from '../../utils/formStore';
 
 const NEED_OPTIONS = ['Individual specialist', 'AI pod', 'Not sure yet'];
@@ -144,21 +145,20 @@ export default function BookingForm({ sourcePage, labelledBy, submitLabel, note,
     setStatus('submitting');
     try {
       await deliverSubmission({
+        form: 'booking',
         bot: botcheck,
         email: {
-          subject: `Booking request: ${values.company.trim()} (${values.need})`,
-          from_name: 'fwdpod.com booking form',
-          replyto: values.email.trim(),
           botcheck,
           source_page: sourcePage,
           name: values.name.trim(),
           email: values.email.trim(),
           company: values.company.trim(),
           need: values.need,
-          role_or_outcome: values.role_or_outcome.trim() || 'Not given',
-          engagement: values.engagement || 'Not given',
-          start_date: values.start_date || 'Not given',
-          message: values.message.trim() || 'Not given',
+          // Optional fields go as entered; the server writes "Not given" for blanks
+          role_or_outcome: values.role_or_outcome.trim(),
+          engagement: values.engagement,
+          start_date: values.start_date,
+          message: values.message.trim(),
         },
         // Shown in the admin under Bookings
         table: 'booking_requests',

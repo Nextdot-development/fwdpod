@@ -6,7 +6,7 @@
  * site never loads the Supabase client. Row Level Security lets visitors add
  * rows but never read them.
  */
-import { sendToInbox } from './web3forms';
+import { sendFormEmail, type FormKind } from './formEmail';
 
 export type SubmissionTable = 'booking_requests' | 'contact_messages';
 
@@ -34,18 +34,20 @@ export async function saveSubmission(table: SubmissionTable, row: Record<string,
  * fails only when both did. Spam-trap hits are dropped quietly.
  */
 export async function deliverSubmission({
+  form,
   email,
   table,
   row,
   bot,
 }: {
+  form: FormKind;
   email: Record<string, string | boolean>;
   table: SubmissionTable;
   row: Record<string, string | null>;
   bot: boolean;
 }): Promise<void> {
   if (bot) return;
-  const [mailed, saved] = await Promise.allSettled([sendToInbox(email), saveSubmission(table, row)]);
+  const [mailed, saved] = await Promise.allSettled([sendFormEmail(form, email), saveSubmission(table, row)]);
   if (mailed.status === 'rejected') console.error('Form email failed:', mailed.reason);
   if (saved.status === 'rejected') console.error('Form save failed:', saved.reason);
   if (mailed.status === 'rejected' && saved.status === 'rejected') throw new Error('The form could not be emailed or saved.');

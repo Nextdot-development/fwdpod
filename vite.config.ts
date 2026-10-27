@@ -2,7 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { copyFileSync } from 'node:fs';
 import path from 'path';
-import {defineConfig, type Plugin} from 'vite';
+import {defineConfig, loadEnv, type Plugin} from 'vite';
 
 const copyDotfiles = {
   name: 'copy-dotfiles',
@@ -27,10 +27,47 @@ const adminDevFallback: Plugin = {
   },
 };
 
-export default defineConfig(({ isSsrBuild }) => {
+// The website forms post to /api/send-form, a Vercel function in production
+// (api/send-form.ts). In dev, run the same handler here so forms work locally.
+const formApiDev: Plugin = {
+  name: 'form-api-dev',
+  configureServer(server) {
+    server.middlewares.use('/api/send-form', async (req, res) => {
+      try {
+        const chunks: Buffer[] = [];
+        for await (const chunk of req) chunks.push(chunk as Buffer);
+        const headers = new Headers();
+        for (const [k, v] of Object.entries(req.headers)) if (typeof v === 'string') headers.set(k, v);
+        const request = new Request(`http://localhost${req.url ?? ''}`, {
+          method: req.method,
+          headers,
+          body: req.method === 'GET' || req.method === 'HEAD' ? undefined : Buffer.concat(chunks),
+        });
+        const mod = await server.ssrLoadModule('/api/send-form.ts');
+        const handler = req.method === 'POST' ? mod.POST : undefined;
+        const response: Response = handler ? await handler(request) : new Response('Method not allowed', { status: 405 });
+        res.statusCode = response.status;
+        response.headers.forEach((value, key) => res.setHeader(key, value));
+        res.end(Buffer.from(await response.arrayBuffer()));
+      } catch (err) {
+        console.error('form-api-dev:', err);
+        res.statusCode = 500;
+        res.end(JSON.stringify({ ok: false, error: 'Dev form API failed' }));
+      }
+    });
+  },
+};
+
+export default defineConfig(({ isSsrBuild, mode }) => {
+  // Server-only secrets for the dev form API (never exposed: no VITE_ prefix)
+  const env = loadEnv(mode, process.cwd(), '');
+  for (const key of ['RESEND_API_KEY', 'RESEND_API_URL', 'FORM_TO_EMAIL']) {
+    if (env[key] && !process.env[key]) process.env[key] = env[key];
+  }
+
   return {
     base: '/',
-    plugins: [react(), tailwindcss(), copyDotfiles, adminDevFallback],
+    plugins: [react(), tailwindcss(), copyDotfiles, adminDevFallback, formApiDev],
     resolve: {
       alias: {
         '@admin': path.resolve(__dirname, 'src/admin'),

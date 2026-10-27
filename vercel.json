@@ -8,6 +8,8 @@
 
     { "src": "^/_pages(?:/.*)?$", "status": 404, "dest": "/_pages/404.html" },
 
+    { "src": "^/api/(.*)$", "dest": "/api/$1" },
+
     {
       "src": "^/admin(?:\\.html|/.*)?$",
       "headers": { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "no-cache" },

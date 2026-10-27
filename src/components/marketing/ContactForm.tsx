@@ -1,15 +1,15 @@
 /**
  * The contact form on /contact: name, work email, company and a message.
  *
- * Separate from the booking form on /configure, but sends to the same inbox
- * through Web3Forms, with its own subject ("Contact message: ...") so the two
- * are easy to tell apart.
+ * Separate from the booking form on /configure, but goes to the same inbox
+ * (through /api/send-form, Resend), with its own subject ("Contact message: ...")
+ * and sender so the two are easy to tell apart.
  */
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { primaryButton } from './ui';
 import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
-import { CONTACT_EMAIL, isBot } from '../../utils/web3forms';
+import { CONTACT_EMAIL, isBot } from '../../utils/formEmail';
 import { deliverSubmission } from '../../utils/formStore';
 
 interface ContactValues {
@@ -71,11 +71,9 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
     setStatus('submitting');
     try {
       await deliverSubmission({
+        form: 'contact',
         bot: botcheck,
         email: {
-          subject: `Contact message: ${values.company.trim()}`,
-          from_name: 'fwdpod.com contact form',
-          replyto: values.email.trim(),
           botcheck,
           source_page: '/contact',
           name: values.name.trim(),

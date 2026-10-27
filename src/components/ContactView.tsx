@@ -3,7 +3,7 @@ import { Mail } from 'lucide-react';
 import SEO from './SEO';
 import ContactForm from './marketing/ContactForm';
 import { card, cardHover, sectionClass, SectionHeading } from './marketing/ui';
-import { CONTACT_EMAIL } from '../utils/web3forms';
+import { CONTACT_EMAIL } from '../utils/formEmail';
 import { trackContactFormSubmit } from '../utils/analytics';
 import { REPLACEMENT_WINDOW, REPLY_TIME, SHORTLIST_TIME } from '../content/business-facts';
 
