@@ -5,7 +5,7 @@ meta_description: "What is MCP? A plain guide to the Model Context Protocol: hos
 slug: what-is-mcp
 category: Agentic AI & LLM Engineering
 date: 2026-09-30
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/what-is-mcp.jpg
 image_alt: "A glowing MCP hub on a desk wired to AI apps such as ChatGPT, Claude, Gemini, Copilot and VS Code on one side and enterprise databases, files, CRM and ticketing on the other, above three tiles for tools, resources and prompts"
@@ -145,7 +145,7 @@ The next questions are design ones: which systems to wrap first, local or remote
 
 If you plan to hire MCP developers, test for the things this guide flags: scope design, OAuth and token handling, the 2026-07-28 stateless changes, and judgment about which operations should never be exposed. Our guide on [how to hire AI engineers](/insights/how-to-hire-ai-engineers) covers the wider screening process.
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for LLM development, RAG systems and [AI agents](/services/ai-agents), for startups and enterprise teams in the US, UK, EU and Gulf, with engineering delivery from India. The [pod catalogue](/catalogue) shows how engagements are structured.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for LLM development, RAG systems and [AI agents](/services/ai-agents), for startups and enterprise teams in the US, UK, EU and Gulf, with engineering delivery from India. The [solutions page](/solutions) shows how engagements are structured.
 
 To scope a first server for one internal system, [book a 30-minute call](/configure).
 

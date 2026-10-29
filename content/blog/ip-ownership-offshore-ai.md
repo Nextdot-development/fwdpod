@@ -5,7 +5,7 @@ meta_description: "Who owns the IP when you outsource AI development? By default
 slug: ip-ownership-offshore-ai
 category: Security, Compliance & Offshore Delivery
 date: 2026-09-29
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/ip-ownership-offshore-ai.jpg
 image_alt: "A signed contract and pen on a desk beside law books labelled US law, UK law and India law, and a wooden box marked IP holding cards for code, data, AI model and prompts"
@@ -114,7 +114,7 @@ These questions belong in the security and legal gates of your buying process, n
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, with engineering delivered from India for buyers in the US, UK, EU and the Gulf. Because the engineers sit in India, the Section 19 points above apply to any assignment, which is why term and territory belong in the contract rather than in a template clause.
 
-Before any pod starts, check the contract against the checklist above with your counsel. More guides like this sit in the [Security, Compliance & Offshore Delivery](/insights/category/security-compliance) section, and the [pod catalogue](/catalogue) shows how engagements are structured.
+Before any pod starts, check the contract against the checklist above with your counsel. More guides like this sit in the [Security, Compliance & Offshore Delivery](/insights/category/security-compliance) section, and the [solutions page](/solutions) shows how engagements are structured.
 
 When your terms are ready, [book a 30-minute call](/configure) to talk through your use case and contract questions.
 

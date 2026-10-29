@@ -368,11 +368,11 @@ export default function HomeView() {
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
-              to="/catalogue"
-              onClick={() => trackCtaClick('See pod options (hero)', '/catalogue')}
+              to="/solutions"
+              onClick={() => trackCtaClick('See our solutions (hero)', '/solutions')}
               className={secondaryButton}
             >
-              See pod options
+              See our solutions
             </Link>
           </div>
           <p className="text-xs font-medium text-[#555555]">For CIOs, CAIOs and engineering leaders.</p>
@@ -420,10 +420,10 @@ export default function HomeView() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <SectionHeading id="pods-heading" label="Pod options" title="The pods we deploy most." />
             <Link
-              to="/catalogue"
+              to="/solutions"
               className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
             >
-              <span>See all pods</span>
+              <span>See all solutions</span>
               <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>

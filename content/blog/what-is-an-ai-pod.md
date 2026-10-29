@@ -5,7 +5,7 @@ meta_description: "What is an AI pod? A small, cross-functional team that owns o
 slug: what-is-an-ai-pod
 category: AI Pods & Engineering Teams
 date: 2026-09-24
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/what-is-an-ai-pod.jpg
 image_alt: "Four engineers working together at a table in a pod room, labelled as product manager, AI/ML engineer, data engineer and full-stack engineer, with an AI solution flow from data to model to deploy to impact on the whiteboard and a plan, build, deploy, monitor sequence alongside"
@@ -94,7 +94,7 @@ Composition varies with the problem, so treat this as a summary, not a template.
 - **MLOps / LLMOps**, covering deployment, monitoring and cost control
 - **Delivery or product lead**, who keeps the pod pointed at the business outcome
 
-On size, the industry pattern follows the two-pizza logic: small enough that communication overhead stays low, which in practice usually means a single-digit headcount. A narrow proof of concept may need only two or three people; a multi-system agent rollout may need more, sometimes split into two pods. You can see how the roles are grouped in practice in the [pod catalogue](/catalogue).
+On size, the industry pattern follows the two-pizza logic: small enough that communication overhead stays low, which in practice usually means a single-digit headcount. A narrow proof of concept may need only two or three people; a multi-system agent rollout may need more, sometimes split into two pods. You can see how the roles are grouped in practice on the [solutions page](/solutions).
 
 ## Why can a pod ship faster than a hire-and-build team?
 
@@ -152,7 +152,7 @@ Often this is the real question behind "what is an AI pod." In short: engage a s
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Pods are designed around the practices described above: evaluation from the start, data and integration work inside the team, and a production handover your engineers can own.
 
-If you are weighing whether a pod fits your roadmap, the [pod catalogue](/catalogue) shows the pre-assembled pods and what each one covers, or you can [book a 30-minute call](/configure) to talk through your own use case.
+If you are weighing whether a pod fits your roadmap, the [solutions page](/solutions) shows the pre-assembled pods and what each one covers, or you can [book a 30-minute call](/configure) to talk through your own use case.
 
 ## Key takeaways
 

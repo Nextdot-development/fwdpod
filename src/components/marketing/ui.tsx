@@ -1,6 +1,6 @@
 /**
  * Styles and small building blocks shared by the redesigned marketing pages
- * (homepage, pod catalogue), so the pages look and behave the same.
+ * (homepage, Solutions page), so the pages look and behave the same.
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ export const primaryButton =
   'bg-[#0066FF] text-white hover:bg-[#0055DD] py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
 export const secondaryButton =
   'border border-[#0A0A0A]/15 hover:border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A]/5 py-3.5 px-8 font-semibold text-sm transition-colors inline-flex items-center justify-center gap-2 rounded-full text-center';
-// Lift, blue border and shadow on hover, as on the catalogue cards
+// Lift, blue border and shadow on hover, as on the Solutions cards
 export const cardHover =
   'transition-all duration-300 ease-out hover:border-[#0066FF] hover:shadow-md hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none';
 export const card = `border border-zinc-200/85 bg-white p-6 md:p-8 rounded-2xl ${cardHover}`;

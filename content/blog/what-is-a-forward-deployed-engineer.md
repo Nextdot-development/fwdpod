@@ -5,7 +5,7 @@ meta_description: "What is a forward deployed engineer? The 2026 definition: whe
 slug: what-is-a-forward-deployed-engineer
 category: forward-deployed-engineering
 date: 2026-09-23
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/what-is-a-forward-deployed-engineer.png
 image_alt: "Illustration of a forward deployed engineer working inside a customer's operations while sending feedback to the product team"
@@ -127,7 +127,7 @@ Vendor FDEs know their own product deeply but have little reason to suggest a di
 
 ### How fwdpod approaches forward deployed engineering
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/catalogue) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents), and product delivery. Its forward deployed engineering service places engineers inside a buyer's AI program for organizations in the US, UK, EU, and Gulf, with engineering delivery from India.
+[Fwdpod](/) builds dedicated [AI engineering pods](/solutions) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents), and product delivery. Its forward deployed engineering service places engineers inside a buyer's AI program for organizations in the US, UK, EU, and Gulf, with engineering delivery from India.
 
 If you are weighing a partner-delivered FDE against hiring, you can [book a 30-minute call](/configure) and see how the team would be staffed.
 

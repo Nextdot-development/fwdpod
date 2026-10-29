@@ -5,7 +5,7 @@ meta_description: "Running LangGraph in production: checkpointers, durability mo
 slug: langgraph-in-production
 category: Agentic AI & LLM Engineering
 date: 2026-10-01
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/langgraph-in-production.jpg
 image_alt: "Glass tiles climbing a stone staircase on a desk, from state design through checkpointing and durability, human in the loop, retries and timeouts, observability and tracing, and testing and evals to a production-ready panel, beside a notebook sketch titled from prototype to production"
@@ -219,7 +219,7 @@ For the wider screening process, including a take-home exercise and red flags, s
 
 ### How fwdpod approaches LangGraph work
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering LLM development, RAG systems and [AI agents](/services/ai-agents), with delivery from India. LangGraph is the framework those pods use for stateful, multi-step agents, built with observability and human-in-the-loop checkpoints rather than adding them after launch. The [pod catalogue](/catalogue) shows how engagements are structured.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering LLM development, RAG systems and [AI agents](/services/ai-agents), with delivery from India. LangGraph is the framework those pods use for stateful, multi-step agents, built with observability and human-in-the-loop checkpoints rather than adding them after launch. The [solutions page](/solutions) shows how engagements are structured.
 
 If you have a LangGraph prototype that needs to reach production, or you want to hire LangGraph developers as a dedicated pod rather than individual contractors, [book a 30-minute call](/configure).
 

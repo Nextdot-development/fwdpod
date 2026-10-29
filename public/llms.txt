@@ -4,7 +4,7 @@
 
 ## Pods
 
-- [AI engineering pods](https://www.fwdpod.com/catalogue): Six pods of 4–6 engineers who already work together, each with one accountable pod lead: Agent Development, RAG and Knowledge, Voice AI, Compliance AI, LLMOps and Custom. Team size, typical timeline and best fit for each, plus hourly, daily and monthly ways to engage.
+- [Solutions](https://www.fwdpod.com/solutions): Six AI solutions (workflow automation with AI agents, AI search across your documents, voice AI for customer calls, secure and compliant AI, AI operations and monitoring, and custom solutions), each delivered by a pod of 4–6 engineers who already work together, with one accountable pod lead. Team size, typical timeline and best fit for each, plus hourly, daily and monthly ways to engage.
 - [Case studies](https://www.fwdpod.com/case-studies): Recent AI pods in production: a Compliance AI Pod for a financial brokerage, an Agent Development Pod for a logistics network and a Voice AI Pod for healthcare services, each with the problem, what was built, time to live and team size.
 - [How we work](https://www.fwdpod.com/how-we-work): The principles behind every engagement, the four steps from first call to start (scope, shortlist, interview, start), how quality is kept high, and how your environment, IP and NDAs are handled.
 

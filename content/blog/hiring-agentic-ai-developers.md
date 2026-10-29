@@ -5,7 +5,7 @@ meta_description: "Want to hire agentic AI developers? Screen for tool design, M
 slug: hiring-agentic-ai-developers
 category: AI Pods & Engineering Teams
 date: 2026-10-19
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/hiring-agentic-ai-developers.png
 image_alt: "Hiring Agentic AI and AI Agent Developers: What to Actually Screen For — AI Pods & Engineering Teams"
@@ -122,7 +122,7 @@ Either way, a vendor's team should pass the exercise above as readily as a singl
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery. If you would rather evaluate a ready-formed pod, such as our [Agent Development Pod](/catalogue), put the questions in this guide to our engineers.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering LLM development, RAG systems, AI agents and product delivery. If you would rather evaluate a ready-formed pod, such as our [Agent Development Pod](/solutions), put the questions in this guide to our engineers.
 
 **Next step:** [book a 30-minute call](/configure) and bring your use case for an architecture and eval-plan walkthrough.
 

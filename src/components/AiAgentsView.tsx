@@ -107,8 +107,8 @@ export default function AiAgentsView() {
           <Link to="/contact" className="bg-[#0066FF] hover:bg-[#0055DD] text-white font-semibold text-xs px-6 py-3 rounded-full transition-colors">
             Book a Consultation
           </Link>
-          <Link to="/catalogue" className="border border-[#0A0A0A] text-[#0A0A0A] font-semibold text-xs px-6 py-3 rounded-full hover:bg-[#0A0A0A]/5 transition-colors flex items-center gap-1.5">
-            View Pod Catalogue <ArrowRight className="w-3.5 h-3.5" />
+          <Link to="/solutions" className="border border-[#0A0A0A] text-[#0A0A0A] font-semibold text-xs px-6 py-3 rounded-full hover:bg-[#0A0A0A]/5 transition-colors flex items-center gap-1.5">
+            View Solutions <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </section>

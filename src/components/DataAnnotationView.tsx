@@ -181,7 +181,7 @@ export default function DataAnnotationView() {
           <p className="text-[#555555] text-sm leading-relaxed">
             Annotation for healthcare, financial services, legal tech and enterprise software, where errors in training or evaluation data carry real risk. Domain reviewers check edge cases before any batch is signed off.
           </p>
-          <Link to="/catalogue" className="text-xs font-semibold text-[#0066FF] hover:underline inline-flex items-center gap-1.5">
+          <Link to="/solutions" className="text-xs font-semibold text-[#0066FF] hover:underline inline-flex items-center gap-1.5">
             Compliance AI Pod <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

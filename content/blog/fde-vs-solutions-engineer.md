@@ -5,7 +5,7 @@ meta_description: "Forward deployed engineer vs solutions engineer: one wins the
 slug: fde-vs-solutions-engineer
 category: Forward Deployed Engineering
 date: 2026-10-05
-updated: 2026-10-26
+updated: 2026-10-29
 author: Fwdpod
 image: /blog-images/fde-vs-solutions-engineer.jpg
 image_alt: "Split office scene: on the pre-sale side a solutions engineer presents a product demo to two colleagues, on the post-sale side a forward deployed engineer writes code beside a screen linking customer systems, production and real data"
@@ -112,7 +112,7 @@ Before signing, ask the vendor three questions: Who writes the code, and in whos
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and Gulf. The [pod catalogue](/catalogue) shows how engagements are structured.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and Gulf. The [solutions page](/solutions) shows how engagements are structured.
 
 If you are past the POC and need production delivery, [book a 30-minute call](/configure).
 

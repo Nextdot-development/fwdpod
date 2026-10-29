@@ -13,7 +13,7 @@ export default function NotFoundView() {
     <div className="flex flex-col items-center justify-center py-32 space-y-6 text-center animate-page-enter">
       <SEO
         title="Page not found | Fwdpod"
-        description="This route doesn't exist. Head back home or explore the pod catalogue."
+        description="This route doesn't exist. Head back home or explore our solutions."
         noindex
       />
       <span className="text-[#0066FF] text-xs font-mono uppercase tracking-widest">404 — Not Found</span>
@@ -21,7 +21,7 @@ export default function NotFoundView() {
         Page not found
       </h1>
       <p className="text-sm text-[#555555] max-w-sm leading-relaxed">
-        This route doesn't exist. Head back home or explore the pod catalogue.
+        This route doesn't exist. Head back home or explore our solutions.
       </p>
       <div className="flex gap-3">
         <Link
@@ -31,10 +31,10 @@ export default function NotFoundView() {
           Go Home
         </Link>
         <Link
-          to="/catalogue"
+          to="/solutions"
           className="border border-[#0A0A0A] text-[#0A0A0A] text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[#0A0A0A]/5 transition-colors"
         >
-          View Pod Catalogue
+          View Solutions
         </Link>
       </div>
     </div>

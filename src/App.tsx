@@ -20,7 +20,7 @@ import {
   trackPodSpecView,
 } from './utils/analytics';
 import HomeView from './components/HomeView';
-import CatalogueView from './components/CatalogueView';
+import SolutionsView from './components/SolutionsView';
 import ConfigureView from './components/ConfigureView';
 import LivePodsView from './components/LivePodsView';
 import BlogsView from './components/BlogsView';
@@ -44,7 +44,7 @@ import HowWeWorkView from './components/HowWeWorkView';
 // ── Route map — maps legacy page-name strings to URL paths ────────────────────
 const ROUTE_MAP: Record<string, string> = {
   home:        '/',
-  catalogue:   '/catalogue',
+  catalogue:   '/solutions',
   configure:   '/configure',
   'live-pods': '/case-studies',
   blogs:       '/insights',
@@ -58,6 +58,16 @@ const ROUTE_MAP: Record<string, string> = {
 function LegacyBlogRedirect() {
   const { slug } = useParams<{ slug: string }>();
   return <Navigate to={slug ? `/insights/${slug}` : '/insights'} replace />;
+}
+
+/**
+ * /catalogue was renamed /solutions. The server 301s it; this catches in-app
+ * navigation to the old path, keeping the query, the #pod anchor and any pod
+ * passed by a link.
+ */
+function CatalogueRedirect() {
+  const { search, hash, state } = useLocation();
+  return <Navigate to={{ pathname: '/solutions', search, hash }} state={state} replace />;
 }
 
 // ── Shared NavLink className helper ──────────────────────────────────────────
@@ -81,9 +91,12 @@ export default function App() {
   const [notificationMsg, setNotificationMsg] = useState<string>('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  // Scroll to top on route change
+  // Scroll to top on route change, or to the #anchor when the link has one
+  // (e.g. /case-studies#healthcare-services from a Solutions card)
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (target) target.scrollIntoView({ block: 'start' });
+    else window.scrollTo(0, 0);
   }, [location.pathname]);
 
   // GA4: fire page_view on every SPA route change
@@ -138,7 +151,7 @@ export default function App() {
           {/* Desktop nav — all NavLinks render as <a href="..."> */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8 text-xs font-medium text-[#555555]">
             <NavLink to="/" end className={desktopNavClass} onClick={() => trackNavClick('Home', '/')}>Home</NavLink>
-            <NavLink to="/catalogue" className={desktopNavClass} onClick={() => trackNavClick('Pod Catalogue', '/catalogue')}>Pod Catalogue</NavLink>
+            <NavLink to="/solutions" className={desktopNavClass} onClick={() => trackNavClick('Solutions', '/solutions')}>Solutions</NavLink>
             <NavLink to="/case-studies" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/case-studies')}>Case studies</NavLink>
             <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
             <NavLink to="/how-we-work" className={desktopNavClass} onClick={() => trackNavClick('How we work', '/how-we-work')}>How we work</NavLink>
@@ -206,10 +219,10 @@ export default function App() {
                         )}
                       </NavLink>
 
-                      <NavLink to="/catalogue" onClick={() => { closeMobileMenu(); trackNavClick('Pod Catalogue (mobile)', '/catalogue'); }} className={mobileNavClass}>
+                      <NavLink to="/solutions" onClick={() => { closeMobileMenu(); trackNavClick('Solutions (mobile)', '/solutions'); }} className={mobileNavClass}>
                         {({ isActive }) => (
                           <>
-                            <span>Pod Catalogue</span>
+                            <span>Solutions</span>
                             {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
                           </>
                         )}
@@ -268,9 +281,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route
-            path="/catalogue"
+            path="/solutions"
             element={
-              <CatalogueView
+              <SolutionsView
                 selectedPodId={selectedPodId}
                 onPreselectPod={setSelectedPodId}
               />
@@ -288,6 +301,7 @@ export default function App() {
           <Route path="/case-studies" element={<LivePodsView />} />
           {/* Old URL: the server 301s it; this catches in-app links to it */}
           <Route path="/live-pods" element={<Navigate to="/case-studies" replace />} />
+          <Route path="/catalogue" element={<CatalogueRedirect />} />
           <Route path="/how-we-work" element={<HowWeWorkView />} />
           <Route path="/insights" element={<BlogsView />} />
           <Route path="/insights/category/:slug" element={<CategoryView />} />
@@ -528,20 +542,19 @@ export default function App() {
 
             {/* Footer nav columns — compact spacing */}
             <div className="flex flex-col md:flex-row gap-8 md:gap-6 flex-1">
-              {/* Pods Catalogue */}
-              <nav aria-label="Pod catalogue links">
-                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Pods catalogue</span>
+              {/* Solutions */}
+              <nav aria-label="Solutions links">
+                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Solutions</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
                   {PODS.map(pod => (
                     <li key={pod.id}>
                       {/* The pod travels with this one navigation, so a later visit opens nothing */}
                       <Link
-                        to="/catalogue"
+                        to="/solutions"
                         state={{ podId: pod.id }}
                         className="hover:text-[#0A0A0A] hover:underline transition-all"
                       >
-                        {/* The column heading already says "pods"; Custom keeps it */}
-                        {pod.id === 'custom-pod' ? pod.name : pod.name.replace(/ Pod$/, '')}
+                        {pod.solution}
                       </Link>
                     </li>
                   ))}
