@@ -74,7 +74,7 @@ export default function ContactView(_props: ContactViewProps) {
           For business enquiries, questions about our AI engineering solutions, or to understand the outcomes Fwdpod can deliver for your organisation, connect with our team. We're happy to discuss your requirements and explore how we can help.
         </p>
         <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
-          Tell us the role or the outcome. We'll send matched profiles or a pod plan within {SHORTLIST_TIME}.
+          Have a question? Fill in the form below and our team will get back to you within {REPLY_TIME}.
         </p>
       </section>
 
