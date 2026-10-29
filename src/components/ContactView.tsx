@@ -43,7 +43,7 @@ const CONTACT_JSON_LD = {
 // ── Page content ─────────────────────────────────────────────────────────────
 const NEXT_STEPS = [
   { name: 'Fill in the form', text: 'Tell us a little about yourself and what you would like to know.' },
-  { name: 'We get in touch', text: 'Our team reads every message and gets back to you as soon as possible.' },
+  { name: 'We’ll Respond to Your Enquiry', text: 'Our team will review your enquiry and get back to you as soon as possible.' },
   { name: 'Talk it through', text: 'Ask us anything about our solutions, services or how we work.' },
 ];
 
