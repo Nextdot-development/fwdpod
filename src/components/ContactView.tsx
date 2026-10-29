@@ -5,7 +5,7 @@ import ContactForm from './marketing/ContactForm';
 import { card, cardHover, sectionClass, SectionHeading } from './marketing/ui';
 import { CONTACT_EMAIL } from '../utils/formEmail';
 import { trackContactFormSubmit } from '../utils/analytics';
-import { REPLY_TIME, SHORTLIST_TIME } from '../content/business-facts';
+import { SHORTLIST_TIME } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'Contact Fwdpod | Book a 30-Minute Call';
@@ -43,7 +43,7 @@ const CONTACT_JSON_LD = {
 // ── Page content ─────────────────────────────────────────────────────────────
 const NEXT_STEPS = [
   { name: 'Fill in the form', text: 'Tell us a little about yourself and what you would like to know.' },
-  { name: 'We get in touch', text: `Our team reads every message and replies within ${REPLY_TIME}.` },
+  { name: 'We get in touch', text: 'Our team reads every message and gets back to you as soon as possible.' },
   { name: 'Talk it through', text: 'Ask us anything about our solutions, services or how we work.' },
 ];
 
@@ -68,7 +68,7 @@ export default function ContactView(_props: ContactViewProps) {
           For business enquiries, questions about our AI engineering solutions, or to understand the outcomes Fwdpod can deliver for your organisation, connect with our team. We're happy to discuss your requirements and explore how we can help.
         </p>
         <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
-          Have a question? Fill in the form below and our team will get back to you within {REPLY_TIME}.
+          Have a question? Fill in the form below and our team will get back to you as soon as possible.
         </p>
       </section>
 
@@ -77,11 +77,11 @@ export default function ContactView(_props: ContactViewProps) {
         <div className="lg:col-span-8">
           <ContactForm
             labelledBy="contact-heading"
-            note={<>We reply within {REPLY_TIME}.</>}
+            note={<>We'll get back to you as soon as possible.</>}
             renderSuccess={({ firstName, email }) => (
               <>
                 <h2 className="text-xl font-display font-medium tracking-tight text-[#0A0A0A]">
-                  Thanks, {firstName}. We'll be in touch within {REPLY_TIME}.
+                  Thanks, {firstName}. We'll be in touch as soon as possible.
                 </h2>
                 <p className="text-sm text-[#555555] leading-relaxed">
                   We'll reply to <strong className="text-[#0A0A0A] font-medium">{email}</strong>.
