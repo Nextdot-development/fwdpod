@@ -5,7 +5,7 @@ import ContactForm from './marketing/ContactForm';
 import { card, cardHover, sectionClass, SectionHeading } from './marketing/ui';
 import { CONTACT_EMAIL } from '../utils/formEmail';
 import { trackContactFormSubmit } from '../utils/analytics';
-import { REPLACEMENT_WINDOW, REPLY_TIME, SHORTLIST_TIME } from '../content/business-facts';
+import { REPLY_TIME, SHORTLIST_TIME } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'Contact Fwdpod | Book a 30-Minute Call';
@@ -45,12 +45,6 @@ const NEXT_STEPS = [
   { name: 'Scope', text: 'A 30-minute call on the roles or the outcome you need.' },
   { name: 'Shortlist', text: `Profiles of vetted engineers, or a pod plan, within ${SHORTLIST_TIME}.` },
   { name: 'Interview and start', text: 'You interview and choose. No commitment until you do.' },
-];
-
-const REASSURANCE = [
-  { title: 'Your IP', text: 'Full IP assignment and an NDA signed by every engineer.' },
-  { title: 'Your environment', text: 'Engineers work in your systems, under your policies.' },
-  { title: 'Free replacement', text: `Within ${REPLACEMENT_WINDOW} if someone isn't the right fit.` },
 ];
 
 interface ContactViewProps {
@@ -123,18 +117,7 @@ export default function ContactView(_props: ContactViewProps) {
           ))}
         </ol>
       </section>
-
-      {/* d) Reassurance strip */}
-      <section aria-label="Your IP and data" className="pb-12 md:pb-16">
-        <ul className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 rounded-3xl bg-zinc-50 border border-zinc-100 p-6 md:p-8">
-          {REASSURANCE.map(item => (
-            <li key={item.title} className="text-sm text-[#555555] leading-relaxed">
-              <span className="font-semibold text-[#0A0A0A]">{item.title}:</span> {item.text}
-            </li>
-          ))}
-        </ul>
-      </section>
-      {/* e) Location: left out, no address exists on the site yet */}
+      {/* d) Location: left out, no address exists on the site yet */}
     </div>
   );
 }
