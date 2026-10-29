@@ -27,12 +27,14 @@ const adminDevFallback: Plugin = {
   },
 };
 
-// The website forms post to /api/send-form, a Vercel function in production
-// (api/send-form.ts). In dev, run the same handler here so forms work locally.
+// The website forms post to /api/send-form and /api/check-email, Vercel
+// functions in production (api/*.ts). In dev, run the same handlers here.
 const formApiDev: Plugin = {
   name: 'form-api-dev',
   configureServer(server) {
-    server.middlewares.use('/api/send-form', async (req, res) => {
+    server.middlewares.use(async (req, res, next) => {
+      const route = req.url?.match(/^\/api\/(send-form|check-email)(?:\?|$)/)?.[1];
+      if (!route) return next();
       try {
         const chunks: Buffer[] = [];
         for await (const chunk of req) chunks.push(chunk as Buffer);
@@ -43,7 +45,7 @@ const formApiDev: Plugin = {
           headers,
           body: req.method === 'GET' || req.method === 'HEAD' ? undefined : Buffer.concat(chunks),
         });
-        const mod = await server.ssrLoadModule('/api/send-form.ts');
+        const mod = await server.ssrLoadModule(`/api/${route}.ts`);
         const handler = req.method === 'POST' ? mod.POST : undefined;
         const response: Response = handler ? await handler(request) : new Response('Method not allowed', { status: 405 });
         res.statusCode = response.status;

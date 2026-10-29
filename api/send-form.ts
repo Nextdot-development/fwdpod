@@ -9,6 +9,8 @@
  *         engagement, start_date }
  */
 
+import { checkEmail } from './_email';
+
 const RESEND_API_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';
 const TO = process.env.FORM_TO_EMAIL || 'contact.fwdpod@gmail.com';
 const FROM: Record<FormKind, string> = {
@@ -20,7 +22,6 @@ type FormKind = 'booking' | 'contact';
 
 const NEEDS = ['Individual specialist', 'AI pod', 'Not sure yet'];
 const ENGAGEMENTS = ['Hourly', 'Daily', 'Monthly', 'Not sure'];
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Only the site itself (and local / preview builds) may post here
 const ALLOWED_ORIGIN = /^(https:\/\/(www\.)?fwdpod\.com|https:\/\/[a-z0-9-]+\.vercel\.app|http:\/\/localhost(:\d+)?|http:\/\/127\.0\.0\.1(:\d+)?)$/;
@@ -85,13 +86,16 @@ export async function POST(request: Request): Promise<Response> {
   const problems: string[] = [];
   if (!form) problems.push('form');
   if (!fields.name) problems.push('name');
-  if (!EMAIL_PATTERN.test(fields.email)) problems.push('email');
   if (!fields.company) problems.push('company');
   if (form === 'booking' && !NEEDS.includes(fields.need)) problems.push('need');
   if (form === 'booking' && fields.engagement && !ENGAGEMENTS.includes(fields.engagement)) problems.push('engagement');
   if (form === 'booking' && fields.start_date && !/^\d{4}-\d{2}-\d{2}$/.test(fields.start_date)) problems.push('start_date');
   if (form === 'contact' && !fields.message) problems.push('message');
   if (problems.length) return json(400, { ok: false, error: `Missing or invalid: ${problems.join(', ')}` });
+
+  // Same address check the form runs as you type: format, mail server, throwaway inbox
+  const emailCheck = await checkEmail(fields.email);
+  if (!emailCheck.valid) return json(400, { ok: false, field: 'email', reason: emailCheck.reason, error: emailCheck.message });
 
   const rows: [string, string][] =
     form === 'booking'
