@@ -71,6 +71,9 @@ export default function ContactView(_props: ContactViewProps) {
           Let's talk about your AI team.
         </h1>
         <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
+          Have questions about our AI engineering solutions, the outcomes we deliver, or how FWDpod can help your business? Get in touch with our team — we're here to help.
+        </p>
+        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
           Tell us the role or the outcome. We'll send matched profiles or a pod plan within {SHORTLIST_TIME}.
         </p>
       </section>
