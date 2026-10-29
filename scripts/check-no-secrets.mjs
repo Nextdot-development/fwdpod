@@ -54,4 +54,4 @@ if (problems.length) {
   console.error(`check-no-secrets: secret material in the build:\n  ${problems.join('\n  ')}`);
   process.exit(1);
 }
-console.log('check-no-secrets: no Supabase or Resend secret in dist/');
+console.log('check-no-secrets: no Supabase, Resend or Abstract secret in dist/');

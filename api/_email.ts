@@ -75,45 +75,81 @@ const dohResolver: MxResolver = async domain => {
 const defaultResolver: MxResolver = dohResolver;
 
 /**
- * Asks a verification service whether the mailbox itself exists.
- * 'undeliverable' = the mail server says no such inbox; 'unknown' covers
- * catch-all domains, servers that won't answer, and any outage or quota limit.
+ * A verification service's view of one address. 'undeliverable' = the mail
+ * server says no such inbox; 'unknown' covers catch-all domains, servers that
+ * won't answer, and any outage, bad key or used-up quota.
  */
-export type MailboxVerifier = (email: string) => Promise<'deliverable' | 'undeliverable' | 'unknown'>;
+export interface MailboxVerdict {
+  status: 'deliverable' | 'undeliverable' | 'unknown';
+  disposable?: boolean;
+  risk?: 'low' | 'medium' | 'high';
+}
+export type MailboxVerifier = (email: string) => Promise<MailboxVerdict>;
 
-// Abstract's Email Validation API (key is server-only: ABSTRACT_API_KEY).
-// Also reads the newer Email Reputation shape, in case that's the key's product.
-const abstractVerifier: MailboxVerifier = async email => {
-  const key = process.env.ABSTRACT_API_KEY;
-  if (!key) return 'unknown';
-  const base = process.env.ABSTRACT_API_URL || 'https://emailvalidation.abstractapi.com/v1/';
-  try {
-    const response = await fetch(`${base}?api_key=${encodeURIComponent(key)}&email=${encodeURIComponent(email)}&auto_correct=false`);
-    if (!response.ok) return 'unknown';
-    const data = (await response.json()) as {
-      deliverability?: string;
-      email_deliverability?: { status?: string };
-    };
-    const status = (data.deliverability ?? data.email_deliverability?.status ?? '').toLowerCase();
-    if (status === 'undeliverable') return 'undeliverable';
-    if (status === 'deliverable') return 'deliverable';
-    return 'unknown';
-  } catch {
-    return 'unknown';
-  }
-};
+// What the forms turn away, beyond inboxes that don't exist. Both are
+// business-enquiry forms, so throwaway inboxes are refused; "high risk" alone
+// is not proof of a bad lead, so it is let through.
+const POLICY = { rejectDisposable: true, rejectHighRisk: false };
 
-// Each lookup costs a credit; the form checks on blur and the server again on
-// submit, so remember answers for an hour on this instance.
-const mailboxCache = new Map<string, { at: number; verdict: Awaited<ReturnType<MailboxVerifier>> }>();
+// Undeliverable reasons that mean the address itself is wrong. A full mailbox
+// or a mail server that's down belongs to a real person, so those pass.
+const BAD_ADDRESS = new Set(['invalid_mailbox', 'invalid_format', 'dns_record_not_found']);
+
+const UNKNOWN: MailboxVerdict = { status: 'unknown' };
+
+/**
+ * Abstract Email Reputation API (docs.abstractapi.com/api/email-reputation).
+ * The key is server-only (ABSTRACT_API_KEY) and goes in a Bearer header, never
+ * the URL. With no key, every address is 'unknown' and only local checks run.
+ */
+export function abstractVerifier(
+  key = process.env.ABSTRACT_API_KEY,
+  url = process.env.ABSTRACT_API_URL || 'https://emailreputation.abstractapi.com/v1/',
+  fetchImpl: typeof fetch = fetch
+): MailboxVerifier {
+  return async email => {
+    if (!key) return UNKNOWN;
+    try {
+      const response = await fetchImpl(`${url}?email=${encodeURIComponent(email)}`, { headers: { Authorization: `Bearer ${key}` } });
+      if (!response.ok) {
+        // 401 bad key, 422/403 out of credits, 429 over 1 request/second, 5xx outage.
+        // Log the status only: never the key or the address.
+        console.warn(`[email-check] Abstract responded ${response.status}; allowing the address`);
+        return UNKNOWN;
+      }
+      const data = (await response.json()) as {
+        email_deliverability?: { status?: string; status_detail?: string };
+        email_quality?: { is_disposable?: boolean };
+        email_risk?: { address_risk_status?: string };
+      };
+      const status = data.email_deliverability?.status;
+      const risk = data.email_risk?.address_risk_status;
+      return {
+        status:
+          status === 'deliverable' ? 'deliverable'
+          : status === 'undeliverable' && BAD_ADDRESS.has(data.email_deliverability?.status_detail ?? '') ? 'undeliverable'
+          : 'unknown',
+        disposable: data.email_quality?.is_disposable === true,
+        risk: risk === 'low' || risk === 'medium' || risk === 'high' ? risk : undefined,
+      };
+    } catch {
+      console.warn('[email-check] Abstract unreachable; allowing the address');
+      return UNKNOWN;
+    }
+  };
+}
+
+// Each lookup costs a credit (100 on the free plan); the form checks on blur and
+// the server again on submit, so remember answers for an hour on this instance.
+const mailboxCache = new Map<string, { at: number; verdict: MailboxVerdict }>();
 const CACHE_MS = 60 * 60 * 1000;
 
-const cachedVerify = async (email: string, verify: MailboxVerifier) => {
+const cachedVerify = async (email: string, verify: MailboxVerifier): Promise<MailboxVerdict> => {
   const hit = mailboxCache.get(email);
   if (hit && Date.now() - hit.at < CACHE_MS) return hit.verdict;
-  const verdict = await withTimeout(verify(email), 5000).catch(() => 'unknown' as const);
+  const verdict = await withTimeout(verify(email), 5000).catch(() => UNKNOWN);
   // Only cache real answers, so a brief outage doesn't stick
-  if (verdict !== 'unknown') mailboxCache.set(email, { at: Date.now(), verdict });
+  if (verdict.status !== 'unknown') mailboxCache.set(email, { at: Date.now(), verdict });
   if (mailboxCache.size > 5000) mailboxCache.clear();
   return verdict;
 };
@@ -124,7 +160,7 @@ const withTimeout = <T,>(p: Promise<T>, ms: number) =>
 export async function checkEmail(
   raw: string,
   resolveMx: MxResolver = defaultResolver,
-  verifyMailbox: MailboxVerifier = abstractVerifier
+  verifyMailbox: MailboxVerifier = abstractVerifier()
 ): Promise<EmailCheck> {
   const email = raw.trim().toLowerCase();
   if (!EMAIL_PATTERN.test(email) || email.length > 320) {
@@ -156,8 +192,15 @@ export async function checkEmail(
   }
 
   // The domain takes email; now ask whether this inbox exists (e.g. a made-up @gmail.com)
-  if ((await cachedVerify(email, verifyMailbox)) === 'undeliverable') {
+  const verdict = await cachedVerify(email, verifyMailbox);
+  if (verdict.status === 'undeliverable') {
     return { valid: false, reason: 'mailbox', message: "This email address doesn't seem to exist. Please check it for typos.", suggestion };
+  }
+  if (POLICY.rejectDisposable && verdict.disposable) {
+    return { valid: false, reason: 'disposable', message: "Please use your work email. Temporary email addresses aren't accepted." };
+  }
+  if (POLICY.rejectHighRisk && verdict.risk === 'high') {
+    return { valid: false, reason: 'mailbox', message: "We couldn't verify this email address. Please use your work email." };
   }
   return { valid: true, suggestion };
 }

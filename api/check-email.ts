@@ -8,9 +8,11 @@ import { checkEmail } from './_email';
 
 const ALLOWED_ORIGIN = /^(https:\/\/(www\.)?fwdpod\.com|https:\/\/[a-z0-9-]+\.vercel\.app|http:\/\/localhost(:\d+)?|http:\/\/127\.0\.0\.1(:\d+)?)$/;
 
-// Best-effort limit per IP, per function instance: 30 checks per 10 minutes
+// Best-effort limit per IP, per function instance: 10 checks per 10 minutes.
+// Each check can spend a paid verification credit, so keep this tight; a real
+// visitor checks one or two addresses.
 const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 30;
+const MAX_PER_WINDOW = 10;
 const recent = new Map<string, number[]>();
 
 const json = (status: number, body: Record<string, unknown>) =>
@@ -33,5 +35,6 @@ export async function POST(request: Request): Promise<Response> {
   } catch {
     return json(400, { error: 'Invalid request' });
   }
+  if (email.length > 320) return json(400, { error: 'Invalid request' });
   return json(200, { ...(await checkEmail(email)) });
 }

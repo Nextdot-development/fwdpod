@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkEmail, type MailboxVerifier, type MxResolver } from '../api/_email';
+import { abstractVerifier, checkEmail, type MailboxVerifier, type MxResolver } from '../api/_email';
 
 // Fake DNS so the tests never touch the network
 const dnsError = (code: string) => Object.assign(new Error(code), { code });
@@ -56,7 +56,11 @@ test('lets the address through when DNS itself fails, so real people are not blo
 
 // Fake mailbox service: only these inboxes exist at gmail.com
 const fakeMailbox: MailboxVerifier = async email =>
-  email === 'priya@gmail.com' ? 'deliverable' : email === 'broken@gmail.com' ? 'unknown' : 'undeliverable';
+  email === 'priya@gmail.com' ? { status: 'deliverable', risk: 'low' }
+  : email === 'broken@gmail.com' ? { status: 'unknown' }
+  : email === 'burner@gmail.com' ? { status: 'deliverable', disposable: true }
+  : email === 'risky@gmail.com' ? { status: 'deliverable', risk: 'high' }
+  : { status: 'undeliverable' };
 
 test('rejects an inbox the mail server says does not exist', async () => {
   const result = await checkEmail('six-made-up@gmail.com', fakeDns, fakeMailbox);
@@ -75,6 +79,71 @@ test('lets the address through when the mailbox service is unsure or down', asyn
 
 test('skips the mailbox service when the domain already failed', async () => {
   let asked = false;
-  await checkEmail('someone@asdfghjkl-not-real.com', fakeDns, async () => { asked = true; return 'deliverable'; });
+  await checkEmail('someone@asdfghjkl-not-real.com', fakeDns, async () => { asked = true; return { status: 'deliverable' }; });
   assert.equal(asked, false);
+});
+
+test('rejects an inbox the service flags as disposable, but lets high risk through', async () => {
+  assert.equal((await checkEmail('burner@gmail.com', fakeDns, fakeMailbox)).reason, 'disposable');
+  assert.equal((await checkEmail('risky@gmail.com', fakeDns, fakeMailbox)).valid, true);
+});
+
+// Abstract Email Reputation responses, per docs.abstractapi.com/api/email-reputation
+const reply = (status: number, body: unknown = {}) => async () => new Response(JSON.stringify(body), { status });
+const reputation = (status: string, status_detail: string, extra: object = {}) =>
+  reply(200, { email_deliverability: { status, status_detail }, email_quality: { is_disposable: false }, email_risk: { address_risk_status: 'low' }, ...extra });
+
+test('Abstract: reads deliverable, invalid mailbox, disposable and risk', async () => {
+  assert.deepEqual(await abstractVerifier('k', 'https://x/', reputation('deliverable', 'valid_email'))('a@b.com'), { status: 'deliverable', disposable: false, risk: 'low' });
+  assert.equal((await abstractVerifier('k', 'https://x/', reputation('undeliverable', 'invalid_mailbox'))('a@b.com')).status, 'undeliverable');
+  const burner = await abstractVerifier('k', 'https://x/', reputation('deliverable', 'valid_email', { email_quality: { is_disposable: true } }))('a@b.com');
+  assert.equal(burner.disposable, true);
+});
+
+test('Abstract: a full mailbox or a down mail server is not treated as a fake address', async () => {
+  for (const detail of ['full_mailbox', 'unavailable_server']) {
+    assert.equal((await abstractVerifier('k', 'https://x/', reputation('undeliverable', detail))('a@b.com')).status, 'unknown', detail);
+  }
+  assert.equal((await abstractVerifier('k', 'https://x/', reputation('unknown', ''))('a@b.com')).status, 'unknown');
+});
+
+test('Abstract: bad key, no credits, rate limit, outage and network failure all mean unknown', async () => {
+  const warn = console.warn;
+  console.warn = () => {};
+  try {
+    for (const code of [401, 403, 422, 429, 500, 503]) {
+      assert.deepEqual(await abstractVerifier('k', 'https://x/', reply(code, { error: {} }))('a@b.com'), { status: 'unknown' }, String(code));
+    }
+    const offline = (async () => { throw new TypeError('fetch failed'); }) as typeof fetch;
+    assert.deepEqual(await abstractVerifier('k', 'https://x/', offline)('a@b.com'), { status: 'unknown' });
+  } finally {
+    console.warn = warn;
+  }
+});
+
+test('Abstract: with no key set, makes no request', async () => {
+  let called = false;
+  const spy = (async () => { called = true; return new Response('{}'); }) as typeof fetch;
+  assert.deepEqual(await abstractVerifier('', 'https://x/', spy)('a@b.com'), { status: 'unknown' });
+  assert.equal(called, false);
+});
+
+test('Abstract: sends the key in a header, never in the URL', async () => {
+  let seenUrl = '';
+  let seenAuth = '';
+  const spy = (async (url: string, init?: RequestInit) => {
+    seenUrl = url;
+    seenAuth = new Headers(init?.headers).get('authorization') ?? '';
+    return new Response('{}');
+  }) as typeof fetch;
+  await abstractVerifier('secret-key-123', 'https://x/', spy)('a@b.com');
+  assert.equal(seenUrl.includes('secret-key-123'), false);
+  assert.equal(seenAuth, 'Bearer secret-key-123');
+});
+
+test('a slow mailbox service times out and lets the address through', async () => {
+  const hang: MailboxVerifier = () => new Promise(() => {});
+  const started = Date.now();
+  assert.equal((await checkEmail('slowpoke@gmail.com', fakeDns, hang)).valid, true);
+  assert.ok(Date.now() - started < 7000);
 });
