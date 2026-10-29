@@ -35,6 +35,6 @@ export async function POST(request: Request): Promise<Response> {
   } catch {
     return json(400, { error: 'Invalid request' });
   }
-  if (email.length > 320) return json(400, { error: 'Invalid request' });
+  if (email.length > 254) return json(400, { error: 'Invalid request' });
   return json(200, { ...(await checkEmail(email)) });
 }

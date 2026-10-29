@@ -4,11 +4,14 @@
  * @fwdpod.com address. The Resend key lives only on the server.
  *
  * Throws on any failure, so the form can show its error state instead of a
- * false success.
+ * false success. When the server turns the email address down, the error is
+ * an EmailRejectedError carrying the message to show under the field.
  */
 export const CONTACT_EMAIL = 'contact.fwdpod@gmail.com';
 
 export type FormKind = 'booking' | 'contact';
+
+export class EmailRejectedError extends Error {}
 
 export async function sendFormEmail(form: FormKind, fields: Record<string, string | boolean>): Promise<void> {
   const response = await fetch('/api/send-form', {
@@ -17,6 +20,7 @@ export async function sendFormEmail(form: FormKind, fields: Record<string, strin
     body: JSON.stringify({ form, ...fields }),
   });
   const result = await response.json().catch(() => ({}));
+  if (response.status === 400 && result.field === 'email') throw new EmailRejectedError(result.error);
   if (!response.ok || result.ok !== true) throw new Error(result.error || `Request failed with status ${response.status}`);
 }
 

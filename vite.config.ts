@@ -63,7 +63,12 @@ const formApiDev: Plugin = {
 export default defineConfig(({ isSsrBuild, mode }) => {
   // Server-only secrets for the dev form API (never exposed: no VITE_ prefix)
   const env = loadEnv(mode, process.cwd(), '');
-  for (const key of ['RESEND_API_KEY', 'RESEND_API_URL', 'FORM_TO_EMAIL', 'ABSTRACT_API_KEY', 'ABSTRACT_API_URL']) {
+  const serverEnv = [
+    'RESEND_API_KEY', 'RESEND_API_URL', 'FORM_TO_EMAIL', 'ABSTRACT_API_KEY', 'ABSTRACT_API_URL',
+    // api/_store.ts saves submissions from the server
+    'VITE_SUPABASE_URL', 'VITE_SUPABASE_PUBLISHABLE_KEY', 'SUPABASE_SECRET_KEY',
+  ];
+  for (const key of serverEnv) {
     if (env[key] && !process.env[key]) process.env[key] = env[key];
   }
 

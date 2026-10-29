@@ -8,8 +8,8 @@
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { primaryButton } from './ui';
-import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
-import { CONTACT_EMAIL, isBot } from '../../utils/formEmail';
+import { EMAIL_INVALID, EMAIL_PATTERN, EMAIL_REQUIRED, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
+import { CONTACT_EMAIL, EmailRejectedError, isBot } from '../../utils/formEmail';
 import { deliverSubmission } from '../../utils/formStore';
 import { EmailCheckHint, useEmailCheck } from './useEmailCheck';
 
@@ -27,8 +27,8 @@ const EMPTY: ContactValues = { name: '', email: '', company: '', message: '' };
 function validate(values: ContactValues): FieldErrors {
   const errors: FieldErrors = {};
   if (!values.name.trim()) errors.name = 'Please enter your name.';
-  if (!values.email.trim()) errors.email = 'Please enter a work email.';
-  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = 'Please enter a valid email address, like name@company.com.';
+  if (!values.email.trim()) errors.email = EMAIL_REQUIRED;
+  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = EMAIL_INVALID;
   if (!values.company.trim()) errors.company = 'Please enter your company name.';
   if (!values.message.trim()) errors.message = 'Please write a short message.';
   return errors;
@@ -92,19 +92,17 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
           company: values.company.trim(),
           message: values.message.trim(),
         },
-        // Shown in the admin under Contact messages
-        table: 'contact_messages',
-        row: {
-          source_page: '/contact',
-          name: values.name.trim(),
-          email: values.email.trim(),
-          company: values.company.trim(),
-          message: values.message.trim(),
-        },
       });
       onResult('success');
       setStatus('success');
     } catch (err) {
+      // The server turned the address down: show why under the email field
+      if (err instanceof EmailRejectedError) {
+        emailCheck.reject(values.email, err.message);
+        setStatus('idle');
+        form.querySelector<HTMLElement>('[name="email"]')?.focus();
+        return;
+      }
       console.error('Contact message failed:', err);
       onResult('error');
       setStatus('error');

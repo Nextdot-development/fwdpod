@@ -1,8 +1,10 @@
 /**
- * POST /api/send-form — emails a website form to the Fwdpod inbox via Resend.
+ * POST /api/send-form — checks a website form, then emails it to the Fwdpod
+ * inbox via Resend and saves it to Supabase for the admin.
  *
- * Runs as a Vercel function so RESEND_API_KEY never reaches the browser. In
- * local development, vite.config.ts serves the same handler at the same path.
+ * Runs as a Vercel function so RESEND_API_KEY and SUPABASE_SECRET_KEY never
+ * reach the browser. In local development, vite.config.ts serves the same
+ * handler at the same path.
  *
  * Body: { form: "booking" | "contact", botcheck, source_page, name, email,
  *         company, message, and for bookings need, role_or_outcome,
@@ -10,6 +12,7 @@
  */
 
 import { checkEmail } from './_email';
+import { saveSubmission } from './_store';
 
 const RESEND_API_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';
 const TO = process.env.FORM_TO_EMAIL || 'contact.fwdpod@gmail.com';
@@ -39,6 +42,19 @@ function rateLimited(ip: string): boolean {
   return hits.length > MAX_PER_WINDOW;
 }
 
+// And per email address, whatever the IP: 3 forms per hour
+const EMAIL_WINDOW_MS = 60 * 60 * 1000;
+const MAX_PER_EMAIL = 3;
+const recentByEmail = new Map<string, number[]>();
+
+function emailRateLimited(email: string): boolean {
+  const now = Date.now();
+  const hits = (recentByEmail.get(email) ?? []).filter(t => now - t < EMAIL_WINDOW_MS);
+  hits.push(now);
+  recentByEmail.set(email, hits);
+  return hits.length > MAX_PER_EMAIL;
+}
+
 const json = (status: number, body: Record<string, unknown>) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
@@ -55,10 +71,6 @@ export async function POST(request: Request): Promise<Response> {
   if (rateLimited(ip)) return json(429, { ok: false, error: 'Too many requests. Please try again in a few minutes.' });
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error('send-form: RESEND_API_KEY is not set');
-    return json(500, { ok: false, error: 'Email is not configured' });
-  }
 
   let body: Record<string, unknown>;
   try {
@@ -73,7 +85,7 @@ export async function POST(request: Request): Promise<Response> {
   const form = body.form === 'booking' || body.form === 'contact' ? (body.form as FormKind) : null;
   const fields = {
     name: text(body.name, 200),
-    email: text(body.email, 320),
+    email: text(body.email, 254),
     company: text(body.company, 200),
     need: text(body.need, 40),
     role_or_outcome: text(body.role_or_outcome, 300),
@@ -96,6 +108,26 @@ export async function POST(request: Request): Promise<Response> {
   // Same address check the form runs as you type: format, mail server, throwaway inbox
   const emailCheck = await checkEmail(fields.email);
   if (!emailCheck.valid) return json(400, { ok: false, field: 'email', reason: emailCheck.reason, error: emailCheck.message });
+  if (emailRateLimited(fields.email.toLowerCase())) {
+    return json(429, { ok: false, error: 'We already have a few messages from this address. Please try again later.' });
+  }
+
+  // Saved for the admin alongside the email; the admin lists read these columns
+  const row: Record<string, string | null> =
+    form === 'booking'
+      ? {
+          source_page: fields.source_page,
+          name: fields.name,
+          email: fields.email,
+          company: fields.company,
+          need: fields.need,
+          role_or_outcome: fields.role_or_outcome || null,
+          engagement: fields.engagement || null,
+          start_date: fields.start_date || null,
+          message: fields.message || null,
+        }
+      : { source_page: fields.source_page, name: fields.name, email: fields.email, company: fields.company, message: fields.message };
+  const saving = saveSubmission(form === 'booking' ? 'booking_requests' : 'contact_messages', row);
 
   const rows: [string, string][] =
     form === 'booking'
@@ -122,7 +154,7 @@ export async function POST(request: Request): Promise<Response> {
     form === 'booking' ? `Booking request: ${fields.company} (${fields.need})` : `Contact message: ${fields.company}`;
   const heading = form === 'booking' ? 'New booking request' : 'New contact message';
 
-  const response = await fetch(RESEND_API_URL, {
+  const mailing = !apiKey ? Promise.reject(new Error('RESEND_API_KEY is not set')) : fetch(RESEND_API_URL, {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -143,9 +175,18 @@ export async function POST(request: Request): Promise<Response> {
     }),
   });
 
-  if (!response.ok) {
-    console.error('send-form: Resend returned', response.status, (await response.text()).slice(0, 300));
-    return json(502, { ok: false, error: 'Email could not be sent' });
+  // Email and save in parallel. Either one is enough to keep the request, so
+  // one outage never loses it; only both failing is an error.
+  const [mailed, saved] = await Promise.allSettled([
+    mailing.then(async response => {
+      if (!response.ok) throw new Error(`Resend returned ${response.status}: ${(await response.text()).slice(0, 300)}`);
+    }),
+    saving,
+  ]);
+  if (mailed.status === 'rejected') console.error('send-form: email failed:', (mailed.reason as Error).message);
+  if (saved.status === 'rejected') console.error('send-form: save failed:', (saved.reason as Error).message);
+  if (mailed.status === 'rejected' && saved.status === 'rejected') {
+    return json(502, { ok: false, error: 'Your message could not be sent' });
   }
   return json(200, { ok: true });
 }

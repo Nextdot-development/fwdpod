@@ -29,7 +29,11 @@ export function useEmailCheck() {
   /** The finished check for this exact address, if there is one. */
   const resultFor = (raw: string) => (result && result.email === raw.trim().toLowerCase() ? result.check : null);
 
-  return { check, resultFor, checking };
+  /** Records the server turning the address down on submit, shown like any other check. */
+  const reject = (raw: string, message: string) =>
+    setResult({ email: raw.trim().toLowerCase(), check: { valid: false, message } });
+
+  return { check, resultFor, reject, checking };
 }
 
 /** "Checking…" while it runs, and a one-click fix for a likely typo. */

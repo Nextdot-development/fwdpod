@@ -9,4 +9,9 @@ export const inputClass = (invalid: boolean) =>
     invalid ? 'border-red-500 focus:border-red-500' : 'border-zinc-300 focus:border-[#0066FF]'
   }`;
 
-export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Same rule as the server's check (api/_email.ts): a plain local part, then
+// dot-separated domain labels and a letter TLD.
+export const EMAIL_PATTERN = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
+
+export const EMAIL_REQUIRED = 'Please enter your work email address.';
+export const EMAIL_INVALID = 'Please enter a valid email address.';

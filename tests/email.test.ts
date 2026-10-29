@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { abstractVerifier, checkEmail, type MailboxVerifier, type MxResolver } from '../api/_email';
+import { abstractVerifier, checkEmail, makeDohResolver, type MailboxVerifier, type MxResolver } from '../api/_email';
 
 // Fake DNS so the tests never touch the network
 const dnsError = (code: string) => Object.assign(new Error(code), { code });
@@ -16,7 +16,12 @@ test('accepts an address whose domain has a mail server', async () => {
 });
 
 test('rejects a malformed address', async () => {
-  for (const bad of ['', 'priya', 'priya@', '@examplebank.com', 'priya@examplebank', 'priya examplebank.com']) {
+  for (const bad of [
+    '', 'priya', 'priya@', '@examplebank.com', 'priya@examplebank', 'priya examplebank.com',
+    'priya@-examplebank.com', 'priya@examplebank-.com', 'priya@examplebank..com', 'priya@examplebank.c0m',
+    '.priya@examplebank.com', 'priya.@examplebank.com', 'pri..ya@examplebank.com', 'priya@@examplebank.com',
+    `${'a'.repeat(65)}@examplebank.com`,
+  ]) {
     const result = await checkEmail(bad, fakeDns);
     assert.equal(result.valid, false, bad);
     assert.equal(result.reason, 'format', bad);
@@ -27,7 +32,7 @@ test('rejects a domain that does not exist', async () => {
   const result = await checkEmail('rahul@asdfghjkl-not-real.com', fakeDns);
   assert.equal(result.valid, false);
   assert.equal(result.reason, 'domain');
-  assert.match(result.message ?? '', /asdfghjkl-not-real\.com/);
+  assert.equal(result.message, "This email domain doesn't appear to accept email. Please check the address.");
 });
 
 test('rejects a domain that publishes a null MX (accepts no email)', async () => {
@@ -168,4 +173,43 @@ test('a slow mailbox service times out and lets the address through', async () =
   const started = Date.now();
   assert.equal((await checkEmail('slowpoke@gmail.com', fakeDns, hang)).valid, true);
   assert.ok(Date.now() - started < 7000);
+});
+
+// DNS-over-HTTPS answers, keyed by "domain type"
+const fakeDoh = (zone: Record<string, { Status: number; Answer?: { type: number; data: string }[] }>) =>
+  (async (url: string) => {
+    const q = new URL(url).searchParams;
+    const answer = zone[`${q.get('name')} ${q.get('type')}`] ?? { Status: 0, Answer: [] };
+    return new Response(JSON.stringify(answer), { status: 200 });
+  }) as typeof fetch;
+
+test('DNS: a domain with MX records receives email', async () => {
+  const resolve = makeDohResolver(fakeDoh({ 'acme.com MX': { Status: 0, Answer: [{ type: 15, data: '10 mx.acme.com.' }] } }));
+  assert.deepEqual(await resolve('acme.com'), [{ exchange: 'mx.acme.com' }]);
+});
+
+test('DNS: a domain with no MX but an A record still receives email (implicit MX)', async () => {
+  const resolve = makeDohResolver(fakeDoh({ 'small.co MX': { Status: 0 }, 'small.co A': { Status: 0, Answer: [{ type: 1, data: '203.0.113.7' }] } }));
+  assert.deepEqual(await resolve('small.co'), [{ exchange: 'small.co' }]);
+  const result = await checkEmail('rahul@small.co', resolve, async () => ({ status: 'unknown' }));
+  assert.equal(result.valid, true);
+});
+
+test('DNS: a domain with no mail records at all, or that does not exist, is rejected', async () => {
+  const resolve = makeDohResolver(fakeDoh({ 'gone.example MX': { Status: 3 } }));
+  for (const domain of ['empty.example', 'gone.example']) {
+    const result = await checkEmail(`rahul@${domain}`, resolve, async () => ({ status: 'deliverable' }));
+    assert.equal(result.reason, 'domain', domain);
+    assert.equal(result.message, "This email domain doesn't appear to accept email. Please check the address.");
+  }
+});
+
+test('DNS: when no DNS provider answers, the address is let through', async () => {
+  const down = (async () => { throw new TypeError('fetch failed'); }) as typeof fetch;
+  assert.equal((await checkEmail('rahul@acme.com', makeDohResolver(down), async () => ({ status: 'unknown' }))).valid, true);
+});
+
+test('uses the agreed wording for format and disposable errors', async () => {
+  assert.equal((await checkEmail('priya@', fakeDns)).message, 'Please enter a valid email address.');
+  assert.equal((await checkEmail('rahul@mailinator.com', fakeDns)).message, 'Please use a valid work email address. Temporary email addresses are not accepted.');
 });

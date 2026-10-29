@@ -8,8 +8,8 @@
 import React, { useState } from 'react';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { primaryButton } from './ui';
-import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
-import { CONTACT_EMAIL, isBot } from '../../utils/formEmail';
+import { EMAIL_INVALID, EMAIL_PATTERN, EMAIL_REQUIRED, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
+import { CONTACT_EMAIL, isBot, EmailRejectedError } from '../../utils/formEmail';
 import { deliverSubmission } from '../../utils/formStore';
 import { EmailCheckHint, useEmailCheck } from './useEmailCheck';
 
@@ -43,8 +43,8 @@ const EMPTY: BookingValues = {
 function validate(values: BookingValues): FieldErrors {
   const errors: FieldErrors = {};
   if (!values.name.trim()) errors.name = 'Please enter your name.';
-  if (!values.email.trim()) errors.email = 'Please enter a work email.';
-  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = 'Please enter a valid email address, like name@company.com.';
+  if (!values.email.trim()) errors.email = EMAIL_REQUIRED;
+  else if (!EMAIL_PATTERN.test(values.email.trim())) errors.email = EMAIL_INVALID;
   if (!values.company.trim()) errors.company = 'Please enter your company name.';
   if (!values.need) errors.need = 'Please choose what you need.';
   return errors;
@@ -171,23 +171,17 @@ export default function BookingForm({ sourcePage, labelledBy, submitLabel, note,
           start_date: values.start_date,
           message: values.message.trim(),
         },
-        // Shown in the admin under Bookings
-        table: 'booking_requests',
-        row: {
-          source_page: sourcePage,
-          name: values.name.trim(),
-          email: values.email.trim(),
-          company: values.company.trim(),
-          need: values.need,
-          role_or_outcome: values.role_or_outcome.trim() || null,
-          engagement: values.engagement || null,
-          start_date: values.start_date || null,
-          message: values.message.trim() || null,
-        },
       });
       onResult('success', values);
       setStatus('success');
     } catch (err) {
+      // The server turned the address down: show why under the email field
+      if (err instanceof EmailRejectedError) {
+        emailCheck.reject(values.email, err.message);
+        setStatus('idle');
+        form.querySelector<HTMLElement>('[name="email"]')?.focus();
+        return;
+      }
       console.error('Booking request failed:', err);
       onResult('error', values);
       setStatus('error');
