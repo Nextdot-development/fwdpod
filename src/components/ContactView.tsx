@@ -42,9 +42,9 @@ const CONTACT_JSON_LD = {
 
 // ── Page content ─────────────────────────────────────────────────────────────
 const NEXT_STEPS = [
-  { name: 'Fill in the form', text: 'Tell us a little about yourself and what you would like to know.' },
-  { name: 'We’ll Respond to Your Enquiry', text: 'Our team will review your enquiry and get back to you as soon as possible.' },
-  { name: 'Talk it through', text: 'Ask us anything about our solutions, services or how we work.' },
+  { name: 'Submit Your Enquiry', text: "Tell us about your business requirements, the solutions you're exploring, or the outcomes you want to achieve." },
+  { name: 'Our Team Will Respond', text: 'Our team will review your enquiry and contact you as soon as possible to discuss the next steps.' },
+  { name: 'Discuss Your Requirements', text: 'Connect with our team to discuss your objectives, explore our solutions, and understand how Fwdpod can support your needs.' },
 ];
 
 interface ContactViewProps {
@@ -106,7 +106,7 @@ export default function ContactView(_props: ContactViewProps) {
 
       {/* c) What happens next */}
       <section aria-labelledby="next-heading" className={sectionClass}>
-        <SectionHeading id="next-heading" label="What happens next" title="How to get in touch." />
+        <SectionHeading id="next-heading" label="What happens next" title="How to Get in Touch" />
         <ol className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {NEXT_STEPS.map((step, idx) => (
             <li key={step.name} className={card}>
