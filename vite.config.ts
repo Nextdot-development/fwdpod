@@ -63,7 +63,7 @@ const formApiDev: Plugin = {
 export default defineConfig(({ isSsrBuild, mode }) => {
   // Server-only secrets for the dev form API (never exposed: no VITE_ prefix)
   const env = loadEnv(mode, process.cwd(), '');
-  for (const key of ['RESEND_API_KEY', 'RESEND_API_URL', 'FORM_TO_EMAIL']) {
+  for (const key of ['RESEND_API_KEY', 'RESEND_API_URL', 'FORM_TO_EMAIL', 'ABSTRACT_API_KEY', 'ABSTRACT_API_URL']) {
     if (env[key] && !process.env[key]) process.env[key] = env[key];
   }
 

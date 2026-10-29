@@ -17,6 +17,7 @@ for (const file of ['.env.local', '.env']) dotenv.config({ path: path.join(root,
 const distDir = path.join(root, process.argv[2] ?? 'dist');
 const secret = (process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? '').trim();
 const resendKey = (process.env.RESEND_API_KEY ?? '').trim();
+const abstractKey = (process.env.ABSTRACT_API_KEY ?? '').trim();
 
 function* walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -42,6 +43,7 @@ for (const file of walk(distDir)) {
   if (secret && text.includes(secret)) problems.push(`${rel}: contains SUPABASE_SECRET_KEY`);
   if (/sb_secret_[A-Za-z0-9_-]{16,}/.test(text)) problems.push(`${rel}: contains an sb_secret_ key`);
   if (resendKey && text.includes(resendKey)) problems.push(`${rel}: contains RESEND_API_KEY`);
+  if (abstractKey && text.includes(abstractKey)) problems.push(`${rel}: contains ABSTRACT_API_KEY`);
   if (/\bre_[A-Za-z0-9]{8}_[A-Za-z0-9]{16,}/.test(text)) problems.push(`${rel}: contains a Resend API key`);
   for (const jwt of text.match(/eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}/g) ?? []) {
     if (isServiceRoleJwt(jwt)) problems.push(`${rel}: contains a service_role JWT`);

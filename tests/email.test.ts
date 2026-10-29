@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkEmail, type MxResolver } from '../api/_email';
+import { checkEmail, type MailboxVerifier, type MxResolver } from '../api/_email';
 
 // Fake DNS so the tests never touch the network
 const dnsError = (code: string) => Object.assign(new Error(code), { code });
@@ -52,4 +52,29 @@ test('suggests the intended address for a common typo', async () => {
 
 test('lets the address through when DNS itself fails, so real people are not blocked', async () => {
   assert.equal((await checkEmail('priya@slow.example', fakeDns)).valid, true);
+});
+
+// Fake mailbox service: only these inboxes exist at gmail.com
+const fakeMailbox: MailboxVerifier = async email =>
+  email === 'priya@gmail.com' ? 'deliverable' : email === 'broken@gmail.com' ? 'unknown' : 'undeliverable';
+
+test('rejects an inbox the mail server says does not exist', async () => {
+  const result = await checkEmail('six-made-up@gmail.com', fakeDns, fakeMailbox);
+  assert.equal(result.valid, false);
+  assert.equal(result.reason, 'mailbox');
+});
+
+test('accepts an inbox that exists', async () => {
+  assert.equal((await checkEmail('Priya@gmail.com', fakeDns, fakeMailbox)).valid, true);
+});
+
+test('lets the address through when the mailbox service is unsure or down', async () => {
+  assert.equal((await checkEmail('broken@gmail.com', fakeDns, fakeMailbox)).valid, true);
+  assert.equal((await checkEmail('down@gmail.com', fakeDns, async () => { throw new Error('quota'); })).valid, true);
+});
+
+test('skips the mailbox service when the domain already failed', async () => {
+  let asked = false;
+  await checkEmail('someone@asdfghjkl-not-real.com', fakeDns, async () => { asked = true; return 'deliverable'; });
+  assert.equal(asked, false);
 });
