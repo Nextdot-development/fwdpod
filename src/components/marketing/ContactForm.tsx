@@ -11,6 +11,7 @@ import { primaryButton } from './ui';
 import { EMAIL_PATTERN, errorClass, formCard, hintClass, inputClass, labelClass } from './formStyles';
 import { CONTACT_EMAIL, isBot } from '../../utils/formEmail';
 import { deliverSubmission } from '../../utils/formStore';
+import { EmailCheckHint, useEmailCheck } from './useEmailCheck';
 
 interface ContactValues {
   name: string;
@@ -53,6 +54,9 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
   const errors = validate(values);
   // Show a field's error once the visitor has left it, or after a submit attempt
   const errorFor = (field: keyof ContactValues) => (touched[field] || submitAttempted ? errors[field] : undefined);
+  const emailCheck = useEmailCheck();
+  const emailResult = emailCheck.resultFor(values.email);
+  const emailError = errorFor('email') || (emailResult && !emailResult.valid ? emailResult.message : undefined);
   const onText = (field: keyof ContactValues) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setValues(prev => ({ ...prev, [field]: e.target.value }));
   const onBlur = (field: keyof ContactValues) => () => setTouched(prev => ({ ...prev, [field]: true }));
@@ -68,7 +72,14 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
     }
 
     const botcheck = isBot(e.currentTarget);
+    const form = e.currentTarget;
     setStatus('submitting');
+    const verdict = await emailCheck.check(values.email);
+    if (verdict && !verdict.valid) {
+      setStatus('idle');
+      form.querySelector<HTMLElement>('[name="email"]')?.focus();
+      return;
+    }
     try {
       await deliverSubmission({
         form: 'contact',
@@ -151,12 +162,17 @@ export default function ContactForm({ labelledBy, note, renderSuccess, onResult 
           <label htmlFor="contact-email" className={labelClass}>Work email <span className="text-red-600">*</span></label>
           <input
             id="contact-email" name="email" type="email" autoComplete="email" inputMode="email"
-            value={values.email} onChange={onText('email')} onBlur={onBlur('email')}
-            aria-invalid={Boolean(errorFor('email')) || undefined}
-            aria-describedby={errorFor('email') ? 'contact-email-error' : undefined}
-            className={inputClass(Boolean(errorFor('email')))}
+            value={values.email} onChange={onText('email')} onBlur={() => { onBlur('email')(); emailCheck.check(values.email); }}
+            aria-invalid={Boolean(emailError) || undefined}
+            aria-describedby={emailError ? 'contact-email-error' : undefined}
+            className={inputClass(Boolean(emailError))}
           />
-          {errorFor('email') && <p id="contact-email-error" className={errorClass}>{errorFor('email')}</p>}
+          {emailError && <p id="contact-email-error" className={errorClass}>{emailError}</p>}
+          <EmailCheckHint
+            checking={emailCheck.checking}
+            result={emailResult}
+            onUseSuggestion={email => { setValues(prev => ({ ...prev, email })); emailCheck.check(email); }}
+          />
         </div>
       </div>
 
