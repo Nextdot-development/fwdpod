@@ -24,14 +24,14 @@ test('rejects a malformed address', async () => {
 });
 
 test('rejects a domain that does not exist', async () => {
-  const result = await checkEmail('someone@asdfghjkl-not-real.com', fakeDns);
+  const result = await checkEmail('rahul@asdfghjkl-not-real.com', fakeDns);
   assert.equal(result.valid, false);
   assert.equal(result.reason, 'domain');
   assert.match(result.message ?? '', /asdfghjkl-not-real\.com/);
 });
 
 test('rejects a domain that publishes a null MX (accepts no email)', async () => {
-  const result = await checkEmail('someone@no-mail.example', fakeDns);
+  const result = await checkEmail('rahul@no-mail.example', fakeDns);
   assert.equal(result.valid, false);
   assert.equal(result.reason, 'domain');
 });
@@ -79,7 +79,7 @@ test('lets the address through when the mailbox service is unsure or down', asyn
 
 test('skips the mailbox service when the domain already failed', async () => {
   let asked = false;
-  await checkEmail('someone@asdfghjkl-not-real.com', fakeDns, async () => { asked = true; return { status: 'deliverable' }; });
+  await checkEmail('rahul@asdfghjkl-not-real.com', fakeDns, async () => { asked = true; return { status: 'deliverable' }; });
   assert.equal(asked, false);
 });
 
@@ -88,13 +88,35 @@ test('rejects an inbox the service flags as disposable, but lets high risk throu
   assert.equal((await checkEmail('risky@gmail.com', fakeDns, fakeMailbox)).valid, true);
 });
 
+test('rejects test and placeholder addresses without asking the mailbox service', async () => {
+  let asked = false;
+  const spy: MailboxVerifier = async () => { asked = true; return { status: 'deliverable' }; };
+  for (const fake of ['test@gmail.com', 'demo@yahoo.com', 'Test123@gmail.com', 'fake.user@outlook.com', 'asdf@gmail.com', 'aaaa@gmail.com', '12345@gmail.com', 'noreply@examplebank.com']) {
+    assert.equal((await checkEmail(fake, fakeDns, spy)).reason, 'placeholder', fake);
+  }
+  assert.equal(asked, false);
+});
+
+test('does not mistake real names for placeholders', async () => {
+  const real: MailboxVerifier = async () => ({ status: 'deliverable' });
+  for (const ok of ['priya.sharma@gmail.com', 'testa.rossi@gmail.com', 'demetrius@gmail.com', 'rahul1990@gmail.com', 'info@examplebank.com']) {
+    assert.equal((await checkEmail(ok, fakeDns, real)).valid, true, ok);
+  }
+});
+
+test('rejects a generic name on a free provider, but not on a company domain', async () => {
+  const generic: MailboxVerifier = async email => ({ status: 'deliverable', role: true, free: email.endsWith('@gmail.com') });
+  assert.equal((await checkEmail('sales@gmail.com', fakeDns, generic)).reason, 'placeholder');
+  assert.equal((await checkEmail('sales@examplebank.com', fakeDns, generic)).valid, true);
+});
+
 // Abstract Email Reputation responses, per docs.abstractapi.com/api/email-reputation
 const reply = (status: number, body: unknown = {}) => async () => new Response(JSON.stringify(body), { status });
 const reputation = (status: string, status_detail: string, extra: object = {}) =>
   reply(200, { email_deliverability: { status, status_detail }, email_quality: { is_disposable: false }, email_risk: { address_risk_status: 'low' }, ...extra });
 
 test('Abstract: reads deliverable, invalid mailbox, disposable and risk', async () => {
-  assert.deepEqual(await abstractVerifier('k', 'https://x/', reputation('deliverable', 'valid_email'))('a@b.com'), { status: 'deliverable', disposable: false, risk: 'low' });
+  assert.deepEqual(await abstractVerifier('k', 'https://x/', reputation('deliverable', 'valid_email'))('a@b.com'), { status: 'deliverable', disposable: false, role: false, free: false, risk: 'low' });
   assert.equal((await abstractVerifier('k', 'https://x/', reputation('undeliverable', 'invalid_mailbox'))('a@b.com')).status, 'undeliverable');
   const burner = await abstractVerifier('k', 'https://x/', reputation('deliverable', 'valid_email', { email_quality: { is_disposable: true } }))('a@b.com');
   assert.equal(burner.disposable, true);

@@ -23,7 +23,7 @@ export async function sendFormEmail(form: FormKind, fields: Record<string, strin
 /** Result of /api/check-email (api/_email.ts). */
 export interface EmailCheck {
   valid: boolean;
-  reason?: 'format' | 'domain' | 'disposable' | 'mailbox';
+  reason?: 'format' | 'placeholder' | 'domain' | 'disposable' | 'mailbox';
   message?: string;
   suggestion?: string;
 }

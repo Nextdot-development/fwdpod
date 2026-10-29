@@ -8,7 +8,7 @@
  * suggested fix. Anything uncertain is let through.
  */
 
-export type EmailReason = 'format' | 'domain' | 'disposable' | 'mailbox';
+export type EmailReason = 'format' | 'placeholder' | 'domain' | 'disposable' | 'mailbox';
 
 export interface EmailCheck {
   valid: boolean;
@@ -42,6 +42,28 @@ const TYPOS: Record<string, string> = {
   'yahoo.con': 'yahoo.com', 'outlok.com': 'outlook.com', 'outllok.com': 'outlook.com', 'outlook.co': 'outlook.com',
   'outlook.con': 'outlook.com', 'iclod.com': 'icloud.com', 'icloud.co': 'icloud.com', 'icoud.com': 'icloud.com',
   'rediffmai.com': 'rediffmail.com', 'rediffmal.com': 'rediffmail.com',
+};
+
+// Names people type to get past a form, not their own address. Real inboxes
+// like demo@yahoo.com exist, so the mailbox check alone lets these through.
+const PLACEHOLDER_NAMES = new Set([
+  'test', 'testing', 'tester', 'demo', 'fake', 'dummy', 'sample', 'example', 'temp', 'spam', 'junk', 'trash',
+  'asdf', 'asdfgh', 'qwerty', 'abc', 'abcd', 'abcdef', 'xyz', 'foo', 'bar', 'foobar', 'null', 'none', 'nobody',
+  'noreply', 'no-reply', 'donotreply', 'user', 'username', 'email', 'mail', 'name', 'yourname', 'youremail',
+  'myemail', 'someone', 'anonymous', 'nomail', 'random', 'hello123', 'admin123',
+]);
+
+const isPlaceholder = (local: string) => {
+  const base = local.replace(/[._+-]/g, '');
+  return (
+    PLACEHOLDER_NAMES.has(local) ||
+    // test1, test123, demo_2, fake.user
+    /^(test|demo|fake|dummy|sample|example|asdf|qwerty)(\d+|user|mail|email)?$/.test(base) ||
+    // aaaa, xxxx, 1111
+    /^(.)\1{2,}$/.test(base) ||
+    // 123, 12345, 0987
+    /^\d{1,6}$/.test(base)
+  );
 };
 
 /** Resolves a domain's MX hosts. Injected in tests so they never touch the network. */
@@ -82,14 +104,20 @@ const defaultResolver: MxResolver = dohResolver;
 export interface MailboxVerdict {
   status: 'deliverable' | 'undeliverable' | 'unknown';
   disposable?: boolean;
+  /** A shared or generic name (admin@, demo@) rather than one person's inbox. */
+  role?: boolean;
+  /** A free provider such as Gmail or Yahoo. */
+  free?: boolean;
   risk?: 'low' | 'medium' | 'high';
 }
 export type MailboxVerifier = (email: string) => Promise<MailboxVerdict>;
 
 // What the forms turn away, beyond inboxes that don't exist. Both are
-// business-enquiry forms, so throwaway inboxes are refused; "high risk" alone
-// is not proof of a bad lead, so it is let through.
-const POLICY = { rejectDisposable: true, rejectHighRisk: false };
+// business-enquiry forms, so throwaway inboxes are refused, and so is a generic
+// name on a free provider (demo@yahoo.com): nobody's own inbox. A generic name
+// on a company domain (info@acme.com) is a real contact point and passes.
+// "High risk" alone is not proof of a bad lead, so it is let through.
+const POLICY = { rejectDisposable: true, rejectFreeRole: true, rejectHighRisk: false };
 
 // Undeliverable reasons that mean the address itself is wrong. A full mailbox
 // or a mail server that's down belongs to a real person, so those pass.
@@ -119,7 +147,7 @@ export function abstractVerifier(
       }
       const data = (await response.json()) as {
         email_deliverability?: { status?: string; status_detail?: string };
-        email_quality?: { is_disposable?: boolean };
+        email_quality?: { is_disposable?: boolean; is_role?: boolean; is_free_email?: boolean };
         email_risk?: { address_risk_status?: string };
       };
       const status = data.email_deliverability?.status;
@@ -130,6 +158,8 @@ export function abstractVerifier(
           : status === 'undeliverable' && BAD_ADDRESS.has(data.email_deliverability?.status_detail ?? '') ? 'undeliverable'
           : 'unknown',
         disposable: data.email_quality?.is_disposable === true,
+        role: data.email_quality?.is_role === true,
+        free: data.email_quality?.is_free_email === true,
         risk: risk === 'low' || risk === 'medium' || risk === 'high' ? risk : undefined,
       };
     } catch {
@@ -174,6 +204,10 @@ export async function checkEmail(
     return { valid: false, reason: 'disposable', message: "Please use your work email. Temporary email addresses aren't accepted." };
   }
 
+  if (isPlaceholder(local)) {
+    return { valid: false, reason: 'placeholder', message: "Please enter your own email address. Test or placeholder addresses aren't accepted." };
+  }
+
   try {
     const hosts = await withTimeout(resolveMx(domain), 3000);
     // A "null MX" (a single "." host) means the domain accepts no email
@@ -198,6 +232,9 @@ export async function checkEmail(
   }
   if (POLICY.rejectDisposable && verdict.disposable) {
     return { valid: false, reason: 'disposable', message: "Please use your work email. Temporary email addresses aren't accepted." };
+  }
+  if (POLICY.rejectFreeRole && verdict.role && verdict.free) {
+    return { valid: false, reason: 'placeholder', message: "Please enter your own email address. Test or placeholder addresses aren't accepted." };
   }
   if (POLICY.rejectHighRisk && verdict.risk === 'high') {
     return { valid: false, reason: 'mailbox', message: "We couldn't verify this email address. Please use your work email." };
