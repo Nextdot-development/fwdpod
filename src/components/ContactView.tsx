@@ -42,9 +42,9 @@ const CONTACT_JSON_LD = {
 
 // ── Page content ─────────────────────────────────────────────────────────────
 const NEXT_STEPS = [
-  { name: 'Scope', text: 'A 30-minute call on the roles or the outcome you need.' },
-  { name: 'Shortlist', text: `Profiles of vetted engineers, or a pod plan, within ${SHORTLIST_TIME}.` },
-  { name: 'Interview and start', text: 'You interview and choose. No commitment until you do.' },
+  { name: 'Fill in the form', text: 'Tell us a little about yourself and what you would like to know.' },
+  { name: 'We get in touch', text: `Our team reads every message and replies within ${REPLY_TIME}.` },
+  { name: 'Talk it through', text: 'Ask us anything about our solutions, services or how we work.' },
 ];
 
 interface ContactViewProps {
@@ -106,7 +106,7 @@ export default function ContactView(_props: ContactViewProps) {
 
       {/* c) What happens next */}
       <section aria-labelledby="next-heading" className={sectionClass}>
-        <SectionHeading id="next-heading" label="What happens next" title="Three steps to your first engineer." />
+        <SectionHeading id="next-heading" label="What happens next" title="How to get in touch." />
         <ol className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {NEXT_STEPS.map((step, idx) => (
             <li key={step.name} className={card}>
