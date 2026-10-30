@@ -153,7 +153,7 @@ export default function BlogPostView() {
             <span aria-hidden="true">→</span>
           </Link>
           <Link
-            to="/solutions"
+            to="/our-solutions"
             className="inline-flex items-center gap-1.5 border border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A]/5 text-xs font-semibold px-6 py-3 rounded-full transition-colors"
           >
             Browse our solutions

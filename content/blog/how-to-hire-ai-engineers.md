@@ -5,7 +5,7 @@ meta_description: "How to hire AI engineers in 2026: define the role, source tal
 slug: how-to-hire-ai-engineers
 category: AI Pods & Engineering Teams
 date: 2026-09-25
-updated: 2026-10-29
+updated: 2026-10-30
 author: Fwdpod
 image: /blog-images/how-to-hire-ai-engineers.jpg
 image_alt: "An AI engineer being interviewed across a desk, with a RAG pipeline from documents to retrieve to generate to evaluate, evaluation metrics and a six-step hiring checklist shown alongside"
@@ -145,7 +145,7 @@ In those cases a [dedicated AI engineering pod](/insights/what-is-an-ai-pod), a 
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and the Gulf.
 
-If you are weighing a hire against a pod, the [solutions page](/solutions) shows how each pod is put together, or [book a 30-minute call](/configure) to talk through your own use case. For pricing, [talk to the team](/contact).
+If you are weighing a hire against a pod, the [solutions page](/our-solutions) shows how each pod is put together, or [book a 30-minute call](/configure) to talk through your own use case. For pricing, [talk to the team](/contact).
 
 ## Key takeaways
 

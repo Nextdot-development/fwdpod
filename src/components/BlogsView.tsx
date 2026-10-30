@@ -79,7 +79,7 @@ export default function BlogsView() {
         {/* Booking lives in the band below; this points into the pod and case study pages */}
         <div className="pt-2 flex flex-wrap justify-center gap-3">
           <Link
-            to="/solutions"
+            to="/our-solutions"
             className="inline-block bg-[#0066FF] hover:bg-[#0055DD] text-white text-xs font-semibold py-3.5 px-8 rounded-full transition-colors"
           >
             See our solutions

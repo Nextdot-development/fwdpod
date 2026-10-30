@@ -368,8 +368,8 @@ export default function HomeView() {
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <Link
-              to="/solutions"
-              onClick={() => trackCtaClick('See our solutions (hero)', '/solutions')}
+              to="/our-solutions"
+              onClick={() => trackCtaClick('See our solutions (hero)', '/our-solutions')}
               className={secondaryButton}
             >
               See our solutions
@@ -420,7 +420,7 @@ export default function HomeView() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <SectionHeading id="pods-heading" label="Pod options" title="The pods we deploy most." />
             <Link
-              to="/solutions"
+              to="/our-solutions"
               className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2"
             >
               <span>See all solutions</span>

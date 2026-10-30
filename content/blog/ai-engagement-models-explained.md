@@ -5,7 +5,7 @@ meta_description: "AI development engagement models explained: T&M, fixed scope,
 slug: ai-engagement-models-explained
 category: AI Pods & Engineering Teams
 date: 2026-09-26
-updated: 2026-10-29
+updated: 2026-10-30
 author: Fwdpod
 image: /blog-images/ai-engagement-models-explained.jpg
 image_alt: "Seven AI development engagement models arranged around a central AI cube: time and materials, fixed scope, dedicated pods, staff augmentation, forward deployed engineers, build-operate-transfer and outcome-based"
@@ -80,7 +80,7 @@ So the practical question is not "which model is best?" but "which model matches
 
 ### What is the difference between a dedicated and a shared AI pod?
 
-A **dedicated pod** is assigned only to you for the term. It builds context on your data and systems, and continuity is its main benefit. A **shared pod** spreads one team's capacity across several clients. It suits intermittent needs, such as monthly evaluation runs or small feature requests on a live system, but response times are slower and context is thinner. When comparing proposals, ask for the percentage of each named person's time allocated to you; "shared" can mean anything from a half-time team to a help desk. The [solutions page](/solutions) shows how pre-assembled pods are put together.
+A **dedicated pod** is assigned only to you for the term. It builds context on your data and systems, and continuity is its main benefit. A **shared pod** spreads one team's capacity across several clients. It suits intermittent needs, such as monthly evaluation runs or small feature requests on a live system, but response times are slower and context is thinner. When comparing proposals, ask for the percentage of each named person's time allocated to you; "shared" can mean anything from a half-time team to a help desk. The [solutions page](/our-solutions) shows how pre-assembled pods are put together.
 
 **Clauses to watch.**
 - Named key personnel, allocation percentage, and how much notice you get before a swap.
@@ -174,7 +174,7 @@ Whatever the model, five clauses decide whether an AI engagement ends well:
 
 [Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India.
 
-To see how these options are structured commercially, browse the [solutions page](/solutions), or [book a 30-minute call](/configure) to talk through your own use case and pricing.
+To see how these options are structured commercially, browse the [solutions page](/our-solutions), or [book a 30-minute call](/configure) to talk through your own use case and pricing.
 
 ## Frequently Asked Questions
 

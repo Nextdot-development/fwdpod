@@ -1,8 +1,8 @@
 /**
- * The six pods shown on the homepage and the Solutions page (/solutions).
+ * The six pods shown on the homepage and the Solutions page (/our-solutions).
  *
  * `id` matches the ids in src/data.ts where a pod already had one, so the
- * footer's links still open the right block on /solutions.
+ * footer's links still open the right block on /our-solutions.
  */
 import { LLMOPS_POD_SIZE } from './business-facts';
 

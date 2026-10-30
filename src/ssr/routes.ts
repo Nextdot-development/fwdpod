@@ -9,7 +9,7 @@ import { CATEGORY_PAGE_SIZE, categoryPath } from '../data/blogCategories';
  */
 const STATIC_PATHS = [
   '/',
-  '/solutions',
+  '/our-solutions',
   '/configure',
   '/case-studies',
   '/how-we-work',
@@ -28,8 +28,8 @@ const STATIC_PATHS = [
 const STATIC_LASTMOD: Record<string, string> = {
   // Redesign steps 1-4, live on 2026-10-26
   '/': '2026-10-26',
-  // Renamed from /catalogue and rewritten on 2026-10-29
-  '/solutions': '2026-10-29',
+  // Renamed from /catalogue (Our Solutions) and rewritten on 2026-10-30
+  '/our-solutions': '2026-10-30',
   '/case-studies': '2026-10-26',
   '/how-we-work': '2026-10-26',
   '/insights': '2026-10-26',

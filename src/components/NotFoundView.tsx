@@ -31,10 +31,10 @@ export default function NotFoundView() {
           Go Home
         </Link>
         <Link
-          to="/solutions"
+          to="/our-solutions"
           className="border border-[#0A0A0A] text-[#0A0A0A] text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-[#0A0A0A]/5 transition-colors"
         >
-          View Solutions
+          View Our Solutions
         </Link>
       </div>
     </div>

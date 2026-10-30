@@ -44,7 +44,7 @@ import HowWeWorkView from './components/HowWeWorkView';
 // ── Route map — maps legacy page-name strings to URL paths ────────────────────
 const ROUTE_MAP: Record<string, string> = {
   home:        '/',
-  catalogue:   '/solutions',
+  catalogue:   '/our-solutions',
   configure:   '/configure',
   'live-pods': '/case-studies',
   blogs:       '/insights',
@@ -61,13 +61,13 @@ function LegacyBlogRedirect() {
 }
 
 /**
- * /catalogue was renamed /solutions. The server 301s it; this catches in-app
+ * /catalogue was renamed /our-solutions (Our Solutions). The server 301s it; this catches in-app
  * navigation to the old path, keeping the query, the #pod anchor and any pod
  * passed by a link.
  */
 function CatalogueRedirect() {
   const { search, hash, state } = useLocation();
-  return <Navigate to={{ pathname: '/solutions', search, hash }} state={state} replace />;
+  return <Navigate to={{ pathname: '/our-solutions', search, hash }} state={state} replace />;
 }
 
 // ── Shared NavLink className helper ──────────────────────────────────────────
@@ -151,7 +151,7 @@ export default function App() {
           {/* Desktop nav — all NavLinks render as <a href="..."> */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8 text-xs font-medium text-[#555555]">
             <NavLink to="/" end className={desktopNavClass} onClick={() => trackNavClick('Home', '/')}>Home</NavLink>
-            <NavLink to="/solutions" className={desktopNavClass} onClick={() => trackNavClick('Solutions', '/solutions')}>Solutions</NavLink>
+            <NavLink to="/our-solutions" className={desktopNavClass} onClick={() => trackNavClick('Our Solutions', '/our-solutions')}>Our Solutions</NavLink>
             <NavLink to="/case-studies" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/case-studies')}>Case studies</NavLink>
             <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
             <NavLink to="/how-we-work" className={desktopNavClass} onClick={() => trackNavClick('How we work', '/how-we-work')}>How we work</NavLink>
@@ -219,10 +219,10 @@ export default function App() {
                         )}
                       </NavLink>
 
-                      <NavLink to="/solutions" onClick={() => { closeMobileMenu(); trackNavClick('Solutions (mobile)', '/solutions'); }} className={mobileNavClass}>
+                      <NavLink to="/our-solutions" onClick={() => { closeMobileMenu(); trackNavClick('Our Solutions (mobile)', '/our-solutions'); }} className={mobileNavClass}>
                         {({ isActive }) => (
                           <>
-                            <span>Solutions</span>
+                            <span>Our Solutions</span>
                             {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
                           </>
                         )}
@@ -281,7 +281,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route
-            path="/solutions"
+            path="/our-solutions"
             element={
               <SolutionsView
                 selectedPodId={selectedPodId}
@@ -542,19 +542,19 @@ export default function App() {
 
             {/* Footer nav columns — compact spacing */}
             <div className="flex flex-col md:flex-row gap-8 md:gap-6 flex-1">
-              {/* Solutions */}
-              <nav aria-label="Solutions links">
-                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Solutions</span>
+              {/* Our Solutions */}
+              <nav aria-label="Our Solutions links">
+                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Our Solutions</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
                   {PODS.map(pod => (
                     <li key={pod.id}>
                       {/* The pod travels with this one navigation, so a later visit opens nothing */}
                       <Link
-                        to="/solutions"
+                        to="/our-solutions"
                         state={{ podId: pod.id }}
                         className="hover:text-[#0A0A0A] hover:underline transition-all"
                       >
-                        {/* The column heading says Solutions; Custom keeps "Pod" */}
+                        {/* The column heading names the page; Custom keeps "Pod" */}
                         {pod.id === 'custom-pod' ? pod.name : pod.name.replace(/ Pod$/, '')}
                       </Link>
                     </li>

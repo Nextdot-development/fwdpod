@@ -4,7 +4,7 @@
     { "src": "^/blog/(.+?)/?$", "status": 301, "headers": { "Location": "/insights/$1" } },
     { "src": "^/blog/?$", "status": 301, "headers": { "Location": "/insights" } },
     { "src": "^/live-pods/?$", "status": 301, "headers": { "Location": "/case-studies" } },
-    { "src": "^/catalogue/?$", "status": 301, "headers": { "Location": "/solutions" } },
+    { "src": "^/catalogue/?$", "status": 301, "headers": { "Location": "/our-solutions" } },
     { "src": "^/(.+)/$", "status": 301, "headers": { "Location": "/$1" } },
 
     { "src": "^/_pages(?:/.*)?$", "status": 404, "dest": "/_pages/404.html" },

@@ -5,7 +5,7 @@ meta_description: "How enterprises buy AI engineering capacity in 2026: six sour
 slug: how-enterprises-buy-ai-engineering-capacity
 category: AI Strategy: Pilot to Production
 date: 2026-09-28
-updated: 2026-10-29
+updated: 2026-10-30
 author: Fwdpod
 image: /blog-images/how-enterprises-buy-ai-engineering-capacity.jpg
 image_alt: "An empty enterprise boardroom with a laptop and printed reports on the table, and six sourcing channels pinned to the glass wall: global SIs and consultancies, hyperscaler partners, dedicated pods, specialist AI firms, staff augmentation and freelancers"
@@ -140,7 +140,7 @@ Also decide before signing whether you want an outsourced AI engineering team fo
 
 [Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India. That puts it in the pods row above: engineering execution owned by the pod, product direction owned by your team.
 
-If you are routing a request for an AI engineering team, the [solutions page](/solutions) shows how the pods are structured, and you can [book a 30-minute call](/configure) about your use case, pricing and start dates.
+If you are routing a request for an AI engineering team, the [solutions page](/our-solutions) shows how the pods are structured, and you can [book a 30-minute call](/configure) about your use case, pricing and start dates.
 
 ## Frequently Asked Questions
 

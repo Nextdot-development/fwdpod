@@ -18,7 +18,7 @@ const SOLUTIONS_JSON_LD = {
     {
       '@type': 'WebPage',
       '@id': 'https://www.fwdpod.com/#solutions',
-      'url': 'https://www.fwdpod.com/solutions',
+      'url': 'https://www.fwdpod.com/our-solutions',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
       'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
@@ -26,7 +26,7 @@ const SOLUTIONS_JSON_LD = {
         '@type': 'BreadcrumbList',
         'itemListElement': [
           { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Solutions', 'item': 'https://www.fwdpod.com/solutions' }
+          { '@type': 'ListItem', 'position': 2, 'name': 'Our Solutions', 'item': 'https://www.fwdpod.com/oursolutions' }
         ]
       }
     },
@@ -40,7 +40,7 @@ const SOLUTIONS_JSON_LD = {
         'position': idx + 1,
         'name': pod.name,
         'description': pod.summary,
-        'url': `https://www.fwdpod.com/solutions#pod-heading-${pod.id}`
+        'url': `https://www.fwdpod.com/our-solutions#pod-heading-${pod.id}`
       }))
     }
   ]
@@ -196,7 +196,7 @@ export default function SolutionsView(_props: SolutionsViewProps) {
 
       {/* 1. Intro */}
       <section className="pt-2 space-y-4 max-w-3xl" aria-labelledby="solutions-heading">
-        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Solutions</span>
+        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Our Solutions</span>
         <h1 id="solutions-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
           AI solutions built around your business goals.
         </h1>
@@ -214,7 +214,7 @@ export default function SolutionsView(_props: SolutionsViewProps) {
 
       {/* 2. Solutions */}
       <section aria-labelledby="pods-heading" className="flex flex-col gap-6 pt-10 pb-12 md:pb-16">
-        <SectionHeading id="pods-heading" label="Our solutions" title="Find the solution that fits your goal." />
+        <SectionHeading id="pods-heading" label="Our pods" title="Find the pod that fits your goal." />
         {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           {[PODS.slice(0, 3), PODS.slice(3)].map((column, idx) => (
