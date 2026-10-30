@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Check, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
 import PricingSection from './marketing/PricingSection';
-import { BookingLink, card, cardHover, primaryButton, secondaryButton, sectionClass, SectionHeading } from './marketing/ui';
+import { BookingLink, card, cardHover, primaryButton, sectionClass, SectionHeading } from './marketing/ui';
 import { PODS, type Pod } from '../content/pods';
 import { trackCtaClick } from '../utils/analytics';
 
@@ -195,25 +195,18 @@ export default function SolutionsView(_props: SolutionsViewProps) {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={SOLUTIONS_JSON_LD} />
 
       {/* 1. Intro */}
-      <section className="pt-2 space-y-4 max-w-3xl" aria-labelledby="solutions-heading">
+      <section className="pt-2 space-y-2 max-w-3xl" aria-labelledby="solutions-heading">
         <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Our Solutions</span>
         <h1 id="solutions-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
-          AI solutions built around your business goals.
+          AI engineering pods
         </h1>
         <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
-          From automating routine work to answering customer calls, each solution is delivered by a dedicated team of
-          4–6 engineers who already work together, with one lead accountable to you.
+          Hand over a full workstream to 4–6 engineers who already work together, with one pod lead accountable to you.
         </p>
-        <div className="flex flex-wrap gap-3 pt-2">
-          <BookingLink label="Book a 30-minute call" source="solutions hero" className={primaryButton} />
-          <Link to="/case-studies" onClick={() => trackCtaClick('See case studies (solutions hero)', '/case-studies')} className={secondaryButton}>
-            See case studies
-          </Link>
-        </div>
       </section>
 
       {/* 2. Solutions */}
-      <section aria-labelledby="pods-heading" className="flex flex-col gap-6 pt-10 pb-12 md:pb-16">
+      <section aria-labelledby="pods-heading" className="flex flex-col gap-6 pt-6 pb-12 md:pb-16">
         <SectionHeading id="pods-heading" label="Our pods" title="Find the pod that fits your goal." />
         {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
