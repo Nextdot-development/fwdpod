@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowRight, ChevronDown, Check } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
+import { TIME_TO_START } from '../content/business-facts';
 import { relatedServices } from '../data/services';
 
 const USE_CASES = [
@@ -34,10 +35,10 @@ const INDUSTRIES = [
 const FAQS = [
   { q: 'What are AI Team Extension Services?', a: 'AI Team Extension Services are a model where pre-assembled AI engineering specialists are embedded directly into your existing organization — extending your internal team\'s capacity without the delay of traditional hiring. Unlike outsourced projects, AI Team Extension means engineers join your standups, use your tools, and contribute to your codebase as if they were permanent staff. Fwdpod provides this through pre-vetted, context-ready pods.' },
   { q: 'What are Embedded AI Engineers?', a: 'Embedded AI Engineers are AI specialists who integrate into your team\'s day-to-day workflow — attending your ceremonies, using your project management tools, and owning deliverables alongside your permanent staff. Unlike contractors who work at arm\'s length, embedded AI engineers function as genuine extensions of your team with full context on your product, codebase, and delivery culture.' },
-  { q: 'How do I hire dedicated AI architects without a long recruiting cycle?', a: 'Dedicated AI Architects from Fwdpod can be onboarded in 5–7 business days through our pod model. You bypass the 3–6 month recruiting cycle by accessing pre-vetted architects who already have hands-on experience in LLM system design, RAG architecture, and MLOps infrastructure. You engage Fwdpod, define the scope, and your Dedicated AI Architect is embedded and contributing within the first week.' },
+  { q: 'How do I hire dedicated AI architects without a long recruiting cycle?', a: 'Dedicated AI Architects from Fwdpod can go from first call to first commit in ' + TIME_TO_START + ' through our pod model. You bypass the 3–6 month recruiting cycle by accessing pre-vetted architects who already have hands-on experience in LLM system design, RAG architecture, and MLOps infrastructure. You engage Fwdpod, define the scope, and your Dedicated AI Architect is embedded and contributing within the first week.' },
   { q: 'What is AI team augmentation?', a: 'AI team augmentation means embedding Dedicated AI Engineers — from Fwdpod\'s pre-assembled pods — directly into your team to accelerate delivery. Unlike traditional staffing, AI Engineers on Demand through Fwdpod are pre-vetted, context-ready, and organized in collaborative pod structures rather than hired as individual contractors. This makes them faster to contribute and better coordinated.' },
   { q: 'What roles does Fwdpod provide for team augmentation?', a: 'We provide LLM engineers, ML architects, AI product managers, backend AI engineers, MLOps/AI infrastructure engineers, AI QA specialists, RAG system engineers, and Dedicated AI Architects. Pod compositions are tailored to your current gap and delivery model.' },
-  { q: 'How quickly can an augmentation team be onboarded?', a: 'Fwdpod pods can be onboarded within 5–7 business days of scope agreement. Because pods are pre-formed and context-ready, ramp time is significantly faster than direct hiring for AI Experts for Hire — no 90-day onboarding cycles.' },
+  { q: 'How quickly can an augmentation team be onboarded?', a: 'Fwdpod pods go from first call to first commit in ' + TIME_TO_START + '. Because pods are pre-formed and context-ready, ramp time is significantly faster than direct hiring for AI Experts for Hire — no 90-day onboarding cycles.' },
   { q: 'Can I hire a single engineer or do I need a full pod?', a: 'Both options are available. You can augment with a single specialist AI Engineer on Demand (e.g., an LLM engineer or Dedicated AI Architect) or embed a full pod of 4–6 engineers depending on your project scope and delivery timeline needs.' },
   { q: 'What are Forward Deployed AI Engineers?', a: 'Forward Deployed AI Engineers are senior AI specialists who embed inside your organization — working in your environment, tools, and processes — with direct accountability for delivery outcomes rather than hours billed. Unlike traditional contractors who operate at arm\'s length, Forward Deployed AI Engineers attend your standups, participate in architecture decisions, and own workstreams end to end. Fwdpod deploys Forward Deployed AI Engineers for organizations that need AI engineering capacity integrated into active delivery pipelines, particularly when internal teams have strong product context but lack the specialist AI skills required to ship to production.' },
   { q: 'How does pricing work for team augmentation?', a: 'Augmentation is typically structured as a monthly engagement with a fixed team composition. Pricing varies based on team size, seniority, and specialization. Book a consultation for a scoped proposal.' },
@@ -149,7 +150,7 @@ export default function TeamAugmentationView() {
             <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Pod Metrics // Team Augmentation</span>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: 'Onboarding', value: '5–7 Days' },
+                { label: 'First commit', value: `In ${TIME_TO_START}` },
                 { label: 'Team Size', value: '1–6 Engineers' },
                 { label: 'Engagement', value: 'Monthly Basis' },
                 { label: 'IP Ownership', value: 'Fully Yours' },

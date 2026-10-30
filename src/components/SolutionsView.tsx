@@ -8,9 +8,9 @@ import { PODS, type Pod } from '../content/pods';
 import { trackCtaClick } from '../utils/analytics';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
-const PAGE_TITLE = 'AI Solutions for Automation, Search and Voice | Fwdpod';
+const PAGE_TITLE = 'Our Solutions: AI Engineering Pods | Fwdpod';
 const PAGE_DESCRIPTION =
-  'AI solutions for workflow automation, document search, customer calls, compliance and AI operations, each delivered by a dedicated team of 4–6 engineers.';
+  'Six AI engineering pods for AI agents, document search, voice AI, compliance, LLMOps and custom work: 4–6 engineers who already work together, with one pod lead.';
 
 const SOLUTIONS_JSON_LD = {
   '@context': 'https://schema.org',
@@ -32,8 +32,8 @@ const SOLUTIONS_JSON_LD = {
     },
     {
       '@type': 'ItemList',
-      'name': 'AI solutions',
-      'description': 'AI solutions, each delivered by a dedicated team of 4–6 engineers with one accountable lead',
+      'name': 'AI engineering pods',
+      'description': 'AI engineering pods of 4–6 engineers who already work together, each with one accountable pod lead',
       'numberOfItems': PODS.length,
       'itemListElement': PODS.map((pod, idx) => ({
         '@type': 'ListItem',

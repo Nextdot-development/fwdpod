@@ -610,7 +610,7 @@ export default function App() {
               <span className="block text-[11px] text-[#0A0A0A] font-mono font-bold uppercase tracking-wider">A note from the founder</span>
               <div className="space-y-2">
                 <p className="text-[13px] leading-relaxed italic text-[#444444] font-serif">
-                  "We build fully autonomous, pre-formed cognitive pods directly tuned to your product's core needs. Let's bypass legacy hiring friction and engineer the future, today."
+                  "We build AI engineering teams that already work together and fit your product's needs, so you can skip the long hiring process and start building sooner."
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-[11px] font-semibold text-[#0a0a0a]">— Founder</span>
