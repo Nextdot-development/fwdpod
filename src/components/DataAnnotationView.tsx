@@ -45,7 +45,7 @@ const FAQS = [
   { q: 'Can you annotate data for a RAG system or AI agent?', a: 'Yes. We build ground-truth question–answer–source sets to evaluate retrieval and answer quality, and we annotate agent trajectories to find where multi-step workflows break.' },
   { q: 'How do you control annotation quality?', a: 'Every project starts with written annotation guidelines and a pilot batch. Production batches go through inter-annotator agreement checks and reviewer sign-off, and results are measured against an evaluation benchmark.' },
   { q: 'Who owns the annotated data?', a: 'You do. All datasets, labels and guidelines are assigned to you under the engagement contract.' },
-  { q: 'Can data annotation be added to an existing AI engineering pod?', a: 'Yes. Annotation can run inside an LLM, RAG, Agentic Operations, Voice AI or Compliance AI pod, or as a standalone data and evaluation engagement.' },
+  { q: 'Can data annotation be added to an existing AI engineering pod?', a: 'Yes. Annotation can run inside an LLM, RAG, Agent Development, Voice AI or Compliance AI pod, or as a standalone data and evaluation engagement.' },
 ];
 
 const RELATED = relatedServices('/services/data-annotation');
@@ -132,7 +132,7 @@ export default function DataAnnotationView() {
             Scope your annotation project
           </Link>
           <Link to="/contact" className="border border-[#0A0A0A] text-[#0A0A0A] font-semibold text-xs px-6 py-3 rounded-full hover:bg-[#0A0A0A]/5 transition-colors flex items-center gap-1.5">
-            Talk to a Technical Principal <ArrowRight className="w-3.5 h-3.5" />
+            Talk to our team <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       </section>
@@ -253,14 +253,14 @@ export default function DataAnnotationView() {
           Get training and evaluation data built by the team that ships your model
         </h2>
         <p className="text-xs text-[#555555] max-w-md mx-auto leading-relaxed">
-          Five questions, two-minute scoping. A structured proposal from a Technical Principal within 48 hours.
+          Tell us the role or the outcome. We'll send matched profiles or a pod plan within 48 hours.
         </p>
         <div className="pt-2">
           <Link
             to="/configure"
             className="inline-block bg-[#0066FF] text-[#FFFFFF] hover:bg-[#0055DD] font-semibold text-sm py-4 px-10 transition-colors rounded-full shadow-sm hover:shadow"
           >
-            Configure your pod
+            Book a 30-minute call
           </Link>
         </div>
       </section>

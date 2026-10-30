@@ -5,11 +5,10 @@ import ContactForm from './marketing/ContactForm';
 import { card, cardHover, sectionClass, SectionHeading } from './marketing/ui';
 import { CONTACT_EMAIL } from '../utils/formEmail';
 import { trackContactFormSubmit } from '../utils/analytics';
-import { SHORTLIST_TIME } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
-const PAGE_TITLE = 'Contact Fwdpod | Book a 30-Minute Call';
-const PAGE_DESCRIPTION = `Tell us the role or the outcome you need. We'll send matched AI engineer profiles or a pod plan within ${SHORTLIST_TIME}.`;
+const PAGE_TITLE = 'Contact Fwdpod | Business Enquiries and Questions';
+const PAGE_DESCRIPTION = 'Questions about our AI engineering solutions, services or the outcomes we deliver? Fill in the form and our team will get back to you as soon as possible.';
 
 const CONTACT_JSON_LD = {
   '@context': 'https://schema.org',

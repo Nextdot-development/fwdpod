@@ -130,7 +130,7 @@ export default function AiAgentsView() {
               Building reliable autonomous AI agents for enterprises requires rigorous design of the action space, memory architecture, fallback strategies, and observability infrastructure. Without these, agents become unpredictable and dangerous in production environments. Multi-agent AI systems add an additional layer of orchestration complexity that demands specialized architecture expertise.
             </p>
             <p>
-              Fwdpod's Agentic Operations pods are specialists in custom AI agent development services — building CrewAI-based role systems, LangGraph state machines, and MCP Integration architectures that are reliable, auditable, and observable, with guardrails and escalation paths built in from day one.
+              Fwdpod's Agent Development Pods are specialists in custom AI agent development services — building CrewAI-based role systems, LangGraph state machines, and MCP Integration architectures that are reliable, auditable, and observable, with guardrails and escalation paths built in from day one.
             </p>
           </div>
           <div className="bg-[#0A0A0A] text-white rounded-3xl p-6 space-y-5 border border-zinc-800">
