@@ -6,7 +6,7 @@ import { trackBookingRequest } from '../utils/analytics';
 import { SHORTLIST_TIME } from '../content/business-facts';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
-const PAGE_TITLE = 'Book a 30-Minute Call | Fwdpod';
+const PAGE_TITLE = 'Book a 30-Minute Call: AI Engineers and AI Pods | Fwdpod';
 const PAGE_DESCRIPTION = `Tell us the role or the outcome you need. We'll send matched profiles of pre-vetted AI engineers, or a pod plan, within ${SHORTLIST_TIME}.`;
 
 const CONFIGURE_JSON_LD = {
