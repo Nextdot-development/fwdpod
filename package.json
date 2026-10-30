@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "npm run cms:fetch && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-no-secrets.mjs",
+    "build": "npm run cms:fetch && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs && node scripts/check-no-secrets.mjs && node scripts/check-api-imports.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist dist-ssr",
     "lint": "tsc --noEmit",

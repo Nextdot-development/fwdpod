@@ -11,8 +11,8 @@
  *         engagement, start_date }
  */
 
-import { checkEmail } from './_email';
-import { saveSubmission } from './_store';
+import { checkEmail } from './_email.js';
+import { saveSubmission } from './_store.js';
 
 const RESEND_API_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';
 const TO = process.env.FORM_TO_EMAIL || 'contact.fwdpod@gmail.com';

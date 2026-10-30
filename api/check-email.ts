@@ -4,7 +4,7 @@
  * Lets the website forms check an address as soon as it's typed, before the
  * request is emailed and saved. /api/send-form runs the same check again.
  */
-import { checkEmail } from './_email';
+import { checkEmail } from './_email.js';
 
 const ALLOWED_ORIGIN = /^(https:\/\/(www\.)?fwdpod\.com|https:\/\/[a-z0-9-]+\.vercel\.app|http:\/\/localhost(:\d+)?|http:\/\/127\.0\.0\.1(:\d+)?)$/;
 
