@@ -38,7 +38,7 @@ const SOLUTIONS_JSON_LD = {
       'itemListElement': PODS.map((pod, idx) => ({
         '@type': 'ListItem',
         'position': idx + 1,
-        'name': pod.solution,
+        'name': pod.name,
         'description': pod.summary,
         'url': `https://www.fwdpod.com/solutions#pod-heading-${pod.id}`
       }))
@@ -75,11 +75,15 @@ function SolutionCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onTogg
       }`}
     >
       <div className="space-y-2">
-        <span className={`block text-[10px] font-mono uppercase tracking-wider ${muted}`}>
-          {pod.name} · {pod.timeline}
+        {/* ID and timeline, as on the earlier catalogue cards */}
+        <span className="flex flex-wrap items-center gap-2">
+          <span className={`text-[10px] font-mono uppercase ${muted}`}>ID: {pod.id}</span>
+          <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0055DD]'}`}>
+            {pod.timeline}
+          </span>
         </span>
         <h3 id={`solution-title-${pod.id}`} className={`text-xl md:text-2xl font-display font-medium tracking-tight ${strong}`}>
-          {pod.solution}
+          {pod.name}
         </h3>
         <p className={`text-sm leading-relaxed ${muted}`}>{pod.summary}</p>
       </div>
@@ -134,11 +138,11 @@ function SolutionCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onTogg
       </div>
 
       <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3">
-        <BookingLink label="Discuss this solution" source={`solutions ${pod.solution}`} className={primaryButton} />
+        <BookingLink label="Discuss this solution" source={`solutions ${pod.name}`} className={primaryButton} />
         {pod.caseStudyId && (
           <Link
             to={`/case-studies#${pod.caseStudyId}`}
-            onClick={() => trackCtaClick(`View case study (solutions ${pod.solution})`, '/case-studies')}
+            onClick={() => trackCtaClick(`View case study (solutions ${pod.name})`, '/case-studies')}
             className={`text-xs font-medium inline-flex items-center gap-1 hover:underline ${dark ? 'text-white' : 'text-[#0066FF]'}`}
           >
             View case study <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -216,7 +220,7 @@ export default function SolutionsView(_props: SolutionsViewProps) {
       <section aria-labelledby="team-heading" className={sectionClass}>
         <SectionHeading id="team-heading" label="How it's delivered" title="A dedicated team behind every solution." />
         <p className="-mt-6 md:-mt-8 text-sm text-[#555555] max-w-xl leading-relaxed">
-          For example, Workflow Automation with AI Agents is delivered by a team of five:
+          For example, the Agent Development Pod is a team of five:
         </p>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {EXAMPLE_TEAM.map(item => (

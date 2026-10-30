@@ -554,7 +554,8 @@ export default function App() {
                         state={{ podId: pod.id }}
                         className="hover:text-[#0A0A0A] hover:underline transition-all"
                       >
-                        {pod.solution}
+                        {/* The column heading says Solutions; Custom keeps "Pod" */}
+                        {pod.id === 'custom-pod' ? pod.name : pod.name.replace(/ Pod$/, '')}
                       </Link>
                     </li>
                   ))}

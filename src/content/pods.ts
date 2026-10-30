@@ -17,9 +17,7 @@ export interface Pod {
   /** What's included, in plain words (Solutions page). */
   typicalWork: string[];
   highlighted?: boolean;
-  // ── Solutions page: the same offering, described for business readers ──
-  /** Business-facing name of what the pod delivers. */
-  solution: string;
+  // ── Solutions page: the offering, described for business readers ──
   /** What it is, in one sentence. */
   summary: string;
   /** The business problem it addresses. */
@@ -44,7 +42,6 @@ export const PODS: Pod[] = [
       'A safe, separate space for any code the AI writes',
       'Clear error tracking, so problems are easy to find and fix',
     ],
-    solution: 'Workflow Automation with AI Agents',
     summary: 'AI agents that carry out routine, multi-step tasks across the systems you already use.',
     challenge: 'Teams spend hours on repetitive back-office work such as reconciliation, billing and document processing.',
     value: 'Less manual effort on routine work, with people still approving the steps that matter.',
@@ -63,7 +60,6 @@ export const PODS: Pod[] = [
       'Automatic updates as your documents change',
       'Tests that catch wrong or made-up answers',
     ],
-    solution: 'AI Search Across Your Documents',
     summary: 'An AI assistant that answers questions using your own documents and data.',
     challenge: 'Important information is spread across policies, contracts and documentation, and takes too long to find.',
     value: 'Quicker answers from your own content, tested to catch wrong or made-up responses.',
@@ -81,7 +77,6 @@ export const PODS: Pod[] = [
       'Connection to your existing phone system',
       'Safeguards against wrong or off-script answers',
     ],
-    solution: 'Voice AI for Customer Calls',
     summary: 'Voice agents that answer phone calls for support, scheduling and intake, in real time.',
     challenge: 'High call volumes put pressure on support and front-desk teams.',
     value: 'Routine calls handled consistently, with safeguards that keep answers accurate and on script.',
@@ -100,7 +95,6 @@ export const PODS: Pod[] = [
       'Audit logs that stay inside your environment',
       'Checks on how customised AI models behave',
     ],
-    solution: 'Secure and Compliant AI',
     summary: 'Privacy protection, audit trails and safety testing for your AI systems.',
     challenge: 'Regulated businesses need AI that meets strict privacy, security and audit requirements.',
     value: 'AI systems that are easier for your security and compliance teams to review and approve.',
@@ -120,7 +114,6 @@ export const PODS: Pod[] = [
       'Monitoring how they perform over time',
       'Keeping running costs under control',
     ],
-    solution: 'AI Operations and Monitoring',
     summary: 'Ongoing support to run, monitor and manage AI systems once they are live.',
     challenge: 'AI that is already in use can become unreliable or expensive without ongoing care.',
     value: 'AI systems that stay reliable, with running costs kept under control.',
@@ -138,7 +131,6 @@ export const PODS: Pod[] = [
       'Handover support for your in-house team',
     ],
     highlighted: true,
-    solution: 'Custom AI Solutions',
     summary: 'A team built around your systems, your data and your goal.',
     challenge: "Some projects need complex connections to existing systems, or don't fit a standard solution.",
     value: 'A solution shaped to your needs, with support to hand it over to your in-house team.',
