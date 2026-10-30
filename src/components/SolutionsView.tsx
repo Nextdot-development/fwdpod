@@ -66,52 +66,62 @@ function SolutionCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onTogg
   const detailsId = `pod-details-${pod.id}`;
   const muted = dark ? 'text-zinc-300' : 'text-[#555555]';
   const strong = dark ? 'text-white' : 'text-[#0A0A0A]';
+  const label = `text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-400' : 'text-[#0066FF]'}`;
   return (
     <article
       id={`pod-heading-${pod.id}`}
-      aria-labelledby={`solution-title-${pod.id}`}
-      className={`scroll-mt-24 rounded-3xl border shadow-sm p-6 md:p-8 flex flex-col gap-5 ${cardHover} ${
+      className={`scroll-mt-24 rounded-3xl border overflow-hidden shadow-sm ${cardHover} ${
         dark ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : `bg-white ${open ? 'border-[#0066FF]' : 'border-zinc-200/85'}`
       }`}
     >
-      <div className="space-y-2">
-        {/* ID and timeline, as on the earlier catalogue cards */}
-        <span className="flex flex-wrap items-center gap-2">
-          <span className={`text-[10px] font-mono uppercase ${muted}`}>ID: {pod.id}</span>
-          <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0055DD]'}`}>
-            {pod.timeline}
-          </span>
-        </span>
-        <h3 id={`solution-title-${pod.id}`} className={`text-xl md:text-2xl font-display font-medium tracking-tight ${strong}`}>
-          {pod.name}
-        </h3>
-        <p className={`text-sm leading-relaxed ${muted}`}>{pod.summary}</p>
-      </div>
-
-      <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <dt className={`text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-400' : 'text-[#0066FF]'}`}>The challenge</dt>
-          <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.challenge}</dd>
-        </div>
-        <div>
-          <dt className={`text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-400' : 'text-[#0066FF]'}`}>The value</dt>
-          <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.value}</dd>
-        </div>
-      </dl>
-
-      <div className={`border-t pt-4 ${dark ? 'border-white/10' : 'border-[#0A0A0A]/10'}`}>
+      {/* Closed: ID, timeline and name only. Click to open the explanation. */}
+      <h3>
         <button
           type="button"
           onClick={onToggle}
           aria-expanded={open}
           aria-controls={detailsId}
-          className={`w-full flex items-center justify-between gap-4 text-left text-sm font-medium cursor-pointer ${strong}`}
+          className={`w-full flex items-center justify-between gap-4 p-6 md:p-10 text-left cursor-pointer transition-colors ${dark ? 'hover:bg-white/5' : 'hover:bg-[#0A0A0A]/[0.03]'}`}
         >
-          What's included
-          <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+          <span className="space-y-3 min-w-0">
+            <span className="flex flex-wrap items-center gap-2">
+              <span className={`text-[10px] font-mono uppercase ${muted}`}>ID: {pod.id}</span>
+              <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0055DD]'}`}>
+                {pod.timeline}
+              </span>
+            </span>
+            <span className={`block text-2xl font-display font-medium tracking-tight ${strong}`}>{pod.name}</span>
+          </span>
+          <span className="flex items-center gap-4 shrink-0" aria-hidden="true">
+            <span className={`hidden sm:inline-block text-xs font-medium ${muted}`}>{open ? 'Collapse spec' : 'Expand spec'}</span>
+            <span className={`p-1.5 rounded-full border ${dark ? 'border-white/20 bg-white/5' : 'border-[#0A0A0A]/10 bg-zinc-50'}`}>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${strong}`} />
+            </span>
+          </span>
         </button>
-        {/* Kept in the page when closed, so the details are in the prerendered HTML */}
-        <div id={detailsId} hidden={!open} className="pt-4 space-y-4 animate-fadeIn">
+      </h3>
+
+      {/* Kept in the page when closed, so the details are in the prerendered HTML */}
+      <div
+        id={detailsId}
+        hidden={!open}
+        className={`px-6 pb-6 md:px-10 md:pb-10 pt-6 md:pt-8 space-y-6 border-t animate-fadeIn ${dark ? 'border-white/10' : 'border-[#0A0A0A]/10'}`}
+      >
+        <p className={`text-sm leading-relaxed ${muted}`}>{pod.summary}</p>
+
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <dt className={label}>The challenge</dt>
+            <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.challenge}</dd>
+          </div>
+          <div>
+            <dt className={label}>The value</dt>
+            <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.value}</dd>
+          </div>
+        </dl>
+
+        <div className="space-y-3">
+          <h4 className={`text-xs font-mono font-medium uppercase tracking-widest ${muted}`}>What's included</h4>
           <ul className="space-y-2.5">
             {pod.typicalWork.map(item => (
               <li key={item} className={`flex gap-2.5 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#555555]'}`}>
@@ -120,34 +130,35 @@ function SolutionCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onTogg
               </li>
             ))}
           </ul>
-          <dl className={`grid grid-cols-2 gap-x-6 gap-y-4 rounded-2xl p-4 ${dark ? 'bg-white/5 border border-white/10' : 'bg-zinc-50 border border-zinc-100'}`}>
-            <div>
-              <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Team size</dt>
-              <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.size}</dd>
-            </div>
-            <div>
-              <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Typical timeline</dt>
-              <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.timeline}</dd>
-            </div>
-            <div className="col-span-2">
-              <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Best for</dt>
-              <dd className={`mt-1 text-sm leading-relaxed ${strong}`}>{pod.bestFor}</dd>
-            </div>
-          </dl>
         </div>
-      </div>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3">
-        <BookingLink label="Discuss this solution" source={`solutions ${pod.name}`} className={primaryButton} />
-        {pod.caseStudyId && (
-          <Link
-            to={`/case-studies#${pod.caseStudyId}`}
-            onClick={() => trackCtaClick(`View case study (solutions ${pod.name})`, '/case-studies')}
-            className={`text-xs font-medium inline-flex items-center gap-1 hover:underline ${dark ? 'text-white' : 'text-[#0066FF]'}`}
-          >
-            View case study <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-          </Link>
-        )}
+        <dl className={`grid grid-cols-2 gap-x-6 gap-y-5 rounded-2xl p-5 ${dark ? 'bg-white/5 border border-white/10' : 'bg-zinc-50 border border-zinc-100'}`}>
+          <div>
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Team size</dt>
+            <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.size}</dd>
+          </div>
+          <div>
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Typical timeline</dt>
+            <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.timeline}</dd>
+          </div>
+          <div className="col-span-2">
+            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Best for</dt>
+            <dd className={`mt-1 text-sm leading-relaxed ${strong}`}>{pod.bestFor}</dd>
+          </div>
+        </dl>
+
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <BookingLink label="Discuss this solution" source={`solutions ${pod.name}`} className={primaryButton} />
+          {pod.caseStudyId && (
+            <Link
+              to={`/case-studies#${pod.caseStudyId}`}
+              onClick={() => trackCtaClick(`View case study (solutions ${pod.name})`, '/case-studies')}
+              className={`text-xs font-medium inline-flex items-center gap-1 hover:underline ${dark ? 'text-white' : 'text-[#0066FF]'}`}
+            >
+              View case study <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </Link>
+          )}
+        </div>
       </div>
     </article>
   );
