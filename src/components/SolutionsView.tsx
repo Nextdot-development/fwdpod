@@ -10,7 +10,7 @@ import { trackCtaClick } from '../utils/analytics';
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'Our Solutions: AI Engineering Pods | Fwdpod';
 const PAGE_DESCRIPTION =
-  'Six AI engineering pods for AI agents, document search, voice AI, compliance, LLMOps and custom work: 4–6 engineers who already work together, with one pod lead.';
+  'Six AI engineering pods for AI agents, document search, voice AI, compliance and LLMOps: 4–6 engineers who already work together, with one pod lead.';
 
 const SOLUTIONS_JSON_LD = {
   '@context': 'https://schema.org',
