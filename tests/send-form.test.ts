@@ -26,8 +26,8 @@ globalThis.fetch = (async (input: string | URL, init?: RequestInit) => {
 const { POST } = await import('../api/send-form');
 
 let ipCounter = 0;
-const send = (body: Record<string, unknown>, { origin = 'https://www.fwdpod.com', ip = `10.0.0.${++ipCounter}` } = {}) =>
-  POST(new Request('https://www.fwdpod.com/api/send-form', {
+const send = (body: Record<string, unknown>, { origin = 'https://fwdpod.com', ip = `10.0.0.${++ipCounter}` } = {}) =>
+  POST(new Request('https://fwdpod.com/api/send-form', {
     method: 'POST',
     headers: { origin, 'content-type': 'application/json', 'x-forwarded-for': ip },
     body: JSON.stringify(body),
@@ -133,4 +133,10 @@ test('a booking request is saved to booking_requests with its own fields', async
   assert.equal(row.need, 'AI pod');
   assert.equal(row.role_or_outcome, null);
   assert.equal(row.start_date, null);
+});
+
+test('both fwdpod.com and the old www host may post, during and after the move', async () => {
+  reset();
+  assert.equal((await send(contact({ email: 'origin.apex@examplebank.com' }), { origin: 'https://fwdpod.com' })).status, 200);
+  assert.equal((await send(contact({ email: 'origin.www@examplebank.com' }), { origin: 'https://www.fwdpod.com' })).status, 200);
 });

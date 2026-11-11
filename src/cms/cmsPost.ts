@@ -11,7 +11,7 @@
  * bundle and the admin bundle.
  */
 
-export const SITE_ORIGIN = 'https://www.fwdpod.com';
+export const SITE_ORIGIN = 'https://fwdpod.com';
 
 export interface CmsFaqItem {
   q: string;

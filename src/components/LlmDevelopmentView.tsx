@@ -51,16 +51,16 @@ const JSON_LD = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/services/llm-development#webpage',
-      url: 'https://www.fwdpod.com/services/llm-development',
+      '@id': 'https://fwdpod.com/services/llm-development#webpage',
+      url: 'https://fwdpod.com/services/llm-development',
       name: 'LLM Development Services | Custom Models & Apps | fwdpod',
       description: 'Build, fine-tune and deploy LLM applications with an embedded pod — evals, guardrails, cost control and production monitoring from day one.',
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.fwdpod.com/services/llm-development' },
-          { '@type': 'ListItem', position: 3, name: 'LLM Development Services', item: 'https://www.fwdpod.com/services/llm-development' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://fwdpod.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://fwdpod.com/services/llm-development' },
+          { '@type': 'ListItem', position: 3, name: 'LLM Development Services', item: 'https://fwdpod.com/services/llm-development' },
         ],
       },
     },
@@ -68,7 +68,7 @@ const JSON_LD = {
       '@type': 'Service',
       name: 'LLM Development Services',
       description: 'Enterprise LLM Development Services and Custom LLM Application Development — AI copilots, enterprise chatbots, knowledge assistants, and internal search systems built by a Dedicated GenAI Team.',
-      provider: { '@id': 'https://www.fwdpod.com/#organization' },
+      provider: { '@id': 'https://fwdpod.com/#organization' },
       serviceType: 'Large Language Model Development',
       areaServed: 'Worldwide',
     },

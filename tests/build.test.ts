@@ -98,7 +98,7 @@ test('a CMS post is prerendered with its SEO tags in the initial HTML', () => {
   const html = page('insights/cms-fixture-newest');
   assert.match(html, /<title>CMS Fixture: The Newest Post \| Fwdpod<\/title>/);
   assert.match(html, /<meta name="description" content="Learn how the CMS fixture post renders/);
-  assert.match(html, /<link rel="canonical" href="https:\/\/www\.fwdpod\.com\/insights\/cms-fixture-newest"\/>/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/fwdpod\.com\/insights\/cms-fixture-newest"\/>/);
   assert.match(html, /<meta property="og:type" content="article"\/>/);
   assert.match(html, /<meta property="og:image" content="https:\/\/example\.supabase\.co\/storage\/v1\/object\/public\/blog-images\/fixture\.png"\/>/);
   assert.match(html, /twitter:card/);
@@ -116,7 +116,7 @@ test('external links render as text, internal ones stay links', () => {
 
 test('the sitemap lists CMS posts from the same data', () => {
   const sitemap = fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8');
-  assert.match(sitemap, /<loc>https:\/\/www\.fwdpod\.com\/insights\/cms-fixture-newest<\/loc>\s*<lastmod>2099-01-02<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/fwdpod\.com\/insights\/cms-fixture-newest<\/loc>\s*<lastmod>2099-01-02<\/lastmod>/);
   assert.match(sitemap, /insights\/cms-fixture-older/);
   assert.doesNotMatch(sitemap, /cms-fixture-bad-category/);
 });
@@ -131,7 +131,7 @@ test('on a slug clash the markdown article wins', () => {
 test('posts are newest first by publish date across both sources', () => {
   // The listing's Blog schema names every post, in listing order.
   const listing = page('insights');
-  const order = [...listing.matchAll(/"datePublished":"([0-9-]+)","url":"https:\/\/www\.fwdpod\.com\/insights\/([a-z0-9-]+)"/g)].map(
+  const order = [...listing.matchAll(/"datePublished":"([0-9-]+)","url":"https:\/\/fwdpod\.com\/insights\/([a-z0-9-]+)"/g)].map(
     (m) => ({ date: m[1], slug: m[2] })
   );
   assert.equal(order[0].slug, 'cms-fixture-newest');
@@ -144,7 +144,7 @@ test('a renamed CMS post 301s from its old slug', () => {
   const htaccess = fs.readFileSync(path.join(dist, '.htaccess'), 'utf8');
   assert.match(
     htaccess,
-    /# CMS_REDIRECTS\nRewriteCond %\{ENV:REDIRECT_STATUS\} \^\$\nRewriteRule \^insights\/cms-fixture-old-slug\/\?\$ https:\/\/www\.fwdpod\.com\/insights\/cms-fixture-newest \[R=301,L\]/
+    /# CMS_REDIRECTS\nRewriteCond %\{ENV:REDIRECT_STATUS\} \^\$\nRewriteRule \^insights\/cms-fixture-old-slug\/\?\$ https:\/\/fwdpod\.com\/insights\/cms-fixture-newest \[R=301,L\]/
   );
 });
 

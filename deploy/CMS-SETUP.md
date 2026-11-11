@@ -1,6 +1,6 @@
 # Blog CMS: setup and operation
 
-The admin at **https://www.fwdpod.com/admin** writes posts to Supabase. The public site stays static: every build pulls the posts the database says are public, prerenders them next to the markdown articles in `content/blog/`, and GitHub Actions uploads the result to GoDaddy. Supabase asks for that build automatically when something public changes.
+The admin at **https://fwdpod.com/admin** writes posts to Supabase. The public site stays static: every build pulls the posts the database says are public, prerenders them next to the markdown articles in `content/blog/`, and GitHub Actions uploads the result to GoDaddy. Supabase asks for that build automatically when something public changes.
 
 ```
 admin (/admin) ──writes──> Supabase (blogs, RLS)

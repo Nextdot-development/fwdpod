@@ -33,16 +33,16 @@ const HOME_JSON_LD = {
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': 'https://www.fwdpod.com/#organization',
+      '@id': 'https://fwdpod.com/#organization',
       'name': 'Fwdpod',
       'alternateName': 'Fwdpod.com',
-      'url': 'https://www.fwdpod.com/',
+      'url': 'https://fwdpod.com/',
       // TODO(assets): favicon.svg stands in for a logo; replace with a real logo image
       'logo': {
         '@type': 'ImageObject',
-        '@id': 'https://www.fwdpod.com/#logo',
-        'url': 'https://www.fwdpod.com/favicon.svg',
-        'contentUrl': 'https://www.fwdpod.com/favicon.svg',
+        '@id': 'https://fwdpod.com/#logo',
+        'url': 'https://fwdpod.com/favicon.svg',
+        'contentUrl': 'https://fwdpod.com/favicon.svg',
         'caption': 'Fwdpod logo'
       },
       // TODO(profiles): Clutch, G2, Crunchbase and LinkedIn profile URLs
@@ -73,26 +73,26 @@ const HOME_JSON_LD = {
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://www.fwdpod.com/#website',
-      'url': 'https://www.fwdpod.com/',
+      '@id': 'https://fwdpod.com/#website',
+      'url': 'https://fwdpod.com/',
       'name': 'Fwdpod',
       'description': 'AI engineers and AI engineering pods from India',
-      'publisher': { '@id': 'https://www.fwdpod.com/#organization' },
+      'publisher': { '@id': 'https://fwdpod.com/#organization' },
       'inLanguage': 'en-US',
       'copyrightYear': '2026'
     },
     {
       '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/#home',
-      'url': 'https://www.fwdpod.com/',
+      '@id': 'https://fwdpod.com/#home',
+      'url': 'https://fwdpod.com/',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
-      'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
-      'about': { '@id': 'https://www.fwdpod.com/#organization' },
+      'isPartOf': { '@id': 'https://fwdpod.com/#website' },
+      'about': { '@id': 'https://fwdpod.com/#organization' },
       'breadcrumb': {
         '@type': 'BreadcrumbList',
         'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' }
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' }
         ]
       }
     }

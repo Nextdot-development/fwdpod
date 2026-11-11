@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Deploy preflight for the cPanel host. Run BEFORE uploading the new build.
 #
-# Usage: scripts/preflight.sh [BASE_URL]            (default: https://www.fwdpod.com)
+# Usage: scripts/preflight.sh [BASE_URL]            (default: https://fwdpod.com)
 #
 # First upload deploy/preflight-probe/ (including its .htaccess) to
 # public_html/_preflight/. This script then checks the conditions that would make
@@ -21,7 +21,7 @@
 
 set -uo pipefail
 
-BASE_URL="${1:-https://www.fwdpod.com}"
+BASE_URL="${1:-https://fwdpod.com}"
 BASE_URL="${BASE_URL%/}"
 HOST="${BASE_URL#*://}"
 HOST="${HOST%%/*}"

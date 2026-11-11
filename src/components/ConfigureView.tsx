@@ -12,16 +12,16 @@ const PAGE_DESCRIPTION = `Tell us the role or the outcome you need. We'll send m
 const CONFIGURE_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': 'https://www.fwdpod.com/#configure',
-  'url': 'https://www.fwdpod.com/configure',
+  '@id': 'https://fwdpod.com/#configure',
+  'url': 'https://fwdpod.com/configure',
   'name': PAGE_TITLE,
   'description': PAGE_DESCRIPTION,
-  'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
+  'isPartOf': { '@id': 'https://fwdpod.com/#website' },
   'breadcrumb': {
     '@type': 'BreadcrumbList',
     'itemListElement': [
-      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-      { '@type': 'ListItem', 'position': 2, 'name': 'Book a 30-minute call', 'item': 'https://www.fwdpod.com/configure' }
+      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' },
+      { '@type': 'ListItem', 'position': 2, 'name': 'Book a 30-minute call', 'item': 'https://fwdpod.com/configure' }
     ]
   }
 };

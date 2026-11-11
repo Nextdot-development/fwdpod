@@ -307,7 +307,7 @@ export const PUBLISHED_POSTS: BlogPost[] = [...STATIC_BLOG_POSTS, ...CMS_BLOG_PO
 
 /** A post image as an absolute URL, for Open Graph and schema. */
 export function absoluteImageUrl(image: string): string {
-  return /^https?:\/\//i.test(image) ? image : `https://www.fwdpod.com${image}`;
+  return /^https?:\/\//i.test(image) ? image : `https://fwdpod.com${image}`;
 }
 
 /**

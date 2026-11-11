@@ -49,16 +49,16 @@ const JSON_LD = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/services/rag-development#webpage',
-      url: 'https://www.fwdpod.com/services/rag-development',
+      '@id': 'https://fwdpod.com/services/rag-development#webpage',
+      url: 'https://fwdpod.com/services/rag-development',
       name: 'RAG Development Services for Enterprise Data | fwdpod',
       description: 'RAG systems built on your own data — retrieval pipelines, vector search, evals and grounded answers your teams can trust, delivered by an embedded pod.',
       breadcrumb: {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://www.fwdpod.com/services/rag-development' },
-          { '@type': 'ListItem', position: 3, name: 'RAG Development Services', item: 'https://www.fwdpod.com/services/rag-development' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://fwdpod.com/' },
+          { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://fwdpod.com/services/rag-development' },
+          { '@type': 'ListItem', position: 3, name: 'RAG Development Services', item: 'https://fwdpod.com/services/rag-development' },
         ],
       },
     },
@@ -66,7 +66,7 @@ const JSON_LD = {
       '@type': 'Service',
       name: 'RAG Development Services',
       description: 'Enterprise RAG Systems and Retrieval Augmented Generation Solutions — vector database consulting, RAG chatbot development, and production-grade knowledge base architectures for enterprises.',
-      provider: { '@id': 'https://www.fwdpod.com/#organization' },
+      provider: { '@id': 'https://fwdpod.com/#organization' },
       serviceType: 'Retrieval-Augmented Generation Development',
       areaServed: 'Worldwide',
     },

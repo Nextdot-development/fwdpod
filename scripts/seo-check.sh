@@ -3,9 +3,9 @@
 #
 # Usage: scripts/seo-check.sh [BASE_URL]
 #
-#   BASE_URL       canonical origin (default: https://www.fwdpod.com)
-#   APEX_URL       env: origin that must 301 to BASE_URL
-#                  (default: BASE_URL without "www.")
+#   BASE_URL       canonical origin (default: https://fwdpod.com)
+#   ALT_URL        env: the other host, which must 301/308 to BASE_URL
+#                  (default: BASE_URL with "www." added)
 #   BODY_SENTENCE  env: visible body copy that must be in the server HTML of /
 #   CURL_OPTS      env: extra curl flags, e.g. for a local server:
 #                  "--resolve www.fwdpod.com:443:127.0.0.1 --resolve fwdpod.com:443:127.0.0.1 -k"
@@ -15,9 +15,9 @@
 
 set -uo pipefail
 
-BASE_URL="${1:-https://www.fwdpod.com}"
+BASE_URL="${1:-https://fwdpod.com}"
 BASE_URL="${BASE_URL%/}"
-APEX_URL="${APEX_URL:-$(printf '%s' "$BASE_URL" | sed 's#://www[.]#://#')}"
+ALT_URL="${ALT_URL:-$(printf '%s' "$BASE_URL" | sed 's#://#://www.#')}"
 BODY_SENTENCE="${BODY_SENTENCE:-We handle sourcing, vetting, payroll, retention and replacement}"
 read -r -a CURL_EXTRA <<< "${CURL_OPTS:-}"
 
@@ -55,7 +55,7 @@ validate_xml() {
   fi
 }
 
-printf 'SEO check against %s (apex %s)\n' "$BASE_URL" "$APEX_URL"
+printf 'SEO check against %s (other host %s)\n' "$BASE_URL" "$ALT_URL"
 
 # ── Homepage server HTML ─────────────────────────────────────────────────────
 section "Homepage server HTML"
@@ -107,16 +107,17 @@ check_redirect() {
   code="$(c -o /dev/null -D "$tmp/redirect" -w '%{http_code}' "$from")"
   location="$(grep -i '^location:' "$tmp/redirect" | head -1 | cut -d' ' -f2- | tr -d '\r')"
   hops="$(c -L -o /dev/null -w '%{num_redirects}' "$from")"
-  if [ "$code" = 301 ] && [ "$location" = "$to" ] && [ "$hops" = 1 ]; then
-    pass "$from -> 301 $to (1 hop)"
+  # 301 or 308: both are permanent (Vercel's own http -> https hop is always 308)
+  if { [ "$code" = 301 ] || [ "$code" = 308 ]; } && [ "$location" = "$to" ] && [ "$hops" = 1 ]; then
+    pass "$from -> $code $to (1 hop)"
   else
-    fail "$from -> $code '${location}' ($hops hops), expected 301 $to in 1 hop"
+    fail "$from -> $code '${location}' ($hops hops), expected a 301/308 to $to in 1 hop"
   fi
 }
-check_redirect "$APEX_URL/" "$BASE_URL/"
-check_redirect "$APEX_URL/some/path?q=1" "$BASE_URL/some/path?q=1"
+check_redirect "$ALT_URL/" "$BASE_URL/"
+check_redirect "$ALT_URL/some/path?q=1" "$BASE_URL/some/path?q=1"
 check_redirect "${BASE_URL/https:/http:}/" "$BASE_URL/"
-check_redirect "${APEX_URL/https:/http:}/" "$BASE_URL/"
+check_redirect "${ALT_URL/https:/http:}/" "$BASE_URL/"
 
 # ── Not-found handling ───────────────────────────────────────────────────────
 section "Not-found handling"

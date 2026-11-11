@@ -1,4 +1,4 @@
-# Fwdpod — https://www.fwdpod.com
+# Fwdpod — https://fwdpod.com
 
 User-agent: Googlebot
 Allow: /
@@ -21,4 +21,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://www.fwdpod.com/sitemap.xml
+Sitemap: https://fwdpod.com/sitemap.xml

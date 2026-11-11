@@ -44,7 +44,7 @@ Run git with `-C ..`. Plain `git` inside `fwdpod (1)` talks to a second, half-me
 3. Run:
 
    ```bash
-   scripts/preflight.sh https://www.fwdpod.com
+   scripts/preflight.sh https://fwdpod.com
    ```
 
 **Pass:** the last line is `RESULT: PASS`.
@@ -56,7 +56,7 @@ Run git with `-C ..`. Plain `git` inside `fwdpod (1)` talks to a second, half-me
 | `probe not found` | The probe isn't at `public_html/_preflight/` | Re-upload it there, including `.htaccess`, and re-run |
 | `.htaccess was not applied` | The server ignores `.htaccess` (nginx, or `AllowOverride None`) | **Stop.** Ask GoDaddy support to allow `.htaccess` overrides (`AllowOverride FileInfo` or `All`) for `public_html`. Without it the redirects and 404s silently do nothing |
 | `HTTP 500 from the probe` | A directive the site needs isn't permitted | **Stop.** Same request to GoDaddy support |
-| `proxy/CDN response headers`, `DNS is on Cloudflare`, or `TLS-terminating proxy` | A CDN ends HTTPS before Apache. The committed redirect would loop and take the site down | Replace the whole "Canonical URL" block in `public/.htaccess` with `deploy/htaccess-behind-proxy.snippet`, redo Step 0, then run `PROXY_MODE=1 scripts/preflight.sh https://www.fwdpod.com` |
+| `proxy/CDN response headers`, `DNS is on Cloudflare`, or `TLS-terminating proxy` | A CDN ends HTTPS before Apache. The committed redirect would loop and take the site down | Replace the whole "Canonical URL" block in `public/.htaccess` with `deploy/htaccess-behind-proxy.snippet`, redo Step 0, then run `PROXY_MODE=1 scripts/preflight.sh https://fwdpod.com` |
 | `HTTPS=off and no X-Forwarded-Proto` | HTTPS reaches the origin in some unknown way | **Stop** and find out how before deploying |
 | `%{DOCUMENT_ROOT} check` | The site isn't at the document root (addon domain or subfolder) | **Stop.** Every page would 404. Tell the developer the real folder path |
 | `[R=404]` or `ErrorDocument` | Real 404 responses won't work | **Stop** and report the message |
@@ -73,7 +73,7 @@ The probe is still the only direct test that the new rules will work.
 **One command to check for a proxy or CDN** (no upload needed):
 
 ```bash
-curl -sI https://www.fwdpod.com/ | grep -iE '^(server|cf-ray|via|x-cache|x-served-by|x-amz-cf-id):'
+curl -sI https://fwdpod.com/ | grep -iE '^(server|cf-ray|via|x-cache|x-served-by|x-amz-cf-id):'
 nslookup -type=NS fwdpod.com
 ```
 
@@ -103,7 +103,7 @@ nslookup -type=NS fwdpod.com
 
 **Pass:** with hidden files shown, none of the deleted names remain.
 
-**If `index.html` survives:** `https://www.fwdpod.com/index.html` keeps serving the old empty page with HTTP 200, which is the original problem. Delete it before continuing.
+**If `index.html` survives:** `https://fwdpod.com/index.html` keeps serving the old empty page with HTTP 200, which is the original problem. Delete it before continuing.
 
 The site is offline between Step 2 and Step 3, so go straight on to Step 3.
 
@@ -133,9 +133,9 @@ Then:
 - Quick checks:
 
   ```bash
-  curl -s -o /dev/null -w '%{http_code}\n' https://www.fwdpod.com/            # 200
-  curl -s -o /dev/null -w '%{http_code}\n' https://www.fwdpod.com/index.html  # 404
-  curl -sI http://fwdpod.com/ | grep -iE '^(HTTP|Location)'                     # 301, Location: https://www.fwdpod.com/
+  curl -s -o /dev/null -w '%{http_code}\n' https://fwdpod.com/            # 200
+  curl -s -o /dev/null -w '%{http_code}\n' https://fwdpod.com/index.html  # 404
+  curl -sI http://fwdpod.com/ | grep -iE '^(HTTP|Location)'                     # 301, Location: https://fwdpod.com/
   ```
 
 **If it fails**
@@ -148,7 +148,7 @@ Then:
 ## Step 4: Automated acceptance
 
 ```bash
-scripts/seo-check.sh https://www.fwdpod.com
+scripts/seo-check.sh https://fwdpod.com
 ```
 
 **Pass:** the last line is `RESULT: PASS`.
@@ -174,7 +174,7 @@ Delete `public_html/_preflight/`.
 **Pass:** this prints `404`:
 
 ```bash
-curl -s -o /dev/null -w '%{http_code}\n' https://www.fwdpod.com/_preflight/https.txt
+curl -s -o /dev/null -w '%{http_code}\n' https://fwdpod.com/_preflight/https.txt
 ```
 
 ---
@@ -187,9 +187,9 @@ Test each URL at <https://search.google.com/test/rich-results>, then again at <h
 
 | URL | Expected |
 |---|---|
-| `https://www.fwdpod.com/` | FAQ detected, **0 errors**. Google only shows FAQ results for well-known government and health sites, so it won't appear in search; that isn't a failure |
-| `https://www.fwdpod.com/services/ai-agents` | Breadcrumbs detected, **0 errors** |
-| `https://www.fwdpod.com/insights/what-is-a-forward-deployed-engineer` | Article and Breadcrumbs detected, **0 errors**. A warning about a missing `image` is expected: the articles have no images yet |
+| `https://fwdpod.com/` | FAQ detected, **0 errors**. Google only shows FAQ results for well-known government and health sites, so it won't appear in search; that isn't a failure |
+| `https://fwdpod.com/services/ai-agents` | Breadcrumbs detected, **0 errors** |
+| `https://fwdpod.com/insights/what-is-a-forward-deployed-engineer` | Article and Breadcrumbs detected, **0 errors**. A warning about a missing `image` is expected: the articles have no images yet |
 
 **Pass:** 0 errors for all three URLs in both tools. Warnings are fine, but write them down.
 
@@ -197,54 +197,54 @@ Test each URL at <https://search.google.com/test/rich-results>, then again at <h
 
 ### 6b. Google Search Console and Bing Webmaster Tools, both hosts
 
-Public DNS for `fwdpod.com` already has a `google-site-verification=…` record. That means a Search Console **Domain** property was verified at some point. A Domain property covers `https://www.fwdpod.com`, `https://fwdpod.com` and `http://` in one place.
+Public DNS for `fwdpod.com` already has a `google-site-verification=…` record. That means a Search Console **Domain** property was verified at some point. A Domain property covers `https://fwdpod.com`, `https://fwdpod.com` and `http://` in one place.
 
 **Google**
 
 1. Open <https://search.google.com/search-console> and check the property list.
    - **If `fwdpod.com` (Domain) is there and you have access:** use it.
    - **Otherwise:** **Add property → Domain → `fwdpod.com`** and verify with the DNS record, either the one already present or a new one added in GoDaddy DNS.
-2. For per-host reports, also add **URL prefix** properties `https://www.fwdpod.com/` and `https://fwdpod.com/`. Verify each with **Domain name provider**.
-3. **Sitemaps** → submit `https://www.fwdpod.com/sitemap.xml`.
+2. For per-host reports, also add **URL prefix** properties `https://fwdpod.com/` and `https://fwdpod.com/`. Verify each with **Domain name provider**.
+3. **Sitemaps** → submit `https://fwdpod.com/sitemap.xml`.
    - **Pass:** status *Success*, 84 discovered URLs.
-4. **URL Inspection** → `https://www.fwdpod.com/` → **Test live URL**.
-   - **Pass:** "URL is available to Google". **View tested page → HTML** contains the homepage headline text. The user-declared canonical is `https://www.fwdpod.com/`.
+4. **URL Inspection** → `https://fwdpod.com/` → **Test live URL**.
+   - **Pass:** "URL is available to Google". **View tested page → HTML** contains the homepage headline text. The user-declared canonical is `https://fwdpod.com/`.
    - Then click **Request indexing**.
 5. **URL Inspection** → `https://fwdpod.com/` → **Test live URL**.
-   - **Pass:** reported as a redirect to `https://www.fwdpod.com/`.
+   - **Pass:** reported as a redirect to `https://fwdpod.com/`.
 
 **Bing**
 
 1. <https://www.bing.com/webmasters> → **Import from Google Search Console**. This is quickest; it brings over the verified sites and sitemaps. Or add the sites by hand:
-   - Add `https://www.fwdpod.com/` and verify it: a `BingSiteAuth.xml` file in `public_html`, a meta tag, or a CNAME in GoDaddy DNS. Uploaded real files are served normally.
+   - Add `https://fwdpod.com/` and verify it: a `BingSiteAuth.xml` file in `public_html`, a meta tag, or a CNAME in GoDaddy DNS. Uploaded real files are served normally.
    - Add `https://fwdpod.com/` the same way.
-2. Submit `https://www.fwdpod.com/sitemap.xml`.
+2. Submit `https://fwdpod.com/sitemap.xml`.
 3. **URL Inspection** on the homepage.
    - **Pass:** no robots.txt block, and the page can be indexed.
 
 **If it fails**
 
-- **"Blocked by robots.txt":** open `https://www.fwdpod.com/robots.txt` and check it matches the build.
+- **"Blocked by robots.txt":** open `https://fwdpod.com/robots.txt` and check it matches the build.
 - **"Redirect error":** re-run Step 4.
 - **"Soft 404":** go back to Step 3 and confirm `index.html` is gone.
 
 ### 6c. `og-image.png`
 
-Every page declares `https://www.fwdpod.com/og-image.png` (1200×630) as its share image. The file doesn't exist yet.
+Every page declares `https://fwdpod.com/og-image.png` (1200×630) as its share image. The file doesn't exist yet.
 
 1. Export a **1200×630 PNG** named exactly `og-image.png`.
 2. Upload it to the **root** of `public_html`. Not `_pages/`, not `assets/`.
 3. Verify:
 
    ```bash
-   curl -sI https://www.fwdpod.com/og-image.png | grep -iE '^(HTTP|Content-Type)'
+   curl -sI https://fwdpod.com/og-image.png | grep -iE '^(HTTP|Content-Type)'
    # expect: HTTP/1.1 200 OK   and   Content-Type: image/png
-   curl -s https://www.fwdpod.com/og-image.png -o og-check.png
+   curl -s https://fwdpod.com/og-image.png -o og-check.png
    python -c "import struct; b=open('og-check.png','rb').read(24); print('png' if b[:8]==bytes([137,80,78,71,13,10,26,10]) else 'NOT png', struct.unpack('>II', b[16:24]))"
    # expect: png (1200, 630)
    ```
 
-4. Refresh social previews with <https://www.linkedin.com/post-inspector/> and <https://developers.facebook.com/tools/debug/> for `https://www.fwdpod.com/`.
+4. Refresh social previews with <https://www.linkedin.com/post-inspector/> and <https://developers.facebook.com/tools/debug/> for `https://fwdpod.com/`.
 
 **If it fails**
 

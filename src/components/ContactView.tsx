@@ -15,17 +15,17 @@ const CONTACT_JSON_LD = {
   '@graph': [
     {
       '@type': ['WebPage', 'ContactPage'],
-      '@id': 'https://www.fwdpod.com/#contact',
-      'url': 'https://www.fwdpod.com/contact',
+      '@id': 'https://fwdpod.com/#contact',
+      'url': 'https://fwdpod.com/contact',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
-      'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
-      'about': { '@id': 'https://www.fwdpod.com/#organization' },
+      'isPartOf': { '@id': 'https://fwdpod.com/#website' },
+      'about': { '@id': 'https://fwdpod.com/#organization' },
       'breadcrumb': {
         '@type': 'BreadcrumbList',
         'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Contact', 'item': 'https://www.fwdpod.com/contact' }
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Contact', 'item': 'https://fwdpod.com/contact' }
         ]
       }
     },

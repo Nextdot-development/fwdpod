@@ -17,16 +17,16 @@ const SOLUTIONS_JSON_LD = {
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://www.fwdpod.com/#solutions',
-      'url': 'https://www.fwdpod.com/our-solutions',
+      '@id': 'https://fwdpod.com/#solutions',
+      'url': 'https://fwdpod.com/our-solutions',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
-      'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
+      'isPartOf': { '@id': 'https://fwdpod.com/#website' },
       'breadcrumb': {
         '@type': 'BreadcrumbList',
         'itemListElement': [
-          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Our Solutions', 'item': 'https://www.fwdpod.com/oursolutions' }
+          { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' },
+          { '@type': 'ListItem', 'position': 2, 'name': 'Our Solutions', 'item': 'https://fwdpod.com/oursolutions' }
         ]
       }
     },
@@ -40,7 +40,7 @@ const SOLUTIONS_JSON_LD = {
         'position': idx + 1,
         'name': pod.name,
         'description': pod.summary,
-        'url': `https://www.fwdpod.com/our-solutions#pod-heading-${pod.id}`
+        'url': `https://fwdpod.com/our-solutions#pod-heading-${pod.id}`
       }))
     }
   ]

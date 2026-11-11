@@ -12,17 +12,17 @@ const PAGE_DESCRIPTION =
 const HOW_WE_WORK_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': 'https://www.fwdpod.com/#how-we-work',
-  'url': 'https://www.fwdpod.com/how-we-work',
+  '@id': 'https://fwdpod.com/#how-we-work',
+  'url': 'https://fwdpod.com/how-we-work',
   'name': PAGE_TITLE,
   'description': PAGE_DESCRIPTION,
-  'isPartOf': { '@id': 'https://www.fwdpod.com/#website' },
-  'about': { '@id': 'https://www.fwdpod.com/#organization' },
+  'isPartOf': { '@id': 'https://fwdpod.com/#website' },
+  'about': { '@id': 'https://fwdpod.com/#organization' },
   'breadcrumb': {
     '@type': 'BreadcrumbList',
     'itemListElement': [
-      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://www.fwdpod.com/' },
-      { '@type': 'ListItem', 'position': 2, 'name': 'How we work', 'item': 'https://www.fwdpod.com/how-we-work' }
+      { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' },
+      { '@type': 'ListItem', 'position': 2, 'name': 'How we work', 'item': 'https://fwdpod.com/how-we-work' }
     ]
   }
 };

@@ -79,3 +79,9 @@ test('dateInZone', () => {
   assert.equal(dateInZone('2026-10-09T23:30:00Z', 'UTC'), '2026-10-09');
   assert.equal(dateInZone('2026-10-09T23:30:00Z', 'Asia/Kolkata'), '2026-10-10');
 });
+
+test('links to both fwdpod.com and the old www host become site-relative', () => {
+  const blocks = [{ type: 'p' as const, text: '[a](https://fwdpod.com/our-solutions) and [b](https://www.fwdpod.com/contact)' }];
+  assert.equal(blocksToMarkdown(blocks), '[a](/our-solutions) and [b](/contact)');
+  assert.deepEqual(findExternalLinks(blocks), []);
+});

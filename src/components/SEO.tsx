@@ -21,7 +21,7 @@ import { useLocation } from 'react-router-dom';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-export const SITE_BASE_URL = 'https://www.fwdpod.com';
+export const SITE_BASE_URL = 'https://fwdpod.com';
 export const SITE_NAME     = 'Fwdpod';
 export const TWITTER_HANDLE = '@fwdpod';
 export const DEFAULT_OG_IMAGE = `${SITE_BASE_URL}/og-image.png`;

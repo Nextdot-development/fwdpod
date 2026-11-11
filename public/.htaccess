@@ -11,20 +11,20 @@ ErrorDocument 404 /_pages/404.html
 # even over http or the apex domain. Nothing is served at /blog any more, so
 # there is nothing to loop back to.
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^blog/(.+?)/?$ https://www.fwdpod.com/insights/$1 [R=301,L]
+RewriteRule ^blog/(.+?)/?$ https://fwdpod.com/insights/$1 [R=301,L]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^blog/?$ https://www.fwdpod.com/insights [R=301,L]
+RewriteRule ^blog/?$ https://fwdpod.com/insights [R=301,L]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^live-pods/?$ https://www.fwdpod.com/case-studies [R=301,L]
+RewriteRule ^live-pods/?$ https://fwdpod.com/case-studies [R=301,L]
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^catalogue/?$ https://www.fwdpod.com/our-solutions [R=301,L]
+RewriteRule ^catalogue/?$ https://fwdpod.com/our-solutions [R=301,L]
 
 # ── Renamed CMS articles ────────────────────────────────────────────────────
 # 301s from a CMS post's earlier slugs to its current one. scripts/prerender.mjs
 # writes them below this marker in dist/.htaccess; keep the marker line.
 # CMS_REDIRECTS
 
-# ── Canonical URL: a single 301 to https://www.fwdpod.com ────────────────────
+# ── Canonical URL: a single 301 to https://fwdpod.com ────────────────────
 # One hop covers http://, the apex host and trailing slashes together, and the
 # query string is carried over. /.well-known (AutoSSL validation) is exempt.
 # %{HTTPS} assumes Apache terminates TLS itself, as on this cPanel host; behind
@@ -32,10 +32,10 @@ RewriteRule ^catalogue/?$ https://www.fwdpod.com/our-solutions [R=301,L]
 RewriteCond %{REQUEST_URI} !^/[.]well-known/
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{HTTPS} !=on [OR]
-RewriteCond %{HTTP_HOST} !^www[.]fwdpod[.]com$ [NC,OR]
+RewriteCond %{HTTP_HOST} !^fwdpod[.]com$ [NC,OR]
 RewriteCond %{REQUEST_URI} ^/.+/$
 RewriteCond %{REQUEST_URI} ^(/|/.*?[^/])/*$
-RewriteRule ^ https://www.fwdpod.com%1 [R=301,L]
+RewriteRule ^ https://fwdpod.com%1 [R=301,L]
 
 # ── Prerendered pages ─────────────────────────────────────────────────────────
 # scripts/prerender.mjs writes one HTML file per route into /_pages
