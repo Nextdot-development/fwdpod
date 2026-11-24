@@ -106,7 +106,7 @@ export default function SecurityView() {
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} canonical={PAGE_PATH} jsonLd={JSON_LD} />
 
       {/* Step 1: Hero. Centered: headline, one line, one button. */}
-      <section className="py-12 md:py-20 flex flex-col items-center text-center gap-6" aria-labelledby="security-page-heading">
+      <section className="pt-4 md:pt-6 pb-12 md:pb-16 flex flex-col items-center text-center gap-6" aria-labelledby="security-page-heading">
         <h1 id="security-page-heading" className="max-w-3xl text-4xl md:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.05] text-balance">
           Your code, your data, your control.
         </h1>
