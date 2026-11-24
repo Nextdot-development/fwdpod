@@ -41,7 +41,7 @@ Each signal below is a situation, not a feeling. Two or more usually justify the
 Saying no is a valid outcome. These are the situations where an FDE is the wrong spend.
 
 1. **An off-the-shelf tool already does the job.** If a SaaS copilot or a vendor's standard integration covers the use case with configuration, buy it and invest in adoption. Custom engineering adds maintenance you do not need.
-2. **You do not have a problem yet, only an interest in AI.** An FDE needs a named workflow and a metric to move. Without them, you are paying a senior engineer to run a strategy workshop. Start with a [readiness assessment](/services/ai-consulting) or a use-case sprint.
+2. **You do not have a problem yet, only an interest in AI.** An FDE needs a named workflow and a metric to move. Without them, you are paying a senior engineer to run a strategy workshop. Start with a [readiness assessment](/how-to-engage) or a use-case sprint.
 3. **Your environment is stable and tightly governed.** Bendor-Samuel's warning applies here: in systems built around controlled release cycles, embedded engineers making fast changes "can bypass these safeguards," creating security and failure risk. Your existing delivery process may simply need AI skills added to it.
 4. **Your team already ships AI to production.** If you have engineers who have taken LLM systems through evaluation, security review and on-call, you need capacity, not embedding. Hire more of them, or augment.
 5. **The work is well specified and sits outside core workflows.** A defined build with clear acceptance criteria (a document classifier, a batch summarization job) does not need someone embedded in your operations. A delivery team working to a spec will do.
@@ -55,7 +55,7 @@ When an FDE is not the right call, one of these usually is. The table maps commo
 | The use case is standard and a product covers it | Buy the SaaS tool; fund adoption and training | No custom code to maintain |
 | You have ideas but no prioritized use case | AI readiness assessment or discovery sprint | Produces the brief an FDE would need anyway |
 | Your model or platform vendor offers embedded engineers | Use the vendor's FDEs for that product | Deep product knowledge, though not vendor-neutral |
-| You have a working team that lacks one skill | [Staff augmentation](/services/team-augmentation) | Adds a specialist under your own management |
+| You have a working team that lacks one skill | [Staff augmentation](/how-to-engage) | Adds a specialist under your own management |
 | You have a defined, multi-month build and want one accountable team | [An AI engineering pod](/insights/what-is-an-ai-pod) | A managed team owns delivery end to end |
 | AI is a permanent, core capability | [Hire in-house AI engineers](/insights/how-to-hire-ai-engineers) | Knowledge and ownership stay with you |
 | You need architectural judgment, not hands on keyboards | Fractional AI CTO or solution architect | Senior direction without a full-time build role |
@@ -95,7 +95,7 @@ Once you have decided an FDE is right, the next step is checking that the person
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We would rather tell a buyer they need a readiness assessment or an off-the-shelf tool than place an engineer with no clear problem to solve. Our [AI consulting](/services/ai-consulting) work includes readiness assessments for exactly that case.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and Gulf. We would rather tell a buyer they need a readiness assessment or an off-the-shelf tool than place an engineer with no clear problem to solve. Our [AI consulting](/how-to-engage) work includes readiness assessments for exactly that case.
 
 To scope your case and talk through pricing and how engagements are structured, [book a 30-minute call](/configure).
 

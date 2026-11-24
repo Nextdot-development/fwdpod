@@ -11,7 +11,7 @@
 import { Check, ChevronDown, Code, CalendarDays, FileCheck, MessageSquare } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
 import SecurityTiles from './marketing/SecurityTiles';
-import { BookingLink, h2Class, primaryButton, sectionClass } from './marketing/ui';
+import { eyebrow, BookingLink, h2Class, primaryButton, sectionClass } from './marketing/ui';
 import { REPLACEMENT_WINDOW } from '../content/business-facts';
 
 const PAGE_PATH = '/security';
@@ -83,9 +83,11 @@ const JSON_LD = {
   ],
 };
 
-const bodyText = 'text-base text-[#555555] leading-relaxed';
+// Body text at the site's standard size (as on How we work, Case studies, Contact)
+const bodyText = 'text-sm text-[#555555] leading-relaxed';
 // Sections alternate between a light panel and plain white
-const lightPanel = 'bg-zinc-50 rounded-3xl px-6 md:px-10';
+// Less top padding than sectionClass, so the heading sits closer to the panel's top edge
+const lightPanel = 'bg-zinc-50 rounded-3xl px-6 md:px-10 !pt-8 md:!pt-10';
 
 function Bullets({ items }: { items: string[] }) {
   return (
@@ -105,13 +107,14 @@ export default function SecurityView() {
     <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} canonical={PAGE_PATH} jsonLd={JSON_LD} />
 
-      {/* Step 1: Hero. Centered: headline, one line, one button. */}
-      <section className="pt-4 md:pt-6 pb-12 md:pb-16 flex flex-col items-center text-center gap-6" aria-labelledby="security-page-heading">
-        <h1 id="security-page-heading" className="max-w-3xl text-4xl md:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.05] text-balance">
+      {/* Step 1: Hero: headline and one line, left-aligned, same size as How to engage. No button
+          here; the booking button is in the top menu and the black band above the footer. */}
+      <section className="pt-2 pb-10 md:pb-12 space-y-3 max-w-3xl" aria-labelledby="security-page-heading">
+        <span className={eyebrow}>Security</span>
+        <h1 id="security-page-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
           Your code, your data, your control.
         </h1>
-        <p className="text-lg text-[#555555] leading-relaxed">Clear answers on how we keep your work safe.</p>
-        <BookingLink label="Book a 30-minute call" source="security hero" className={primaryButton} />
+        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">Clear answers on how we keep your work safe.</p>
       </section>
 
       {/* Step 2: Six tiles (the same tiles and wording as the homepage) */}

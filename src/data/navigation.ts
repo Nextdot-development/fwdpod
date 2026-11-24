@@ -27,7 +27,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
   },
   { label: 'Context and knowledge', href: '/solutions/rag' },
   { label: 'Models', href: '/solutions/models' },
-  { label: 'Data', href: '/solutions/data-annotation' },
+  { label: 'Data and annotation', href: '/solutions/data-annotation' },
   { label: 'Trust and compliance', href: '/solutions/ai-compliance', crossCutting: true },
   { label: 'Operations (LLMOps)', href: '/solutions/llmops', crossCutting: true },
 ];

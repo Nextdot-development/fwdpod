@@ -127,7 +127,7 @@ Vendor FDEs know their own product deeply but have little reason to suggest a di
 
 ### How fwdpod approaches forward deployed engineering
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/our-solutions) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents), and product delivery. Its forward deployed engineering service places engineers inside a buyer's AI program for organizations in the US, UK, EU, and Gulf, with engineering delivery from India.
+[Fwdpod](/) builds dedicated [AI engineering pods](/our-solutions) for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents), and product delivery. Its forward deployed engineering service places engineers inside a buyer's AI program for organizations in the US, UK, EU, and Gulf, with engineering delivery from India.
 
 If you are weighing a partner-delivered FDE against hiring, you can [book a 30-minute call](/configure) and see how the team would be staffed.
 

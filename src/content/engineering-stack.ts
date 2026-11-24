@@ -61,7 +61,7 @@ export const STACK_LAYERS: StackLayer[] = [
   },
   {
     number: 4,
-    name: 'Data',
+    name: 'Data and annotation',
     href: '/solutions/data-annotation',
     lines: [
       'Pipelines from source systems, annotation and labelling at scale',
@@ -164,7 +164,7 @@ export const SOLUTION_LAYERS: SolutionSection[] = [
   {
     id: 'data',
     kicker: 'Layer 4',
-    name: 'Data',
+    name: 'Data and annotation',
     href: '/solutions/data-annotation',
     promise: 'Clean, labelled data your AI can learn from and be tested against.',
     bullets: [

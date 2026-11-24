@@ -76,7 +76,7 @@ In practice, a well-run AI pod builds its first eval set in the first days of an
 
 ### Data is part of the job, not an input to it
 
-A generic dev pod usually consumes data through a stable API. An AI pod often has to find, clean, chunk, label or permission its data before the system can work, and it has to keep doing so as sources change. For a [retrieval-augmented generation (RAG) system](/services/rag-development), retrieval quality is often the main determinant of answer quality, so data engineering sits inside the pod rather than in a ticket queue elsewhere.
+A generic dev pod usually consumes data through a stable API. An AI pod often has to find, clean, chunk, label or permission its data before the system can work, and it has to keep doing so as sources change. For a [retrieval-augmented generation (RAG) system](/solutions/rag), retrieval quality is often the main determinant of answer quality, so data engineering sits inside the pod rather than in a ticket queue elsewhere.
 
 ### Operations never really end
 
@@ -131,13 +131,13 @@ Whatever the model, ask any provider three things up front: who owns the code an
 
 ## Is an AI pod the same as staff augmentation?
 
-No. With staff augmentation you rent individual engineers who slot into your team and follow your management and process; you own delivery. With an AI pod you engage a whole team that brings its own way of working and shares accountability for an outcome. Augmentation suits companies that already have a strong AI lead and a gap in hands, and is offered as its own service through [team augmentation](/services/team-augmentation). A pod suits companies that lack the AI-specific practices, not just the headcount.
+No. With staff augmentation you rent individual engineers who slot into your team and follow your management and process; you own delivery. With an AI pod you engage a whole team that brings its own way of working and shares accountability for an outcome. Augmentation suits companies that already have a strong AI lead and a gap in hands, and is offered as its own service through [individual specialists](/how-to-engage). A pod suits companies that lack the AI-specific practices, not just the headcount.
 
 ## When is an AI pod a bad fit?
 
 A pod is a tool for a specific kind of problem. It is a poor choice when:
 
-- **The goal is undefined.** If you cannot yet say what the AI should do or how you would judge it, start with a short discovery or [readiness exercise](/services/ai-consulting), not a full pod.
+- **The goal is undefined.** If you cannot yet say what the AI should do or how you would judge it, start with a short discovery or [readiness exercise](/how-to-engage), not a full pod.
 - **The work is tiny.** A single prompt tweak or one small integration does not need a cross-functional team. One engineer, or a vendor's off-the-shelf feature, may be enough.
 - **AI is your core, long-term differentiator.** If the model or the AI product is the company, you will eventually need the capability in-house. A pod can still help you start and hand over, but plan for the handover from day one.
 - **You cannot grant data access.** A pod blocked from real data will spend its time on synthetic demos. Solve legal, security and access questions first.
@@ -150,7 +150,7 @@ Often this is the real question behind "what is an AI pod." In short: engage a s
 
 ## How fwdpod approaches AI pods
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Pods are designed around the practices described above: evaluation from the start, data and integration work inside the team, and a production handover your engineers can own.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, with engineering delivery from India for buyers in the US, UK, EU and the Gulf. Pods are designed around the practices described above: evaluation from the start, data and integration work inside the team, and a production handover your engineers can own.
 
 If you are weighing whether a pod fits your roadmap, the [solutions page](/our-solutions) shows the pre-assembled pods and what each one covers, or you can [book a 30-minute call](/configure) to talk through your own use case.
 

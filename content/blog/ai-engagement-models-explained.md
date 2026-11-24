@@ -62,7 +62,7 @@ So the practical question is not "which model is best?" but "which model matches
 
 **Risk allocation.** The vendor carries cost overruns. The federal definition of a firm-fixed-price contract says it "places upon the contractor maximum risk and full responsibility for all costs and resulting profit or loss" (48 CFR 16.202-1). In return, vendors price in a contingency, and scope becomes the battleground.
 
-**When it fits AI work.** Fixed price suits work with "reasonably definite functional or detailed specifications" where performance uncertainties can be identified and costed (48 CFR 16.202-2). In AI projects, those pieces exist: building an evaluation harness, wiring a [RAG pipeline](/services/rag-development) to a known document store, adding monitoring to an [agent](/services/ai-agents) that already works, or migrating prompts to a new model version. It backfires when the fixed deliverable is "an assistant that answers accurately," because accuracy is exactly the unknown.
+**When it fits AI work.** Fixed price suits work with "reasonably definite functional or detailed specifications" where performance uncertainties can be identified and costed (48 CFR 16.202-2). In AI projects, those pieces exist: building an evaluation harness, wiring a [RAG pipeline](/solutions/rag) to a known document store, adding monitoring to an [agent](/solutions/ai-agents) that already works, or migrating prompts to a new model version. It backfires when the fixed deliverable is "an assistant that answers accurately," because accuracy is exactly the unknown.
 
 **Clauses to watch.**
 - Acceptance defined as an eval threshold on a named, frozen test set, not "works as described."
@@ -90,7 +90,7 @@ A **dedicated pod** is assigned only to you for the term. It builds context on y
 
 ## How does staff augmentation work, briefly?
 
-You rent individual engineers who work under your managers and process. You carry delivery risk; the vendor is accountable for supplying qualified people and replacing them. It fits AI work only when your team already knows how to build and run production AI and simply needs more hands, which is how [team augmentation](/services/team-augmentation) is usually bought. The clauses to check are an explicit IP assignment, a replacement window, and whether the engineers are the vendor's employees or subcontractors.
+You rent individual engineers who work under your managers and process. You carry delivery risk; the vendor is accountable for supplying qualified people and replacing them. It fits AI work only when your team already knows how to build and run production AI and simply needs more hands, which is how [team augmentation](/how-to-engage) is usually bought. The clauses to check are an explicit IP assignment, a replacement window, and whether the engineers are the vendor's employees or subcontractors.
 
 ## How do forward deployed engineer engagements work?
 
@@ -148,7 +148,7 @@ Most AI projects change model as uncertainty falls. A common sequence:
 | Run and improve | Drift, model changes, new use cases | Retainer or shared pod; outcome-linked fees if the metric is stable | Annual review; handover option |
 | Long-term ownership | Whether to own the team outright | Build-operate-transfer, or hire in-house | Transfer trigger |
 
-If the direction itself is still open rather than the contract shape, an [AI consulting engagement](/services/ai-consulting) is the cheaper first step.
+If the direction itself is still open rather than the contract shape, an [AI consulting engagement](/how-to-engage) is the cheaper first step.
 
 ## Which contract clauses matter in every AI engagement model?
 
@@ -172,7 +172,7 @@ Whatever the model, five clauses decide whether an AI engagement ends well:
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India.
 
 To see how these options are structured commercially, browse the [solutions page](/our-solutions), or [book a 30-minute call](/configure) to talk through your own use case and pricing.
 

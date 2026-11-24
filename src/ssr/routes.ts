@@ -37,6 +37,8 @@ const STATIC_LASTMOD: Record<string, string> = {
   '/how-to-engage': '2026-11-20',
   // Rebuilt from the developer handoff dated 2026-11-23
   '/security': '2026-11-23',
+  // Rebuilt from the developer handoff dated 2026-11-23
+  '/about': '2026-11-24',
 };
 
 export interface PrerenderRoute {

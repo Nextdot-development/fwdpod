@@ -112,7 +112,7 @@ Before signing, ask the vendor three questions: Who writes the code, and in whos
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and Gulf. The [solutions page](/our-solutions) shows how engagements are structured.
+[Fwdpod](/) builds dedicated [AI engineering pods](/insights/what-is-an-ai-pod) covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and Gulf. The [solutions page](/our-solutions) shows how engagements are structured.
 
 If you are past the POC and need production delivery, [book a 30-minute call](/configure).
 

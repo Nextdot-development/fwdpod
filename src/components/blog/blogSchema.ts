@@ -3,7 +3,7 @@ import { absoluteImageUrl, INSIGHTS_PATH, postPath, toPlainText } from '../../da
 import { categoryPath, getCategory, type BlogCategoryDef } from '../../data/blogCategories';
 import { SITE_BASE_URL, SITE_NAME } from '../SEO';
 
-export const BLOG_TITLE = 'AI Engineering Insights & LLM Development Blog | Fwdpod';
+export const BLOG_TITLE = 'AI Engineering Insights and Articles | Fwdpod';
 export const BLOG_DESCRIPTION =
   'Deep-dives into LLM agent architectures, RAG systems, voice AI pipelines, enterprise compliance AI, and the economics of productised AI engineering teams.';
 

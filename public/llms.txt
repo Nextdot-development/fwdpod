@@ -14,8 +14,8 @@
 - [Voice AI](https://fwdpod.com/solutions/voice-ai): Real-time voice agents for support, scheduling and intake, connected to your phone system. Built by a Voice AI Pod of senior AI engineers from India.
 - [Context and knowledge](https://fwdpod.com/solutions/rag): RAG systems and enterprise search that answer correctly about your business, with permission-aware answers. Built by senior AI engineers from India.
 - [Models](https://fwdpod.com/solutions/models): Model selection, fine-tuning, private deployment and inference tuning for speed and cost. Senior ML engineers from India, as specialists or a Custom Pod.
-- [Data](https://fwdpod.com/solutions/data-annotation): Data pipelines, annotation and labelling at scale, evaluation datasets and RLHF. Clean, labelled data your AI can learn from and be tested against.
-- [Trust and compliance](https://fwdpod.com/solutions/ai-compliance): Guardrails, privacy filters, audit logs and red-team testing, so your risk, legal and audit teams can sign off your AI. A Compliance AI Pod from India.
+- [Data and annotation](https://fwdpod.com/solutions/data-annotation): Data pipelines, annotation and labelling at scale, evaluation datasets and RLHF. Clean, labelled data your AI can learn from and be tested against.
+- [Trust and compliance](https://fwdpod.com/solutions/ai-compliance): Guardrails, audit logs and testing before every release.
 - [Operations (LLMOps)](https://fwdpod.com/solutions/llmops): Deployment, monitoring, incident response and cost control for AI in production. An LLMOps Pod of senior engineers from India on a monthly retainer.
 
 ## Resources
@@ -23,7 +23,7 @@
 - [Book a 30-minute call](https://fwdpod.com/configure): Request a call about the roles or the outcome you need. Fwdpod sends matched profiles or a pod plan within 48 hours.
 - [How to engage](https://fwdpod.com/how-to-engage): Add one AI specialist or a full AI pod, hourly or full-time. Start with a paid pilot on one use case, then grow into a dedicated team.
 - [Security](https://fwdpod.com/security): Your code, your data, your control. Clear answers on how we keep your work safe.
-- [About](https://fwdpod.com/about): Senior AI engineers from India inside enterprise teams. Backed by Nextdot since 2018, with engineers trained at our Jamshedpur AI Capability Center.
+- [About](https://fwdpod.com/about): A team that works only on AI. Senior AI engineers from India, working as part of your team.
 - [Contact Us](https://fwdpod.com/contact): Send Fwdpod a message about AI engineers, AI pods or how engagements work, or email contact.fwdpod@gmail.com.
 
 ## Insights

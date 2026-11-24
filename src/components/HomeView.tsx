@@ -52,18 +52,17 @@ const HOME_JSON_LD = {
       },
       // TODO(profiles): Clutch, G2, Crunchbase and LinkedIn profile URLs
       'sameAs': [],
-      'description': 'Fwdpod places pre-vetted senior AI engineers from India inside enterprise teams: one specialist or a full AI engineering pod of 4–6 people, hourly or full-time, for AI agents, RAG systems, voice AI and LLMOps.',
+      'description': 'Fwdpod places pre-vetted senior AI engineers from India inside enterprise teams: one specialist or a full AI engineering pod of 4–6 people, hourly or full-time, across agents and applications, voice AI, context and knowledge, models, data and annotation, trust and compliance, and operations (LLMOps).',
       'slogan': 'AI engineering pods',
       'knowsAbout': [
         'AI Engineering',
-        'LLM Development',
-        'RAG Systems',
         'AI Agents',
         'Voice AI',
-        'Compliance AI',
-        'LLMOps',
-        'Team Augmentation',
+        'RAG Systems',
+        'Model Selection and Fine-Tuning',
         'Data Annotation',
+        'AI Trust and Compliance',
+        'LLMOps',
         'Machine Learning'
       ],
       'contactPoint': [

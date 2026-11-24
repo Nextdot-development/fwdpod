@@ -8,7 +8,7 @@
  */
 import { ArrowDown, ArrowRight, ChevronDown, FileCheck, RefreshCw, ShieldCheck } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
-import { BookingLink, card, h2Class, primaryButton, sectionClass } from './marketing/ui';
+import { card, eyebrow, h2Class, sectionClass } from './marketing/ui';
 import { STARTING_POINTS } from '../content/starting-points';
 import { PILOT_LENGTH, REPLACEMENT_WINDOW, SHORTLIST_TIME, TIME_TO_START } from '../content/business-facts';
 
@@ -125,15 +125,16 @@ export default function HowToEngageView() {
     <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} canonical={PAGE_PATH} jsonLd={JSON_LD} />
 
-      {/* Step 1: Hero */}
-      <section className="pt-2 pb-8 space-y-6 max-w-3xl" aria-labelledby="engage-heading">
+      {/* Step 1: Hero: headline and one line. No button here; the booking
+          button is in the top menu and the black band above the footer. */}
+      <section className="pt-2 pb-4 space-y-3 max-w-3xl" aria-labelledby="engage-heading">
+        <span className={eyebrow}>How to engage</span>
         <h1 id="engage-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
           Start with one specialist or a full AI pod. Prove it before you commit.
         </h1>
-        <p className="text-lg text-[#555555] leading-relaxed">
+        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
           Senior AI engineers from India, typically on your team in {TIME_TO_START}. Hourly or full-time.
         </p>
-        <BookingLink label="Book a 30-minute call" source="how to engage hero" className={primaryButton} />
       </section>
 
       {/* Step 2: Two ways to work with us */}

@@ -28,7 +28,7 @@ Chip Huyen, author of *AI Engineering*, puts the distinction plainly: AI enginee
 | ML engineer | Train, fine-tune, optimize and serve models | Training pipelines, fine-tuned models, inference infrastructure | Off-the-shelf models do not meet quality, cost or latency needs |
 | Data scientist | Analyze data, run experiments, build statistical models | Analyses, forecasts, A/B test readouts, classical ML models | The question is "what does our data say?" rather than "ship a feature" |
 
-If your first project is a support assistant, internal knowledge search or document processing, you almost certainly need an AI engineer first. Specialist splits between [LLM development](/services/llm-development), [RAG systems](/services/rag-development) and [AI agents](/services/ai-agents) matter once the team grows.
+If your first project is a support assistant, internal knowledge search or document processing, you almost certainly need an AI engineer first. Specialist splits between [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag) and [AI agents](/solutions/ai-agents) matter once the team grows.
 
 ## What should you define before you write the job ad?
 
@@ -139,11 +139,11 @@ The cheapest fixes are internal: a finished scorecard, a ready take-home, calibr
 
 Hiring individuals is right when AI is a long-term core capability, you have a strong technical lead, and you can wait out the cycle. It is often wrong when you need several skills at once (AI, data, backend, product) for one project, need to start before a hire would land, have nobody who can run the screening above, or do not yet know whether you need a permanent team.
 
-In those cases a [dedicated AI engineering pod](/insights/what-is-an-ai-pod), a small cross-functional team from a delivery partner, lets you ship the first system while you decide on permanent structure. If you only need extra hands around an existing AI lead, [team augmentation](/services/team-augmentation) is the narrower option. The two also combine: a pod builds the first production system while you hire in parallel, with the pod helping define the role and run technical screens.
+In those cases a [dedicated AI engineering pod](/insights/what-is-an-ai-pod), a small cross-functional team from a delivery partner, lets you ship the first system while you decide on permanent structure. If you only need extra hands around an existing AI lead, [team augmentation](/how-to-engage) is the narrower option. The two also combine: a pod builds the first production system while you hire in parallel, with the pod helping define the role and run technical screens.
 
 ### How Fwdpod approaches this
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and the Gulf.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, with engineering delivered from India for buyers in the US, UK, EU and the Gulf.
 
 If you are weighing a hire against a pod, the [solutions page](/our-solutions) shows how each pod is put together, or [book a 30-minute call](/configure) to talk through your own use case. For pricing, [talk to the team](/contact).
 

@@ -43,7 +43,7 @@ Each channel has its own contract shape, and that shape decides who is accountab
 
 Hyperscaler partner status means something specific. AWS says its AI Competency partners are validated for "proven expertise, field experience, and successful projects." Microsoft's Azure specializations require partners to meet qualification requirements and then pass an audit, with audits or customer references revalidated every other year. Those badges show cloud expertise, not that the vendor can ship your use case.
 
-The contract shapes behind each of these channels, and who carries the overrun risk in each, are set out in our guide to [AI development engagement models](/insights/ai-engagement-models-explained). The pod and staff augmentation rows differ mostly in who owns the result: a [dedicated pod](/insights/what-is-an-ai-pod) is accountable for an outcome, while [team augmentation](/services/team-augmentation) supplies people into a team you manage.
+The contract shapes behind each of these channels, and who carries the overrun risk in each, are set out in our guide to [AI development engagement models](/insights/ai-engagement-models-explained). The pod and staff augmentation rows differ mostly in who owns the result: a [dedicated pod](/insights/what-is-an-ai-pod) is accountable for an outcome, while [team augmentation](/how-to-engage) supplies people into a team you manage.
 
 ## What does an AI implementation partner own, and what stays with you?
 
@@ -126,7 +126,7 @@ This is a routing question, not a vendor ranking.
 - **The roadmap will change as you learn:** a dedicated pod or [forward deployed engineers](/insights/what-is-a-forward-deployed-engineer) under a capacity SOW, with outcome goals rather than fixed deliverables.
 - **You have strong engineering management and one or two missing skills:** staff augmentation, knowing you own delivery.
 - **You need a second opinion or a two-week prototype:** a vetted freelancer, kept away from production data.
-- **The direction itself is unsettled:** a short [AI consulting engagement](/services/ai-consulting) before any build contract.
+- **The direction itself is unsettled:** a short [AI consulting engagement](/how-to-engage) before any build contract.
 
 Also decide before signing whether you want an outsourced AI engineering team for the long run or a handover to internal staff. It changes the knowledge-transfer terms in the SOW, and if the answer is "we will own this eventually", start reading [how to hire AI engineers](/insights/how-to-hire-ai-engineers) while the pilot runs.
 
@@ -138,7 +138,7 @@ Also decide before signing whether you want an outsourced AI engineering team fo
 
 ## How fwdpod approaches this
 
-[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [LLM development](/services/llm-development), [RAG systems](/services/rag-development), [AI agents](/services/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India. That puts it in the pods row above: engineering execution owned by the pod, product direction owned by your team.
+[Fwdpod](/) builds dedicated AI engineering pods for startups and enterprises, covering [model selection and fine-tuning](/solutions/models), [RAG systems](/solutions/rag), [AI agents](/solutions/ai-agents) and product delivery, for buyers in the US, UK, EU and the Gulf, with engineering delivery from India. That puts it in the pods row above: engineering execution owned by the pod, product direction owned by your team.
 
 If you are routing a request for an AI engineering team, the [solutions page](/our-solutions) shows how the pods are structured, and you can [book a 30-minute call](/configure) about your use case, pricing and start dates.
 

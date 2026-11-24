@@ -24,7 +24,7 @@ export default function SecurityTiles() {
         return (
           <li key={tile.id} className={`${card} space-y-3`}>
             <Icon className="w-5 h-5 text-[#0066FF]" aria-hidden="true" />
-            <h3 className="text-lg font-display font-semibold tracking-tight text-[#0A0A0A]">{tile.title}</h3>
+            <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{tile.title}</h3>
             <p className="text-sm text-[#555555] leading-relaxed">{tile.text}</p>
           </li>
         );
