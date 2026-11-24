@@ -14,7 +14,6 @@ import {
   ArrowRight,
   BarChart3,
   Bot,
-  ChevronDown,
   Clock,
   Cpu,
   Database,
@@ -29,6 +28,7 @@ import {
 } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
 import { eyebrow, card, h2Class, sectionClass } from './marketing/ui';
+import FaqCards from './marketing/FaqCards';
 import { CAPABILITY_CENTER_NAME, NEXTDOT_LINE, PARTNER_PROGRAMS } from '../content/company';
 import { PILOT_LENGTH } from '../content/business-facts';
 
@@ -267,17 +267,10 @@ export default function AboutView() {
       {/* Step 10: Common questions. Native <details>: opens with or without JavaScript. */}
       <section id="faq" aria-labelledby="faq-heading" className={`${sectionClass} ${lightPanel}`}>
         <h2 id="faq-heading" className={h2Class}>Common questions</h2>
-        <div className="max-w-3xl border-t border-zinc-200/85">
-          {ABOUT_FAQS.map(faq => (
-            <details key={faq.q} className="group border-b border-zinc-200/85">
-              <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <p className="pb-4 text-sm text-[#555555] leading-relaxed">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqCards
+          items={ABOUT_FAQS.map(faq => ({ key: faq.q, question: faq.q, answer: faq.a }))}
+          className="max-w-3xl"
+        />
       </section>
 
       {/* Step 11: the black "Tell us the role or the outcome." banner is the

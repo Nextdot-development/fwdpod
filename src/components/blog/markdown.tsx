@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FaqCards from '../marketing/FaqCards';
 
 /**
  * Markdown for article bodies.
@@ -156,10 +157,55 @@ function renderCode(code: string, key: number) {
   );
 }
 
+type Block = string | { code: string };
+
+// The FAQ section's H2, the same match blogCatalog.ts uses for FAQPage schema
+const FAQ_HEADING = /^#{1,2}\s+(frequently asked questions|faqs?)\b/i;
+const isH2 = (block: Block) => typeof block === 'string' && /^#{1,2}\s/.test(block.trim());
+const isH3 = (block: Block) => typeof block === 'string' && block.trim().startsWith('### ');
+
+/**
+ * The FAQ section as click-to-open cards. Each "### question" becomes a
+ * native <details>: it opens with or without JavaScript, and the answer stays
+ * in the HTML, so the FAQPage schema still describes text the page contains.
+ */
+function renderFaqItems(blocks: Block[], key: number) {
+  const items: { question: string; answer: Block[] }[] = [];
+  const intro: Block[] = [];
+  for (const block of blocks) {
+    if (isH3(block)) {
+      // A question whose answer starts on the very next line, with no blank line
+      const [first, ...rest] = (block as string).trim().split('\n');
+      items.push({ question: first.slice(4).trim(), answer: rest.length ? [rest.join('\n')] : [] });
+    } else if (items.length) {
+      items[items.length - 1].answer.push(block);
+    } else {
+      intro.push(block);
+    }
+  }
+
+  return (
+    <div key={key} className="not-prose space-y-3">
+      {intro.map((block, i) => renderBlock(block, i))}
+      {/* The same cards as every other FAQ on the site, in the article's text sizes */}
+      <FaqCards
+        items={items.map((item, i) => ({
+          key: `${i}-${item.question}`,
+          id: headingId(item.question),
+          question: renderInline(item.question),
+          answer: item.answer.map((block, j) => renderBlock(block, j)),
+        }))}
+        questionClassName="font-sans text-[15px] md:text-base font-semibold text-zinc-900 leading-snug"
+        answerClassName="text-[15px] text-zinc-600 leading-[1.75]"
+      />
+    </div>
+  );
+}
+
 /** Renders a markdown body into elements. */
 export default function renderMarkdown(markdown: string) {
   const source = markdown.replace(/\r\n/g, '\n');
-  const blocks: Array<string | { code: string }> = [];
+  const blocks: Block[] = [];
   let last = 0;
   for (const match of source.matchAll(FENCE_PATTERN)) {
     blocks.push(...source.slice(last, match.index).split(/\n{2,}/));
@@ -168,8 +214,26 @@ export default function renderMarkdown(markdown: string) {
   }
   blocks.push(...source.slice(last).split(/\n{2,}/));
 
-  return blocks
-    .map((block, index) => {
+  const out: ReturnType<typeof renderBlock>[] = [];
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    out.push(renderBlock(block, i));
+    // After the FAQ heading, everything up to the next H2 becomes cards
+    if (typeof block === 'string' && FAQ_HEADING.test(block.trim())) {
+      let end = i + 1;
+      while (end < blocks.length && !isH2(blocks[end])) end++;
+      const section = blocks.slice(i + 1, end);
+      if (section.some(isH3)) {
+        out.push(renderFaqItems(section, i + 1));
+        i = end - 1;
+      }
+    }
+  }
+  return out;
+}
+
+/** One block of the body: heading, paragraph, list, table, image or code. */
+function renderBlock(block: Block, index: number) {
       if (typeof block !== 'string') return renderCode(block.code, index);
       const trimmed = block.trim();
       if (!trimmed) return null;
@@ -279,7 +343,6 @@ export default function renderMarkdown(markdown: string) {
           {renderInline(lines.join(' '))}
         </p>
       );
-    });
 }
 
 /** List items may wrap across source lines; continuation lines join the item. */

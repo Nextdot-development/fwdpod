@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ChevronDown } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import SEO from './SEO';
 import { BOOKING_PATH, primaryButton, secondaryButton, sectionClass, SectionHeading } from './marketing/ui';
+import FaqCards from './marketing/FaqCards';
 import StackInfographic from './marketing/StackInfographic';
 import StartWhereYouAre from './marketing/StartWhereYouAre';
 import { SOLUTION_LAYERS, SOLUTION_BANDS, type SolutionSection } from '../content/engineering-stack';
@@ -204,17 +205,10 @@ export default function SolutionsView(_props: SolutionsViewProps) {
       {/* 5. FAQs: answers stay in the prerendered HTML when closed */}
       <section id="faqs" aria-labelledby="faqs-heading" className={sectionClass}>
         <SectionHeading id="faqs-heading" label="FAQs" title="Frequently asked questions" />
-        <div className="border-t border-[#0A0A0A]/10">
-          {FAQS.map(faq => (
-            <details key={faq.q} className="group border-b border-[#0A0A0A]/10">
-              <summary className="flex items-center justify-between gap-4 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <p className="pb-5 text-sm text-[#555555] leading-relaxed max-w-3xl">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqCards
+          items={FAQS.map(faq => ({ key: faq.q, question: faq.q, answer: faq.a }))}
+          className=""
+        />
       </section>
     </div>
   );

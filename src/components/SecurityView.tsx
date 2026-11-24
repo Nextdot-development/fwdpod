@@ -8,10 +8,11 @@
  * quotes, "24/7", "2-hour response", "enterprise-grade", and any promise to
  * pass a security review. The closing black banner is BookCallBand in App.tsx.
  */
-import { Check, ChevronDown, Code, CalendarDays, FileCheck, MessageSquare } from 'lucide-react';
+import { Check, Code, CalendarDays, FileCheck, MessageSquare } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
 import SecurityTiles from './marketing/SecurityTiles';
 import { eyebrow, BookingLink, h2Class, primaryButton, sectionClass } from './marketing/ui';
+import FaqCards from './marketing/FaqCards';
 import { REPLACEMENT_WINDOW } from '../content/business-facts';
 
 const PAGE_PATH = '/security';
@@ -188,31 +189,25 @@ export default function SecurityView() {
         </div>
       </section>
 
-      {/* Step 8: Questions from your security or legal team? */}
+      {/* Step 8: Questions from your security or legal team? Text left, button
+          right on desktop (as in the black band); stacked on mobile. */}
       <section aria-labelledby="questions-heading" className={`${sectionClass} ${lightPanel}`}>
-        <div className="space-y-4 max-w-3xl">
-          <h2 id="questions-heading" className={h2Class}>Questions from your security or legal team?</h2>
-          <p className={bodyText}>Bring them to a 30-minute call. We will go through them with you.</p>
-          <div className="pt-2">
-            <BookingLink label="Book a 30-minute call" source="security questions" className={primaryButton} />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-4 max-w-3xl">
+            <h2 id="questions-heading" className={h2Class}>Questions from your security or legal team?</h2>
+            <p className={bodyText}>Bring them to a 30-minute call. We will go through them with you.</p>
           </div>
+          <BookingLink label="Book a 30-minute call" source="security questions" className={`${primaryButton} shrink-0 self-start md:self-auto`} />
         </div>
       </section>
 
       {/* Step 9: FAQs. Native <details>: opens on click, with or without JavaScript. */}
       <section id="faq" aria-labelledby="faq-heading" className={sectionClass}>
         <h2 id="faq-heading" className={h2Class}>Frequently asked questions</h2>
-        <div className="max-w-3xl border-t border-zinc-200/85">
-          {SECURITY_FAQS.map(faq => (
-            <details key={faq.q} className="group border-b border-zinc-200/85">
-              <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <p className="pb-4 text-sm text-[#555555] leading-relaxed">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqCards
+          items={SECURITY_FAQS.map(faq => ({ key: faq.q, question: faq.q, answer: faq.a }))}
+          className="max-w-3xl"
+        />
       </section>
 
       {/* Step 10: the black "Tell us the role or the outcome." banner is the

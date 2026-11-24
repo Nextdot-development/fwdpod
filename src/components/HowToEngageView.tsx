@@ -6,9 +6,10 @@
  * "24/7" or "2-hour" claims. The closing "Tell us the role or the outcome."
  * band is the site-wide BookCallBand rendered by App.tsx, unchanged.
  */
-import { ArrowDown, ArrowRight, ChevronDown, FileCheck, RefreshCw, ShieldCheck } from 'lucide-react';
+import { ArrowDown, ArrowRight, FileCheck, RefreshCw, ShieldCheck } from 'lucide-react';
 import SEO, { SITE_BASE_URL } from './SEO';
 import { card, eyebrow, h2Class, sectionClass } from './marketing/ui';
+import FaqCards from './marketing/FaqCards';
 import { STARTING_POINTS } from '../content/starting-points';
 import { PILOT_LENGTH, REPLACEMENT_WINDOW, SHORTLIST_TIME, TIME_TO_START } from '../content/business-facts';
 
@@ -275,17 +276,10 @@ export default function HowToEngageView() {
       {/* Step 9: FAQs. Native <details> opens on click with or without JavaScript. */}
       <section id="faq" aria-labelledby="faq-heading" className={sectionClass}>
         <h2 id="faq-heading" className={h2Class}>Frequently asked questions</h2>
-        <div className="max-w-3xl border-t border-zinc-200/85">
-          {HOW_TO_ENGAGE_FAQS.map(faq => (
-            <details key={faq.q} className="group border-b border-zinc-200/85">
-              <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <p className="pb-4 text-sm text-[#555555] leading-relaxed">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqCards
+          items={HOW_TO_ENGAGE_FAQS.map(faq => ({ key: faq.q, question: faq.q, answer: faq.a }))}
+          className="max-w-3xl"
+        />
       </section>
     </div>
   );

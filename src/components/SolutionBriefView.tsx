@@ -3,9 +3,10 @@
  * briefs' order. Copy lives in src/content/solution-briefs.ts.
  */
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, ChevronDown } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import SEO from './SEO';
 import { card, h2Class, sectionClass } from './marketing/ui';
+import FaqCards from './marketing/FaqCards';
 import type { SolutionBrief } from '../content/solution-briefs';
 
 const label = 'text-[10px] font-mono uppercase tracking-wider text-[#0066FF] block';
@@ -158,17 +159,10 @@ export default function SolutionBriefView({ page }: { page: SolutionBrief }) {
       {/* 10. FAQs. Native <details>: opens on click, with or without JavaScript. */}
       <section aria-labelledby="faq-heading" className={sectionClass}>
         <h2 id="faq-heading" className={h2Class}>Frequently asked questions</h2>
-        <div className="max-w-3xl border-t border-zinc-200/85">
-          {page.faqs.map(faq => (
-            <details key={faq.q} className="group border-b border-zinc-200/85">
-              <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
-                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
-              </summary>
-              <p className="pb-4 text-sm text-[#555555] leading-relaxed">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <FaqCards
+          items={page.faqs.map(faq => ({ key: faq.q, question: faq.q, answer: faq.a }))}
+          className="max-w-3xl"
+        />
       </section>
 
       {/* 11. Tools. [CONFIRM logos] */}
