@@ -1,23 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Check, ChevronDown } from 'lucide-react';
 import SEO from './SEO';
-import PricingSection from './marketing/PricingSection';
-import { BookingLink, card, cardHover, primaryButton, sectionClass, SectionHeading } from './marketing/ui';
-import { PODS, type Pod } from '../content/pods';
+import { BOOKING_PATH, primaryButton, secondaryButton, sectionClass, SectionHeading } from './marketing/ui';
+import StackInfographic from './marketing/StackInfographic';
+import StartWhereYouAre from './marketing/StartWhereYouAre';
+import { SOLUTION_LAYERS, SOLUTION_BANDS, type SolutionSection } from '../content/engineering-stack';
+import {
+  TIME_TO_START,
+  SHORTLIST_TIME,
+  US_OVERLAP_HOURS,
+  REPLACEMENT_WINDOW,
+  PILOT_LENGTH,
+} from '../content/business-facts';
 import { trackCtaClick } from '../utils/analytics';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
-const PAGE_TITLE = 'Our Solutions: AI Engineering Pods | Fwdpod';
+const PAGE_TITLE = 'Our Solutions: AI Engineering at Every Layer | Fwdpod';
 const PAGE_DESCRIPTION =
-  'Six AI engineering pods for AI agents, document search, voice AI, compliance and LLMOps: 4–6 engineers who already work together, with one pod lead.';
+  'Senior AI engineers from India to build and run every layer of your AI stack: agents, RAG, models, data, compliance and LLMOps. One specialist or a full pod.';
+
+// FAQ 1–8 from the structure doc. Bracketed numbers come from business-facts.ts.
+const FAQS = [
+  {
+    q: 'How fast can someone start?',
+    a: `Profiles within ${SHORTLIST_TIME} of a scoping call; engineers usually start within ${TIME_TO_START}.`,
+  },
+  {
+    q: 'Do your engineers work in our tools and hours?',
+    a: `Yes. They join your Slack or Teams, repos and stand-ups, with ${US_OVERLAP_HOURS} of daily overlap with US time zones.`,
+  },
+  {
+    q: 'Who owns the code and IP?',
+    a: 'You do. Every engineer signs an NDA and full IP assignment.',
+  },
+  {
+    q: "What if someone isn't the right fit?",
+    a: `We replace them free within ${REPLACEMENT_WINDOW}, with a documented handover.`,
+  },
+  {
+    q: 'Can we start small?',
+    a: `Yes. A ${PILOT_LENGTH} paid pilot on one use case, with a fixed fee.`,
+  },
+  {
+    q: 'Do you only staff, or do you own delivery?',
+    a: 'Both. Specialists work under your lead; each pod has one accountable lead, a forward deployed engineer, and reports on agreed measures.',
+  },
+  {
+    q: 'Which models and platforms do you work with?',
+    a: 'Whatever your stack uses. We are model-neutral and work across frontier APIs and open models.',
+  },
+  {
+    q: 'How do you handle sensitive data?',
+    a: 'Engineers work inside your environment under your access policies; data stays where you keep it.',
+  },
+];
 
 const SOLUTIONS_JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'WebPage',
-      '@id': 'https://fwdpod.com/#solutions',
+      '@id': 'https://fwdpod.com/our-solutions#webpage',
       'url': 'https://fwdpod.com/our-solutions',
       'name': PAGE_TITLE,
       'description': PAGE_DESCRIPTION,
@@ -26,222 +70,152 @@ const SOLUTIONS_JSON_LD = {
         '@type': 'BreadcrumbList',
         'itemListElement': [
           { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': 'https://fwdpod.com/' },
-          { '@type': 'ListItem', 'position': 2, 'name': 'Our Solutions', 'item': 'https://fwdpod.com/oursolutions' }
-        ]
-      }
+          { '@type': 'ListItem', 'position': 2, 'name': 'Our Solutions', 'item': 'https://fwdpod.com/our-solutions' },
+        ],
+      },
     },
     {
-      '@type': 'ItemList',
-      'name': 'AI engineering pods',
-      'description': 'AI engineering pods of 4–6 engineers who already work together, each with one accountable pod lead',
-      'numberOfItems': PODS.length,
-      'itemListElement': PODS.map((pod, idx) => ({
-        '@type': 'ListItem',
-        'position': idx + 1,
-        'name': pod.name,
-        'description': pod.summary,
-        'url': `https://fwdpod.com/our-solutions#pod-heading-${pod.id}`
-      }))
-    }
-  ]
+      '@type': 'FAQPage',
+      'mainEntity': FAQS.map(faq => ({
+        '@type': 'Question',
+        'name': faq.q,
+        'acceptedAnswer': { '@type': 'Answer', 'text': faq.a },
+      })),
+    },
+  ],
 };
 
-// ── The team behind a solution (the 5-person agent team as the example) ───────
-const EXAMPLE_TEAM = [
-  { role: 'Team lead', count: 1, text: 'Your single point of contact. Owns the design, plan and delivery.' },
-  { role: 'AI engineers', count: 2, text: 'Build the solution and connect it to your systems.' },
-  { role: 'Data and quality engineer', count: 1, text: 'Prepares the data, tests the results and checks quality.' },
-  { role: 'Delivery engineer', count: 1, text: 'Works inside your environment to launch it and keep it running.' },
-];
-
 interface SolutionsViewProps {
-  /** Kept for App's route wiring; the footer now passes the pod in the link's state instead. */
+  /** Kept for App's route wiring; this page no longer preselects a pod. */
   selectedPodId: string | null;
-  /** Kept for App's route wiring; the cards now book a call instead of opening /configure. */
+  /** Kept for App's route wiring; this page no longer preselects a pod. */
   onPreselectPod: (podId: string) => void;
 }
 
-function SolutionCard({ pod, open, onToggle }: { pod: Pod; open: boolean; onToggle: () => void }) {
-  const dark = pod.highlighted;
-  const detailsId = `pod-details-${pod.id}`;
-  const muted = dark ? 'text-zinc-300' : 'text-[#555555]';
-  const strong = dark ? 'text-white' : 'text-[#0A0A0A]';
-  const label = `text-[10px] font-mono uppercase tracking-wider ${dark ? 'text-zinc-400' : 'text-[#0066FF]'}`;
+// ── One layer or cross-cutting band, with the doc's copy ─────────────────────
+function SolutionBlock({ item }: { item: SolutionSection }) {
+  const headingId = `${item.id}-heading`;
+  const label = 'text-[10px] font-mono uppercase tracking-wider text-[#0066FF]';
   return (
-    <article
-      id={`pod-heading-${pod.id}`}
-      className={`scroll-mt-24 rounded-3xl border overflow-hidden shadow-sm ${cardHover} ${
-        dark ? 'bg-[#0A0A0A] border-[#0A0A0A] text-white' : `bg-white ${open ? 'border-[#0066FF]' : 'border-zinc-200/85'}`
-      }`}
-    >
-      {/* Closed: ID, timeline and name only. Click to open the explanation. */}
-      <h3>
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={open}
-          aria-controls={detailsId}
-          className={`w-full flex items-center justify-between gap-4 p-6 md:p-10 text-left cursor-pointer transition-colors ${dark ? 'hover:bg-white/5' : 'hover:bg-[#0A0A0A]/[0.03]'}`}
-        >
-          <span className="space-y-3 min-w-0">
-            <span className="flex flex-wrap items-center gap-2">
-              <span className={`text-[10px] font-mono uppercase ${muted}`}>ID: {pod.id}</span>
-              <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-md ${dark ? 'bg-white/10 text-white' : 'bg-[#0066FF]/5 text-[#0055DD]'}`}>
-                {pod.timeline}
-              </span>
-            </span>
-            <span className={`block text-2xl font-display font-medium tracking-tight ${strong}`}>{pod.name}</span>
-          </span>
-          <span className="flex items-center gap-4 shrink-0" aria-hidden="true">
-            <span className={`hidden sm:inline-block text-xs font-medium ${muted}`}>{open ? 'Collapse spec' : 'Expand spec'}</span>
-            <span className={`p-1.5 rounded-full border ${dark ? 'border-white/20 bg-white/5' : 'border-[#0A0A0A]/10 bg-zinc-50'}`}>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${open ? 'rotate-180' : ''} ${strong}`} />
-            </span>
-          </span>
-        </button>
-      </h3>
-
-      {/* Kept in the page when closed, so the details are in the prerendered HTML */}
-      <div
-        id={detailsId}
-        hidden={!open}
-        className={`px-6 pb-6 md:px-10 md:pb-10 pt-6 md:pt-8 space-y-6 border-t animate-fadeIn ${dark ? 'border-white/10' : 'border-[#0A0A0A]/10'}`}
-      >
-        <p className={`text-sm leading-relaxed ${muted}`}>{pod.summary}</p>
-
-        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <dt className={label}>The challenge</dt>
-            <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.challenge}</dd>
-          </div>
-          <div>
-            <dt className={label}>The value</dt>
-            <dd className={`mt-1 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#0A0A0A]'}`}>{pod.value}</dd>
-          </div>
-        </dl>
-
-        <div className="space-y-3">
-          <h4 className={`text-xs font-mono font-medium uppercase tracking-widest ${muted}`}>What's included</h4>
-          <ul className="space-y-2.5">
-            {pod.typicalWork.map(item => (
-              <li key={item} className={`flex gap-2.5 text-sm leading-relaxed ${dark ? 'text-zinc-200' : 'text-[#555555]'}`}>
-                <Check className={`w-4 h-4 mt-0.5 shrink-0 ${dark ? 'text-white' : 'text-[#0066FF]'}`} aria-hidden="true" />
-                <span>{item}</span>
+    <section id={item.id} aria-labelledby={headingId} className="scroll-mt-24 border border-zinc-200/85 rounded-3xl p-6 md:p-10 space-y-6">
+      <div className="space-y-2">
+        <h2 id={headingId} className="text-2xl md:text-3xl font-display font-medium tracking-tight text-[#0A0A0A]">
+          <span className="text-[#555555]">{item.kicker} · </span>
+          <Link to={item.href} className="hover:text-[#0066FF] hover:underline">{item.name}</Link>
+        </h2>
+        {item.subPages && (
+          <ul className="flex flex-wrap gap-2" aria-label={`Part of ${item.name}`}>
+            {item.subPages.map(sub => (
+              <li key={sub.href}>
+                <Link
+                  to={sub.href!}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-[#0066FF] border border-[#0066FF]/30 rounded-full px-3 py-1 hover:bg-[#0066FF]/5"
+                >
+                  {sub.label} <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
-
-        <dl className={`grid grid-cols-2 gap-x-6 gap-y-5 rounded-2xl p-5 ${dark ? 'bg-white/5 border border-white/10' : 'bg-zinc-50 border border-zinc-100'}`}>
-          <div>
-            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Team size</dt>
-            <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.size}</dd>
-          </div>
-          <div>
-            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Typical timeline</dt>
-            <dd className={`mt-1 text-sm font-semibold ${strong}`}>{pod.timeline}</dd>
-          </div>
-          <div className="col-span-2">
-            <dt className={`text-[10px] font-mono uppercase tracking-wider ${muted}`}>Best for</dt>
-            <dd className={`mt-1 text-sm leading-relaxed ${strong}`}>{pod.bestFor}</dd>
-          </div>
-        </dl>
-
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          <BookingLink label="Discuss this solution" source={`solutions ${pod.name}`} className={primaryButton} />
-          {pod.caseStudyId && (
-            <Link
-              to={`/case-studies#${pod.caseStudyId}`}
-              onClick={() => trackCtaClick(`View case study (solutions ${pod.name})`, '/case-studies')}
-              className={`text-xs font-medium inline-flex items-center gap-1 hover:underline ${dark ? 'text-white' : 'text-[#0066FF]'}`}
-            >
-              View case study <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </Link>
-          )}
-        </div>
+        )}
+        <p className="text-base font-semibold text-[#0A0A0A]">{item.promise}</p>
       </div>
-    </article>
+
+      <ul className="space-y-2.5">
+        {item.bullets.map(bullet => (
+          <li key={bullet} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
+            <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
+            <span>{bullet}</span>
+          </li>
+        ))}
+      </ul>
+
+      <dl className="grid grid-cols-1 md:grid-cols-3 gap-5 rounded-2xl bg-zinc-50 border border-zinc-100 p-5">
+        {item.needThisIf && (
+          <div>
+            <dt className={label}>You need this if</dt>
+            <dd className="mt-1 text-sm text-[#0A0A0A] leading-relaxed">{item.needThisIf}</dd>
+          </div>
+        )}
+        <div>
+          <dt className={label}>Measured by</dt>
+          <dd className="mt-1 text-sm text-[#0A0A0A] leading-relaxed">{item.measuredBy}</dd>
+        </div>
+        <div>
+          <dt className={label}>Who does it</dt>
+          <dd className="mt-1 text-sm text-[#0A0A0A] leading-relaxed">{item.whoDoesIt}</dd>
+        </div>
+      </dl>
+    </section>
   );
 }
 
 export default function SolutionsView(_props: SolutionsViewProps) {
-  const location = useLocation();
-  // Set only by a footer link, for that one navigation
-  const linkedPodId = (location.state as { podId?: string } | null)?.podId ?? null;
-  const [openPods, setOpenPods] = useState<Set<string>>(() => new Set());
-
-  const togglePod = (id: string) =>
-    setOpenPods(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-
-  // Open and scroll to the solution picked in the footer. Deferred so it runs
-  // after App's scroll-to-top on route change. Keyed on the navigation, so the
-  // same footer link clicked again while on this page still works.
-  useEffect(() => {
-    if (!linkedPodId) return;
-    setOpenPods(prev => new Set(prev).add(linkedPodId));
-    const timer = window.setTimeout(() => {
-      document.getElementById(`pod-heading-${linkedPodId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, [linkedPodId, location.key]);
-
   return (
     <div className="bg-white animate-page-enter">
       <SEO title={PAGE_TITLE} description={PAGE_DESCRIPTION} jsonLd={SOLUTIONS_JSON_LD} />
 
-      {/* 1. Intro */}
-      <section className="pt-2 space-y-2 max-w-3xl" aria-labelledby="solutions-heading">
-        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Our Solutions</span>
-        <h1 id="solutions-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08]">
-          AI engineering pods
+      {/* 1. Hero */}
+      <section className="pt-2 pb-8 space-y-6 max-w-3xl" aria-labelledby="solutions-heading">
+        <span className="text-[#0066FF] text-xs font-mono font-medium uppercase tracking-widest block">Solutions</span>
+        <h1 id="solutions-heading" className="text-4xl md:text-5xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.08] text-balance">
+          AI engineering at every layer of your stack.
         </h1>
-        <p className="text-sm text-[#555555] max-w-xl leading-relaxed">
-          Hand over a full workstream to 4–6 engineers who already work together, with one pod lead accountable to you.
+        <p className="text-base text-[#555555] max-w-2xl leading-relaxed">
+          From data to agents to production operations, we deploy senior AI engineers from India to build and run the parts your team can't staff today. Start with one specialist or a full pod.
         </p>
-      </section>
-
-      {/* 2. Solutions */}
-      <section aria-labelledby="pods-heading" className="flex flex-col gap-6 pt-6 pb-12 md:pb-16">
-        <SectionHeading id="pods-heading" label="Our pods" title="Find the pod that fits your goal." />
-        {/* Two independent columns, so opening a card doesn't stretch the one beside it */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-          {[PODS.slice(0, 3), PODS.slice(3)].map((column, idx) => (
-            <div key={idx} className="space-y-6">
-              {column.map(pod => (
-                <SolutionCard key={pod.id} pod={pod} open={openPods.has(pod.id)} onToggle={() => togglePod(pod.id)} />
-              ))}
-            </div>
-          ))}
+        <div className="flex flex-col sm:flex-row gap-3 pt-1">
+          <Link
+            to={BOOKING_PATH}
+            onClick={() => trackCtaClick('Book a 30-minute call (solutions hero)', BOOKING_PATH)}
+            className={primaryButton}
+          >
+            <span>Book a 30-minute call</span>
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
+          <a
+            href="#start"
+            onClick={() => trackCtaClick('Find your starting point (solutions hero)', '/our-solutions#start')}
+            className={secondaryButton}
+          >
+            Find your starting point
+          </a>
         </div>
       </section>
 
-      {/* 3. The team behind a solution */}
-      <section aria-labelledby="team-heading" className={sectionClass}>
-        <SectionHeading id="team-heading" label="How it's delivered" title="A dedicated team behind every solution." />
-        <p className="-mt-6 md:-mt-8 text-sm text-[#555555] max-w-xl leading-relaxed">
-          For example, the Agent Development Pod is a team of five:
-        </p>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {EXAMPLE_TEAM.map(item => (
-            <li key={item.role} className={card}>
-              <span className="text-xs font-mono font-semibold text-[#0066FF]">×{item.count}</span>
-              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.role}</h3>
-              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{item.text}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">
-          One team. One contract. One accountable lead.
-        </p>
+      {/* 2. The stack infographic */}
+      <section id="stack" aria-labelledby="stack-heading" className={sectionClass}>
+        <div className="space-y-3">
+          <SectionHeading id="stack-heading" label="The engineering stack" title="Four layers to build. Two that run across all of them." />
+          <p className="text-sm text-[#555555]">What we engineer at each layer of an enterprise AI system, and who does it.</p>
+        </div>
+        <StackInfographic />
       </section>
 
-      {/* 4. Pricing */}
-      <PricingSection source="solutions" />
+      {/* 3. Layers 1–4, then the two cross-cutting bands */}
+      <div className="flex flex-col gap-6 py-6">
+        {[...SOLUTION_LAYERS, ...SOLUTION_BANDS].map(item => (
+          <SolutionBlock key={item.id} item={item} />
+        ))}
+      </div>
+
+      {/* 4. Start where you are (same table as the homepage) */}
+      <StartWhereYouAre />
+
+      {/* 5. FAQs: answers stay in the prerendered HTML when closed */}
+      <section id="faqs" aria-labelledby="faqs-heading" className={sectionClass}>
+        <SectionHeading id="faqs-heading" label="FAQs" title="Frequently asked questions" />
+        <div className="border-t border-[#0A0A0A]/10">
+          {FAQS.map(faq => (
+            <details key={faq.q} className="group border-b border-[#0A0A0A]/10">
+              <summary className="flex items-center justify-between gap-4 py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <h3 className="text-base font-medium text-[#0A0A0A]">{faq.q}</h3>
+                <ChevronDown className="w-4 h-4 text-[#555555] shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <p className="pb-5 text-sm text-[#555555] leading-relaxed max-w-3xl">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

@@ -56,6 +56,7 @@ export default function LivePodsView() {
           Case studies
         </h1>
         <p className="text-sm text-[#555555] max-w-xl leading-relaxed">Recent AI pods in production.</p>
+        <p className="text-xs text-[#555555] max-w-xl leading-relaxed">Results are self-reported.</p>
       </section>
 
       {/* 2. One card per project */}
@@ -74,28 +75,35 @@ export default function LivePodsView() {
               </h2>
             </div>
 
+            {/* Card template: industry, problem, result, team size, weeks to live, quote.
+                [CLIENT PERMISSION NEEDED] on every card: see src/content/case-studies.ts */}
             <div className="lg:col-span-8 space-y-6">
               <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1.5">
-                  <dt className={label}>The problem</dt>
+                  <dt className={label}>Problem</dt>
                   <dd className="text-sm text-[#555555] leading-relaxed">{item.problem}</dd>
                 </div>
                 <div className="space-y-1.5">
-                  <dt className={label}>What we built</dt>
+                  <dt className={label}>Result</dt>
                   <dd className="text-sm text-[#555555] leading-relaxed">{item.built}</dd>
                 </div>
               </dl>
-              {/* Result */}
               <dl className="pt-5 border-t border-[#0A0A0A]/10 grid grid-cols-2 gap-6">
-                <div className="space-y-1.5">
-                  <dt className={label}>Time to live</dt>
-                  <dd className="text-sm font-semibold text-[#0A0A0A]">{item.weeks.replace(/ to live$/, '')}</dd>
-                </div>
                 <div className="space-y-1.5">
                   <dt className={label}>Team size</dt>
                   <dd className="text-sm font-semibold text-[#0A0A0A]">{item.team}</dd>
                 </div>
+                <div className="space-y-1.5">
+                  <dt className={label}>Weeks to live</dt>
+                  <dd className="text-sm font-semibold text-[#0A0A0A]">{item.weeks.replace(/ to live$/, '')}</dd>
+                </div>
               </dl>
+              {item.quote && (
+                <figure className="pt-5 border-t border-[#0A0A0A]/10">
+                  <blockquote className="text-sm italic text-[#0A0A0A] leading-relaxed">"{item.quote.text}"</blockquote>
+                  <figcaption className="mt-2 text-xs text-[#555555]">{item.quote.attribution}</figcaption>
+                </figure>
+              )}
             </div>
           </article>
         ))}

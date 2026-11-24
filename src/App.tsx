@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Routes, Route, NavLink, Link, Navigate, useNavigate, useLocation, useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Check,
   X,
   MoreVertical,
+  ChevronDown,
 } from 'lucide-react';
 
 import {
@@ -26,15 +27,18 @@ import LivePodsView from './components/LivePodsView';
 import BlogsView from './components/BlogsView';
 import ContactView from './components/ContactView';
 import FwdpodLogo from './components/FwdpodLogo';
-import AiDevelopmentView from './components/AiDevelopmentView';
-import LlmDevelopmentView from './components/LlmDevelopmentView';
-import RagDevelopmentView from './components/RagDevelopmentView';
-import AiAgentsView from './components/AiAgentsView';
-import TeamAugmentationView from './components/TeamAugmentationView';
-import AiConsultingView from './components/AiConsultingView';
-import DataAnnotationView from './components/DataAnnotationView';
-import { SERVICES } from './data/services';
-import { PODS } from './content/pods';
+import { SOLUTION_PAGES, SOLUTION_PAGES_FLAT, STARTING_POINTS, PLACEHOLDER_PAGES } from './data/navigation';
+import { CAPABILITY_PDF_HREF, REGISTERED_COMPANY_LINES, FOUNDER_QUOTE } from './content/footer-facts';
+import PlaceholderView from './components/PlaceholderView';
+import SolutionPageView from './components/SolutionPageView';
+import { SITE_REDIRECTS } from './data/redirects';
+import SecurityView from './components/SecurityView';
+import HowToEngageView from './components/HowToEngageView';
+import SolutionBriefView from './components/SolutionBriefView';
+import { SOLUTION_BRIEFS } from './content/solution-briefs';
+import AboutView from './components/AboutView';
+import { SOLUTION_PAGE_CONTENT } from './content/solution-pages';
+import { TIME_TO_START } from './content/business-facts';
 import BlogPostView from './components/BlogPostView';
 import CategoryView from './components/CategoryView';
 import NotFoundView from './components/NotFoundView';
@@ -78,6 +82,125 @@ const mobileNavClass = ({ isActive }: { isActive: boolean }) =>
   `w-full text-left px-4 py-2.5 text-xs transition-all hover:bg-zinc-50 flex items-center justify-between font-medium ${
     isActive ? 'text-[#0066FF] font-semibold bg-zinc-50' : 'text-zinc-700'
   }`;
+
+// Top menu after Solutions, left to right. Solutions itself opens a panel.
+const TOP_MENU_ITEMS = [
+  { label: 'How to engage', href: '/how-to-engage' },
+  { label: 'Case studies', href: '/case-studies' },
+  { label: 'How we work', href: '/how-we-work' },
+  { label: 'Security', href: '/security' },
+  { label: 'About', href: '/about' },
+];
+
+// Footer Company column: the booking link, every top-menu page in menu order,
+// then Insights and Contact Us (which live only in the footer).
+const FOOTER_COMPANY_LINKS = [
+  { label: 'Book a 30-minute call', href: '/configure' },
+  { label: 'Solutions', href: '/our-solutions' },
+  ...TOP_MENU_ITEMS,
+  { label: 'Insights & Blogs', href: '/insights' },
+  { label: 'Contact Us', href: '/contact' },
+];
+
+const panelHeadingClass = 'block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider';
+const panelLinkClass = 'block py-1 text-[13px] text-[#0A0A0A] hover:text-[#0066FF] transition-colors';
+
+// ── Solutions menu: a two-column panel ───────────────────────────────────────
+function SolutionsMenu() {
+  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const ref = useRef<HTMLDivElement>(null);
+  const isActive = pathname === '/our-solutions' || pathname.startsWith('/solutions/');
+
+  // Close on navigation, outside click and Escape
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onPointer);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onPointer);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const track = (label: string, href: string) => trackNavClick(`Solutions panel: ${label}`, href);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="solutions-panel"
+        onClick={() => setOpen(prev => !prev)}
+        className={`flex items-center gap-1 ${desktopNavClass({ isActive })}`}
+      >
+        Solutions
+        <ChevronDown className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+      </button>
+
+      {open && (
+        <div
+          id="solutions-panel"
+          className="absolute left-0 top-full mt-4 w-[600px] bg-white border border-[#0A0A0A]/10 rounded-2xl shadow-xl p-6 z-50 text-left"
+        >
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <span className={panelHeadingClass}>By engineering layer</span>
+              <span className="block text-[11px] text-[#555555] mt-1 mb-3">4 layers + 2 cross-cutting bands</span>
+              <ul className="space-y-0.5">
+                {SOLUTION_PAGES.map(page => (
+                  <li key={page.href}>
+                    <Link to={page.href} onClick={() => track(page.label, page.href)} className={panelLinkClass}>
+                      {page.label}
+                      {page.crossCutting && <span className="text-[11px] text-[#555555]"> (cross-cutting)</span>}
+                    </Link>
+                    {page.children && (
+                      <ul className="pl-4 border-l border-[#0A0A0A]/10 ml-1">
+                        {page.children.map(child => (
+                          <li key={child.href}>
+                            <Link to={child.href} onClick={() => track(child.label, child.href)} className={panelLinkClass}>
+                              {child.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <span className={`${panelHeadingClass} mb-3`}>By starting point</span>
+              <ul className="space-y-0.5">
+                {STARTING_POINTS.map(point => (
+                  <li key={point.label}>
+                    <Link to={point.href} onClick={() => track(point.label, point.href)} className={panelLinkClass}>
+                      {point.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-5 pt-4 border-t border-[#0A0A0A]/10">
+            <Link
+              to="/our-solutions"
+              onClick={() => track('See all solutions', '/our-solutions')}
+              className="text-xs font-semibold text-[#0066FF] hover:underline"
+            >
+              See all solutions
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
@@ -150,12 +273,12 @@ export default function App() {
 
           {/* Desktop nav — all NavLinks render as <a href="..."> */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8 text-xs font-medium text-[#555555]">
-            <NavLink to="/" end className={desktopNavClass} onClick={() => trackNavClick('Home', '/')}>Home</NavLink>
-            <NavLink to="/our-solutions" className={desktopNavClass} onClick={() => trackNavClick('Our Solutions', '/our-solutions')}>Our Solutions</NavLink>
-            <NavLink to="/case-studies" className={desktopNavClass} onClick={() => trackNavClick('Case studies', '/case-studies')}>Case studies</NavLink>
-            <NavLink to="/insights" className={desktopNavClass} onClick={() => trackNavClick('Insights', '/insights')}>Insights</NavLink>
-            <NavLink to="/how-we-work" className={desktopNavClass} onClick={() => trackNavClick('How we work', '/how-we-work')}>How we work</NavLink>
-            <NavLink to="/contact" className={desktopNavClass} onClick={() => trackNavClick('Contact Us', '/contact')}>Contact Us</NavLink>
+            <SolutionsMenu />
+            {TOP_MENU_ITEMS.map(item => (
+              <NavLink key={item.href} to={item.href} className={desktopNavClass} onClick={() => trackNavClick(item.label, item.href)}>
+                {item.label}
+              </NavLink>
+            ))}
           </nav>
 
           {/* CTA "Book a 30-minute call" — NavLink renders as <a href="/configure"> */}
@@ -210,61 +333,16 @@ export default function App() {
                       </div>
 
                       {/* Mobile NavLinks — all render as <a href="..."> */}
-                      <NavLink to="/" end onClick={() => { closeMobileMenu(); trackNavClick('Home (mobile)', '/'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>Home</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
-
-                      <NavLink to="/our-solutions" onClick={() => { closeMobileMenu(); trackNavClick('Our Solutions (mobile)', '/our-solutions'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>Our Solutions</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
-
-                      <NavLink to="/case-studies" onClick={() => { closeMobileMenu(); trackNavClick('Case studies (mobile)', '/case-studies'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>Case studies</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
-
-                      <NavLink to="/insights" onClick={() => { closeMobileMenu(); trackNavClick('Insights (mobile)', '/insights'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>Insights</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
-
-                      <div className="border-t border-zinc-100 my-1"></div>
-
-                      <NavLink to="/how-we-work" onClick={() => { closeMobileMenu(); trackNavClick('How we work (mobile)', '/how-we-work'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>How we work</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
-
-                      <NavLink to="/contact" onClick={() => { closeMobileMenu(); trackNavClick('Contact Us (mobile)', '/contact'); }} className={mobileNavClass}>
-                        {({ isActive }) => (
-                          <>
-                            <span>Contact Us</span>
-                            {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
-                          </>
-                        )}
-                      </NavLink>
+                      {[{ label: 'Solutions', href: '/our-solutions' }, ...TOP_MENU_ITEMS].map(item => (
+                        <NavLink key={item.href} to={item.href} onClick={() => { closeMobileMenu(); trackNavClick(`${item.label} (mobile)`, item.href); }} className={mobileNavClass}>
+                          {({ isActive }) => (
+                            <>
+                              <span>{item.label}</span>
+                              {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />}
+                            </>
+                          )}
+                        </NavLink>
+                      ))}
                     </motion.div>
                   </>
                 )}
@@ -318,13 +396,25 @@ export default function App() {
               />
             }
           />
-          <Route path="/services/ai-development" element={<AiDevelopmentView />} />
-          <Route path="/services/llm-development" element={<LlmDevelopmentView />} />
-          <Route path="/services/rag-development" element={<RagDevelopmentView />} />
-          <Route path="/services/ai-agents" element={<AiAgentsView />} />
-          <Route path="/services/data-annotation" element={<DataAnnotationView />} />
-          <Route path="/services/team-augmentation" element={<TeamAugmentationView />} />
-          <Route path="/services/ai-consulting" element={<AiConsultingView />} />
+          {/* Menu targets not written yet: noindex placeholders (src/data/navigation.ts) */}
+          {/* Site 301s (src/data/redirects.ts); the server redirects too, this catches in-app links */}
+          {SITE_REDIRECTS.map(r => (
+            <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />
+          ))}
+          <Route path="/security" element={<SecurityView />} />
+          <Route path="/how-to-engage" element={<HowToEngageView />} />
+          <Route path="/about" element={<AboutView />} />
+          {/* Solution pages rebuilt from their own briefs (src/content/solution-briefs.ts) */}
+          {SOLUTION_BRIEFS.map(page => (
+            <Route key={page.path} path={page.path} element={<SolutionBriefView page={page} />} />
+          ))}
+          {/* The remaining solution pages (src/content/solution-pages.ts) */}
+          {SOLUTION_PAGE_CONTENT.map(page => (
+            <Route key={page.href} path={page.href} element={<SolutionPageView page={page} />} />
+          ))}
+          {PLACEHOLDER_PAGES.map(page => (
+            <Route key={page.href} path={page.href} element={<PlaceholderView title={page.label} />} />
+          ))}
           <Route path="*" element={<NotFoundView />} />
         </Routes>
       </main>
@@ -520,7 +610,8 @@ export default function App() {
       {/* ── Book a call band, above the footer on every page except the two booking pages ── */}
       {!['/contact', '/configure'].includes(location.pathname) && (
         <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pb-14">
-          <BookCallBand />
+          {/* Homepage closing call to action; other pages keep the default heading */}
+          <BookCallBand title={location.pathname === '/' ? `Pick one use case. We'll prove it in ${TIME_TO_START}.` : undefined} />
         </div>
       )}
 
@@ -530,7 +621,7 @@ export default function App() {
 
           <div className="flex flex-col lg:flex-row justify-between items-start gap-8 text-[#555555]">
 
-            {/* Logo + tagline */}
+            {/* Logo + description */}
             <div className="space-y-4 max-w-sm flex-shrink-0">
               <Link to="/" aria-label="Fwdpod — Home" className="flex items-center select-none">
                 <FwdpodLogo size="sm" />
@@ -542,83 +633,63 @@ export default function App() {
 
             {/* Footer nav columns — compact spacing */}
             <div className="flex flex-col md:flex-row gap-8 md:gap-6 flex-1">
-              {/* Our Solutions */}
-              <nav aria-label="Our Solutions links">
-                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Our Solutions</span>
+              {/* Solutions: the seven solution pages */}
+              <nav aria-label="Solutions links">
+                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Solutions</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
-                  {PODS.map(pod => (
-                    <li key={pod.id}>
-                      {/* The pod travels with this one navigation, so a later visit opens nothing */}
-                      <Link
-                        to="/our-solutions"
-                        state={{ podId: pod.id }}
-                        className="hover:text-[#0A0A0A] hover:underline transition-all"
-                      >
-                        {/* The column heading names the page; Custom keeps "Pod" */}
-                        {pod.id === 'custom-pod' ? pod.name : pod.name.replace(/ Pod$/, '')}
-                      </Link>
+                  {SOLUTION_PAGES_FLAT.map(page => (
+                    <li key={page.href}>
+                      <Link to={page.href} className="hover:text-[#0A0A0A] hover:underline transition-all">{page.label}</Link>
                     </li>
                   ))}
                 </ul>
               </nav>
 
-              {/* Services */}
-              <nav aria-label="Services links">
-                <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Services</span>
-                <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
-                  {SERVICES.map(service => (
-                    <li key={service.href}><Link to={service.href} className="hover:text-[#0A0A0A] hover:underline transition-all">{service.label}</Link></li>
-                  ))}
-                </ul>
-              </nav>
-
-              {/* Scoping Engine */}
+              {/* Company: every top-menu page, plus Insights and Contact Us */}
               <nav aria-label="Site navigation links">
                 <span className="block text-[11px] text-[#0066FF] font-mono font-bold uppercase tracking-wider mb-3">Company</span>
                 <ul className="space-y-2 text-[13px] font-medium text-[#555555]">
-                  <li>
-                    <Link to="/configure" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Book a 30-minute call
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/how-we-work" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      How we work
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/contact" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Contact Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/case-studies" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Case studies
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/insights" className="hover:text-[#0A0A0A] hover:underline transition-all">
-                      Insights &amp; Blogs
-                    </Link>
-                  </li>
+                  {FOOTER_COMPANY_LINKS.map(item => (
+                    <li key={item.href}>
+                      <Link to={item.href} className="hover:text-[#0A0A0A] hover:underline transition-all">{item.label}</Link>
+                    </li>
+                  ))}
+                  {/* Hidden until the file is confirmed (src/content/footer-facts.ts) */}
+                  {CAPABILITY_PDF_HREF && (
+                    <li>
+                      <a href={CAPABILITY_PDF_HREF} download className="hover:text-[#0A0A0A] hover:underline transition-all">
+                        Download capability PDF
+                      </a>
+                    </li>
+                  )}
                 </ul>
               </nav>
+              {/* TODO: role pages column. No role pages exist yet; add them here once they do. */}
             </div>
 
-            {/* Founder Note */}
-            <div className="space-y-3 max-w-sm flex-shrink-0 lg:border-l lg:border-[#0A0A0A]/10 lg:pl-8">
-              <span className="block text-[11px] text-[#0A0A0A] font-mono font-bold uppercase tracking-wider">A note from the founder</span>
-              <div className="space-y-2">
-                <p className="text-[13px] leading-relaxed italic text-[#444444] font-serif">
-                  "We build AI engineering teams that already work together and fit your product's needs, so you can skip the long hiring process and start building sooner."
-                </p>
-                <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-semibold text-[#0a0a0a]">— Founder</span>
+            {/* Founder note, set off from the nav columns by a divider (text in src/content/footer-facts.ts) */}
+            {FOUNDER_QUOTE && (
+              <div className="space-y-3 max-w-sm flex-shrink-0 lg:border-l lg:border-[#0A0A0A]/10 lg:pl-8">
+                <span className="block text-[11px] text-[#0A0A0A] font-mono font-bold uppercase tracking-wider">A note from the founder</span>
+                <div className="space-y-2">
+                  <p className="text-[13px] leading-relaxed italic text-[#444444] font-serif">
+                    "{FOUNDER_QUOTE.text}"
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-semibold text-[#0a0a0a]">— {FOUNDER_QUOTE.attribution}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
           </div>
+
+          {/* Registered company details: hidden until confirmed (src/content/footer-facts.ts) */}
+          {REGISTERED_COMPANY_LINES && (
+            <address className="not-italic text-xs text-[#555555] leading-relaxed">
+              {REGISTERED_COMPANY_LINES.map(line => <span key={line} className="block">{line}</span>)}
+            </address>
+          )}
 
           <div className="pt-6 border-t border-[#0A0A0A]/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-[#555555]">
             <span>© 2026 Fwdpod. All rights reserved.</span>

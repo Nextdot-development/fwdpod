@@ -26,7 +26,7 @@ if (!template.includes(HEAD_PLACEHOLDER) || !template.includes(EMPTY_ROOT)) {
 }
 
 const serverEntry = pathToFileURL(path.join(root, 'dist-ssr', 'entry-server.js')).href;
-const { render, getPrerenderRoutes, getPostRedirects, SITE_BASE_URL } = await import(serverEntry);
+const { render, getPrerenderRoutes, getPostRedirects, getSiteRedirects, SITE_BASE_URL } = await import(serverEntry);
 
 function outputFileFor(routePath) {
   return routePath === '/' ? 'index.html' : `${routePath.slice(1)}.html`;
@@ -119,7 +119,13 @@ const htaccess = fs.readFileSync(htaccessPath, 'utf8');
 if (!htaccess.includes(REDIRECT_MARKER)) {
   throw new Error(`dist/.htaccess is missing the ${REDIRECT_MARKER} marker line`);
 }
-const redirects = getPostRedirects();
+// Renamed CMS articles, then site redirects (src/data/redirects.ts).
+// A redirected path must never also be a prerendered page.
+const siteRedirects = getSiteRedirects();
+for (const { from } of siteRedirects) {
+  if (seen.has(from)) throw new Error(`Redirected path ${from} is also a prerendered page`);
+}
+const redirects = [...getPostRedirects(), ...siteRedirects];
 const redirectRules = redirects
   .flatMap(({ from, to }) => [
     'RewriteCond %{ENV:REDIRECT_STATUS} ^$',
@@ -139,5 +145,5 @@ console.log(
   `Prerendered ${routes.length} routes + 404 page into dist/_pages; ` +
     `sitemap.xml lists ${indexed}` +
     (routes.length - indexed ? ` (${routes.length - indexed} noindex route(s) excluded)` : '') +
-    (redirects.length ? `; ${redirects.length} CMS slug redirect(s)` : '')
+    (redirects.length ? `; ${redirects.length} redirect(s), site and CMS` : '')
 );

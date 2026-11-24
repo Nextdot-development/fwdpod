@@ -20,8 +20,10 @@ RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteRule ^catalogue/?$ https://fwdpod.com/our-solutions [R=301,L]
 
 # ── Renamed CMS articles ────────────────────────────────────────────────────
-# 301s from a CMS post's earlier slugs to its current one. scripts/prerender.mjs
-# writes them below this marker in dist/.htaccess; keep the marker line.
+# 301s from a CMS post's earlier slugs to its current one, then the site
+# redirects in src/data/redirects.ts (/services/* and /solutions).
+# scripts/prerender.mjs writes them below this marker in dist/.htaccess; keep
+# the marker line.
 # CMS_REDIRECTS
 
 # ── Canonical URL: a single 301 to https://fwdpod.com ────────────────────

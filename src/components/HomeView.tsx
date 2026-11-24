@@ -20,7 +20,12 @@ import {
   TIME_TO_START,
   REPLACEMENT_WINDOW,
   US_OVERLAP_HOURS,
+  SHORTLIST_TIME,
 } from '../content/business-facts';
+import { GROWTH_STEPS, NEXTDOT_LINE, PARTNER_PROGRAMS } from '../content/company';
+import SecurityTiles from './marketing/SecurityTiles';
+import StackInfographic from './marketing/StackInfographic';
+import StartWhereYouAre from './marketing/StartWhereYouAre';
 
 // ── Page metadata ────────────────────────────────────────────────────────────
 const PAGE_TITLE = 'AI Engineers and AI Pods from India | Fwdpod';
@@ -100,20 +105,40 @@ const HOME_JSON_LD = {
 };
 
 // ── Page content ─────────────────────────────────────────────────────────────
-const CHALLENGES = [
+// The challenge: sourced figures only. [CONFIRM: figures and sources]
+// Menlo's 2024 figure excludes inference, which its earlier reports included,
+// so the year-on-year comparison is Menlo's own, not like for like.
+const CHALLENGE_FIGURES = [
   {
-    title: 'Hiring is slow',
-    text: 'Senior AI engineers take months to recruit, and the best ones get counter-offers.',
+    figure: '$37 billion',
+    text: 'Enterprise spend on generative AI in 2025, up from $11.5 billion in 2024.',
+    source: 'Menlo Ventures, The State of Generative AI in the Enterprise',
+    year: '2025',
+    href: 'https://menlovc.com/perspective/2025-the-state-of-generative-AI-in-the-enterprise/',
   },
   {
-    title: 'Large firms are heavy',
-    text: 'Big consultancies add layers, long statements of work and high day rates.',
+    figure: '30%+',
+    text: 'Of generative AI projects predicted to be abandoned after proof of concept by the end of 2025.',
+    source: 'Gartner',
+    year: '2024',
+    href: 'https://www.gartner.com/en/newsroom/press-releases/2024-07-29-gartner-predicts-30-percent-of-generative-ai-projects-will-be-abandoned-after-proof-of-concept-by-end-of-2025',
   },
   {
-    title: "Freelancers don't own outcomes",
-    text: 'Single contractors rarely cover data, build, deployment and support together.',
+    figure: '40%+',
+    text: 'Of agentic AI projects predicted to be canceled by the end of 2027.',
+    source: 'Gartner',
+    year: '2025',
+    href: 'https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027',
   },
 ];
+
+// How we work: the four shared steps plus two shown on the homepage only
+const HOME_EXTRA_STEPS = [
+  { name: 'Weekly reporting', text: 'A weekly report on progress against the measures you agreed.' },
+  { name: 'Replacement', text: `Not the right fit? We replace them free within ${REPLACEMENT_WINDOW}, with a documented handover.` },
+];
+
+// How it grows: GROWTH_STEPS lives in src/content/company.ts
 
 const SKILL_GROUPS = [
   { area: 'Data and evaluation', roles: 'Data annotators, RLHF and evaluation specialists, data QA analysts' },
@@ -129,25 +154,28 @@ const STEPS = ENGAGEMENT_STEPS;
 const WHY_INDIA = [
   "One of the world's deepest pools of engineering talent",
   `Work moves overnight, with ${US_OVERLAP_HOURS} of daily overlap with US teams`,
-  'Senior skills at a fraction of US hiring cost',
+  // Removed "Senior skills at a fraction of US hiring cost":
+  // [CONFIRM: cost comparison, if sourced]
   'English-first teams used to working with global clients',
 ];
 
+// NEXTDOT_LINE (proof strip and Why Fwdpod) replaces "Backed by Nextdot:
+// 8 years of enterprise delivery for leading healthcare and pharma brands";
+// the healthcare and pharma wording is out until confirmed.
 const WHY_FWDPOD = [
   "AI only. We don't staff general IT.",
   'Engineers trained and vetted at our AI Capability Center in Jamshedpur, India',
-  'Backed by Nextdot: 8 years of enterprise delivery for leading healthcare and pharma brands',
+  NEXTDOT_LINE,
   'Partner programs: Anthropic Claude Partner Network, ElevenLabs, Sarvam AI',
 ];
 
-const SECURITY = [
-  { title: 'Your environment', text: 'Engineers work in your systems, under your access and device policies.' },
-  { title: 'Your IP', text: 'Full IP assignment and an NDA signed by every engineer.' },
-  { title: 'Vetted people', text: 'Technical tests and live interviews before anyone starts.' },
-  { title: 'Continuity', text: `Documented handovers, named backups and free replacement within ${REPLACEMENT_WINDOW}.` },
-  { title: 'Compliance', text: 'Data processing terms available on request.' },
-  { title: 'Easy contracting', text: 'One master agreement and USD invoicing.' },
-];
+// ── Proof strip, directly below the hero ─────────────────────────────────────
+// PARTNER_PROGRAMS lives in src/content/company.ts; the security tiles in SecurityTiles.
+
+// [CLIENT PERMISSION NEEDED] Empty slot: add only logos a client has given
+// written permission to show. The row stays hidden while this list is empty.
+const CLIENT_LOGOS: { name: string; src: string }[] = [];
+
 
 // ── Hero diagram: the four roles inside a pod ────────────────────────────────
 type PodRole = 'lead' | 'devops' | 'obs' | 'dev';
@@ -155,7 +183,7 @@ type PodRole = 'lead' | 'devops' | 'obs' | 'dev';
 const POD_ROLES: Record<PodRole, { label: string; title: string; role: string }> = {
   lead: {
     label: 'Lead',
-    title: 'Pod lead and solution architect',
+    title: 'Forward deployed engineer (pod lead)',
     role: 'Plans the system, checks quality and security, and is your single point of contact.',
   },
   devops: {
@@ -176,11 +204,11 @@ const POD_ROLES: Record<PodRole, { label: string; title: string; role: string }>
 };
 
 // Hexagon geometry for each node: centre, outer (selected) ring and inner shape
-const POD_NODES: { id: PodRole; code: string; cx: number; cy: number; icon: string }[] = [
-  { id: 'lead', code: 'LD', cx: 120, cy: 40, icon: 'M -4 2.5 L -5.5 -1.5 L -2.5 0 L 0 -4 L 2.5 0 L 5.5 -1.5 L 4 2.5 Z' },
-  { id: 'devops', code: 'DO', cx: 60, cy: 100, icon: 'M -3.5 0 C -3.5 -1.8 -1.2 -1.8 0 0 C 1.2 1.8 3.5 1.8 3.5 0 C 3.5 -1.8 1.2 -1.8 0 0 C -1.2 1.8 -3.5 1.8 -3.5 0 Z' },
-  { id: 'obs', code: 'OB', cx: 180, cy: 100, icon: 'M -4.5 0 L -2.5 2.5 L 0 -3.5 L 2.5 3.5 L 4.5 0' },
-  { id: 'dev', code: 'DV', cx: 120, cy: 160, icon: 'M -3.5 -2.5 L -5.5 0 L -3.5 2.5 M 3.5 -2.5 L 5.5 0 L 3.5 2.5' },
+const POD_NODES: { id: PodRole; cx: number; cy: number; icon: string }[] = [
+  { id: 'lead', cx: 120, cy: 40, icon: 'M -4 2.5 L -5.5 -1.5 L -2.5 0 L 0 -4 L 2.5 0 L 5.5 -1.5 L 4 2.5 Z' },
+  { id: 'devops', cx: 60, cy: 100, icon: 'M -3.5 0 C -3.5 -1.8 -1.2 -1.8 0 0 C 1.2 1.8 3.5 1.8 3.5 0 C 3.5 -1.8 1.2 -1.8 0 0 C -1.2 1.8 -3.5 1.8 -3.5 0 Z' },
+  { id: 'obs', cx: 180, cy: 100, icon: 'M -4.5 0 L -2.5 2.5 L 0 -3.5 L 2.5 3.5 L 4.5 0' },
+  { id: 'dev', cx: 120, cy: 160, icon: 'M -3.5 -2.5 L -5.5 0 L -3.5 2.5 M 3.5 -2.5 L 5.5 0 L 3.5 2.5' },
 ];
 
 const hexPoints = (cx: number, cy: number, r: number) =>
@@ -299,18 +327,6 @@ function PodDiagram() {
                     strokeLinejoin="round"
                   />
                 </g>
-                <text
-                  x={node.cx}
-                  y={node.cy + 11}
-                  fontFamily="Inter, system-ui, sans-serif"
-                  fontSize="7"
-                  fontWeight="800"
-                  letterSpacing="0.05em"
-                  fill={active ? '#FFFFFF' : '#09090b'}
-                  textAnchor="middle"
-                >
-                  {node.code}
-                </text>
               </g>
             );
           })}
@@ -352,7 +368,7 @@ export default function HomeView() {
           <h1 id="hero-heading" className="text-4xl sm:text-5xl lg:text-6xl font-display font-medium tracking-tight text-[#0A0A0A] leading-[1.10] text-balance">
             <span className="block">Senior AI engineers from India.</span>{' '}
             <span className="block text-[#0066FF]">
-              On your team in <span className="whitespace-nowrap">{TIME_TO_START}.</span>
+              Typically on your team in <span className="whitespace-nowrap">{TIME_TO_START}.</span>
             </span>
           </h1>
           <p className="text-base text-[#555555] leading-relaxed max-w-lg">
@@ -381,23 +397,78 @@ export default function HomeView() {
         <PodDiagram />
       </section>
 
-      {/* 2. The challenge */}
+      {/* 2. Proof strip: partner programs, backing, client logos */}
+      {/* Spread across the full width: label | partners, evenly spaced | backing */}
+      <section aria-label="Partners and backing" className="py-6 border-y border-zinc-200/80 grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] lg:items-center gap-4 lg:gap-10 text-sm text-[#555555]">
+        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#555555]">Partner programs</span>
+        <ul className="flex flex-wrap items-center gap-x-8 gap-y-2 sm:justify-between lg:justify-evenly">
+          {PARTNER_PROGRAMS.map(partner => (
+            <li key={partner.name} className="font-semibold text-[#0A0A0A]">
+              {partner.name}
+              {partner.program && <span className="font-normal text-[#555555]"> ({partner.program})</span>}
+            </li>
+          ))}
+        </ul>
+        <span className="font-medium text-[#0A0A0A] lg:border-l lg:border-zinc-200 lg:pl-10">{NEXTDOT_LINE}.</span>
+        {CLIENT_LOGOS.length > 0 && (
+          <ul className="flex flex-wrap items-center gap-6 lg:col-span-3" aria-label="Clients">
+            {CLIENT_LOGOS.map(logo => (
+              <li key={logo.name}><img src={logo.src} alt={logo.name} className="h-6 w-auto" /></li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      {/* 3. Security and procurement */}
+      <section id="security" aria-labelledby="security-heading" className={sectionClass}>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <SectionHeading id="security-heading" label="Security and procurement" title="Security and procurement: how engineers work inside your environment." />
+          <Link
+            to="/security"
+            className="text-xs font-medium text-[#0066FF] hover:underline inline-flex items-center gap-1 self-start md:self-auto py-2 shrink-0"
+          >
+            <span>See the full Security page</span>
+            <ChevronRight className="w-4 h-4" aria-hidden="true" />
+          </Link>
+        </div>
+        {/* The same six tiles and wording as /security */}
+        <SecurityTiles />
+      </section>
+
+      {/* 4. The challenge: sourced figures. [CONFIRM: figures and sources] */}
       <section aria-labelledby="challenge-heading" className={sectionClass}>
-        <SectionHeading id="challenge-heading" label="The challenge" title="Your AI roadmap is bigger than your team." />
+        <SectionHeading id="challenge-heading" label="The challenge" title="AI budgets are rising; delivery isn't." />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {CHALLENGES.map(item => (
-            <div key={item.title} className={card}>
-              <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
+          {CHALLENGE_FIGURES.map(item => (
+            <div key={item.href} className={`${card} flex flex-col justify-between gap-5`}>
+              <div>
+                <p className="text-3xl font-display font-medium tracking-tight text-[#0066FF]">{item.figure}</p>
+                <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
+              </div>
+              <p className="pt-3 border-t border-[#0A0A0A]/10 text-[11px] text-[#555555]">
+                Source:{' '}
+                <a href={item.href} target="_blank" rel="noopener noreferrer" className="underline hover:text-[#0A0A0A]">
+                  {item.source}, {item.year}
+                </a>
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* 3. Two ways to work with us */}
-      <TwoWaysToWork id="services" />
+      {/* 5. The engineering stack: 4 layers + 2 cross-cutting bands */}
+      <section id="stack" aria-labelledby="stack-heading" className={sectionClass}>
+        <div className="space-y-3">
+          <SectionHeading id="stack-heading" label="The engineering stack" title="Four layers to build. Two that run across all of them." />
+          <p className="text-sm text-[#555555]">What we engineer at each layer of an enterprise AI system, and who does it.</p>
+        </div>
+        <StackInfographic />
+      </section>
 
-      {/* 4. Skills we deploy */}
+      {/* 6. Start where you are */}
+      <StartWhereYouAre />
+
+      {/* 7. Skills we deploy */}
       <section aria-labelledby="skills-heading" className={sectionClass}>
         <SectionHeading id="skills-heading" label="Skills we deploy" title="Every role across the AI lifecycle." />
         <dl className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-[#0A0A0A]/10">
@@ -410,7 +481,10 @@ export default function HomeView() {
         </dl>
       </section>
 
-      {/* 5. Pod options */}
+      {/* 8. Two ways to work with us */}
+      <TwoWaysToWork id="services" />
+
+      {/* 9. Pod options */}
       <section
         id="pods"
         aria-labelledby="pods-heading"
@@ -450,57 +524,7 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* 6. How we start */}
-      <section id="how-we-work" aria-labelledby="how-heading" className={sectionClass}>
-        <SectionHeading id="how-heading" label="How we work" title={`From first call to first commit in ${TIME_TO_START}.`} />
-        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {STEPS.map((step, idx) => (
-            <li key={step.name} className={card}>
-              <span className="text-xs font-mono font-semibold text-[#0066FF]">Step {idx + 1}</span>
-              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{step.name}</h3>
-              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* 7. Why India, why Fwdpod */}
-      <section aria-labelledby="why-heading" className={sectionClass}>
-        <SectionHeading id="why-heading" label="Why us" title="Why India, why Fwdpod" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { title: 'Why India', items: WHY_INDIA },
-            { title: 'Why Fwdpod', items: WHY_FWDPOD },
-          ].map(column => (
-            <div key={column.title} className={`${card} p-6 md:p-8 space-y-4`}>
-              <h3 className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">{column.title}</h3>
-              <ul className="space-y-3">
-                {column.items.map(item => (
-                  <li key={item} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
-                    <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 8. Security and procurement */}
-      <section aria-labelledby="security-heading" className={sectionClass}>
-        <SectionHeading id="security-heading" label="Security and procurement" title="Built to pass your security review." />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SECURITY.map(item => (
-            <div key={item.title} className={card}>
-              <h3 className="text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{item.title}</h3>
-              <p className="mt-2 text-sm text-[#555555] leading-relaxed">{item.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 9. Case studies */}
+      {/* 10. Case studies. [CLIENT PERMISSION NEEDED] on every card: see src/content/case-studies.ts */}
       <section id="case-studies" aria-labelledby="cases-heading" className={sectionClass}>
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <SectionHeading id="cases-heading" label="Case studies" title="Recent pods in production." />
@@ -527,6 +551,57 @@ export default function HomeView() {
           ))}
         </div>
       </section>
+
+      {/* 11. How we work, with How it grows */}
+      <section id="how-we-work" aria-labelledby="how-heading" className={sectionClass}>
+        <SectionHeading id="how-heading" label="How we work" title={`On your team in ${TIME_TO_START}, with profiles or a pod plan within ${SHORTLIST_TIME}.`} />
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...STEPS, ...HOME_EXTRA_STEPS].map((step, idx) => (
+            <li key={step.name} className={card}>
+              <span className="text-xs font-mono font-semibold text-[#0066FF]">Step {idx + 1}</span>
+              <h3 className="mt-2 text-lg font-display font-medium tracking-tight text-[#0A0A0A]">{step.name}</h3>
+              <p className="mt-1.5 text-sm text-[#555555] leading-relaxed">{step.text}</p>
+            </li>
+          ))}
+        </ol>
+        <div className="space-y-4">
+          <h3 id="grows-heading" className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">How it grows</h3>
+          <ol aria-labelledby="grows-heading" className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {GROWTH_STEPS.map((step, idx) => (
+              <li key={step.name} className="flex items-center gap-3 border border-zinc-200/85 rounded-2xl px-5 py-4">
+                <span className="text-lg font-display font-medium text-[#0066FF]">{step.name}</span>
+                <span className="text-sm text-[#555555]">{step.text}</span>
+                {idx < GROWTH_STEPS.length - 1 && <ArrowRight className="hidden md:block ml-auto w-4 h-4 text-[#555555]" aria-hidden="true" />}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* 12. Why India, why Fwdpod */}
+      <section aria-labelledby="why-heading" className={sectionClass}>
+        <SectionHeading id="why-heading" label="Why us" title="Why India, why Fwdpod" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            { title: 'Why India', items: WHY_INDIA },
+            { title: 'Why Fwdpod', items: WHY_FWDPOD },
+          ].map(column => (
+            <div key={column.title} className={`${card} p-6 md:p-8 space-y-4`}>
+              <h3 className="text-xl font-display font-medium text-[#0A0A0A] tracking-tight">{column.title}</h3>
+              <ul className="space-y-3">
+                {column.items.map(item => (
+                  <li key={item} className="flex gap-2.5 text-sm text-[#555555] leading-relaxed">
+                    <Check className="w-4 h-4 mt-0.5 text-[#0066FF] shrink-0" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 13. Final call to action: the "Book a 30-minute call" band App.tsx shows above the footer */}
     </div>
   );
 }

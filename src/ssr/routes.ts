@@ -1,5 +1,9 @@
 import { getCategoriesWithCounts, PUBLISHED_POSTS } from '../data/blogCatalog';
 import { CATEGORY_PAGE_SIZE, categoryPath } from '../data/blogCategories';
+import { PLACEHOLDER_PAGES } from '../data/navigation';
+import { SITE_REDIRECTS, type SiteRedirect } from '../data/redirects';
+import { SOLUTION_PAGE_CONTENT, SOLUTION_PAGES_INDEXABLE } from '../content/solution-pages';
+import { SOLUTION_BRIEFS } from '../content/solution-briefs';
 
 /**
  * Every indexable path, prerendered to static HTML at build time.
@@ -15,13 +19,9 @@ const STATIC_PATHS = [
   '/how-we-work',
   '/insights',
   '/contact',
-  '/services/ai-development',
-  '/services/llm-development',
-  '/services/rag-development',
-  '/services/ai-agents',
-  '/services/data-annotation',
-  '/services/team-augmentation',
-  '/services/ai-consulting',
+  '/security',
+  '/how-to-engage',
+  '/about',
 ];
 
 /** Static pages whose content date is known, for the sitemap's <lastmod>. */
@@ -33,8 +33,10 @@ const STATIC_LASTMOD: Record<string, string> = {
   '/case-studies': '2026-10-26',
   '/how-we-work': '2026-10-26',
   '/insights': '2026-10-26',
-  '/services/data-annotation': '2026-10-21',
-  '/services/team-augmentation': '2026-10-21',
+  // Rebuilt from the developer handoff dated 2026-11-19
+  '/how-to-engage': '2026-11-20',
+  // Rebuilt from the developer handoff dated 2026-11-23
+  '/security': '2026-11-23',
 };
 
 export interface PrerenderRoute {
@@ -51,6 +53,13 @@ export interface PrerenderRoute {
 export function getPrerenderRoutes(): PrerenderRoute[] {
   return [
     ...STATIC_PATHS.map(path => ({ path, lastmod: STATIC_LASTMOD[path] })),
+    // Menu targets whose content isn't written yet: rendered so a direct visit
+    // gets a page, but noindex and left out of the sitemap until they're real.
+    ...PLACEHOLDER_PAGES.map(page => ({ path: page.href, indexable: false })),
+    // Solution pages rebuilt from their own briefs: indexed, dated
+    ...SOLUTION_BRIEFS.map(page => ({ path: page.path, lastmod: page.lastmod })),
+    // The remaining solution pages: noindex until SOLUTION_PAGES_INDEXABLE is set
+    ...SOLUTION_PAGE_CONTENT.map(page => ({ path: page.href, indexable: SOLUTION_PAGES_INDEXABLE })),
     // Every published article, from content/blog/ and the CMS, gets its own
     // page and sitemap entry. Placeholder cards are not included: they have no
     // article behind them.
@@ -88,4 +97,9 @@ export function getPostRedirects(): PostRedirect[] {
       .filter(old => /^[a-z0-9]+(-[a-z0-9]+)*$/.test(old) && !live.has(old))
       .map(old => ({ from: `/insights/${old}`, to: `/insights/${post.slug}` }))
   );
+}
+
+/** Site-level 301s (src/data/redirects.ts), written into .htaccess at build time. */
+export function getSiteRedirects(): SiteRedirect[] {
+  return SITE_REDIRECTS;
 }

@@ -4,23 +4,26 @@
 
 ## Pods
 
-- [Our Solutions](https://fwdpod.com/our-solutions): Six AI engineering pods (Agent Development, RAG and Knowledge, Voice AI, Compliance AI, LLMOps and Custom), each a team of 4–6 engineers who already work together, with one accountable pod lead. Team size, typical timeline and best fit for each, plus hourly, daily and monthly ways to engage.
+- [Our Solutions](https://fwdpod.com/our-solutions): Senior AI engineers from India to build and run every layer of your AI stack: agents, RAG, models, data, compliance and LLMOps. One specialist or a full pod.
 - [Case studies](https://fwdpod.com/case-studies): Recent AI pods in production: a Compliance AI Pod for a financial brokerage, an Agent Development Pod for a logistics network and a Voice AI Pod for healthcare services, each with the problem, what was built, time to live and team size.
 - [How we work](https://fwdpod.com/how-we-work): The principles behind every engagement, the four steps from first call to start (scope, shortlist, interview, start), how quality is kept high, and how your environment, IP and NDAs are handled.
 
-## Services
+## Solutions
 
-- [AI Development](https://fwdpod.com/services/ai-development): Build AI products faster with Dedicated AI Teams, AI Engineering Pods, and AI Talent as a Service. Hire AI Engineers on Demand — production-ready Managed AI Engineering for startups and enterprises.
-- [LLM Development](https://fwdpod.com/services/llm-development): Enterprise LLM development services for startups and enterprises. Build custom LLM applications — AI copilots, enterprise chatbots, knowledge assistants — with a Dedicated GenAI Team. Production-ready.
-- [RAG Development](https://fwdpod.com/services/rag-development): Build enterprise RAG systems and retrieval augmented generation solutions with Fwdpod. RAG chatbot development, vector database consulting, and production-grade knowledge base architectures.
-- [AI Agents](https://fwdpod.com/services/ai-agents): Build autonomous AI agents and multi-agent AI systems with Fwdpod's agentic AI development team. Custom AI agent development — CrewAI experts, LangGraph developers, MCP integration specialists.
-- [Data Annotation](https://fwdpod.com/services/data-annotation): AI data annotation services for LLMs, RAG and AI agents: RLHF and SFT data, evaluation datasets, audio and document labeling, and PII redaction, delivered inside the same pod that builds your model.
-- [Team Augmentation](https://fwdpod.com/services/team-augmentation): Hire embedded AI engineers and dedicated AI architects on demand with Fwdpod. AI Team Extension Services — access AI Experts for Hire faster than traditional recruiting.
-- [AI Consulting](https://fwdpod.com/services/ai-consulting): Fwdpod provides Fractional AI Team services and AI Strategy Consulting — Fractional Chief AI Officer, Virtual Chief AI Officer, and AI Capability Center design. Book a consultation.
+- [Agents and applications](https://fwdpod.com/solutions/ai-agents): AI agents and workflow automation across ERP, CRM and service desk, built by senior AI engineers from India. One specialist or an Agent Development Pod.
+- [Voice AI](https://fwdpod.com/solutions/voice-ai): Real-time voice agents for support, scheduling and intake, connected to your phone system. Built by a Voice AI Pod of senior AI engineers from India.
+- [Context and knowledge](https://fwdpod.com/solutions/rag): RAG systems and enterprise search that answer correctly about your business, with permission-aware answers. Built by senior AI engineers from India.
+- [Models](https://fwdpod.com/solutions/models): Model selection, fine-tuning, private deployment and inference tuning for speed and cost. Senior ML engineers from India, as specialists or a Custom Pod.
+- [Data](https://fwdpod.com/solutions/data-annotation): Data pipelines, annotation and labelling at scale, evaluation datasets and RLHF. Clean, labelled data your AI can learn from and be tested against.
+- [Trust and compliance](https://fwdpod.com/solutions/ai-compliance): Guardrails, privacy filters, audit logs and red-team testing, so your risk, legal and audit teams can sign off your AI. A Compliance AI Pod from India.
+- [Operations (LLMOps)](https://fwdpod.com/solutions/llmops): Deployment, monitoring, incident response and cost control for AI in production. An LLMOps Pod of senior engineers from India on a monthly retainer.
 
 ## Resources
 
 - [Book a 30-minute call](https://fwdpod.com/configure): Request a call about the roles or the outcome you need. Fwdpod sends matched profiles or a pod plan within 48 hours.
+- [How to engage](https://fwdpod.com/how-to-engage): Add one AI specialist or a full AI pod, hourly or full-time. Start with a paid pilot on one use case, then grow into a dedicated team.
+- [Security](https://fwdpod.com/security): Your code, your data, your control. Clear answers on how we keep your work safe.
+- [About](https://fwdpod.com/about): Senior AI engineers from India inside enterprise teams. Backed by Nextdot since 2018, with engineers trained at our Jamshedpur AI Capability Center.
 - [Contact Us](https://fwdpod.com/contact): Send Fwdpod a message about AI engineers, AI pods or how engagements work, or email contact.fwdpod@gmail.com.
 
 ## Insights

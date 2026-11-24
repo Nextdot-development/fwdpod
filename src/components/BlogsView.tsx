@@ -33,7 +33,7 @@ export default function BlogsView() {
       <SEO title={BLOG_TITLE} description={BLOG_DESCRIPTION} jsonLd={buildBlogListSchema(posts)} />
 
       {/* ── Page heading ─────────────────────────────────────────────────── */}
-      {/* TODO(copy): eyebrow, H1 and the supporting line are placeholders. */}
+      {/* TODO(copy): eyebrow and H1 are placeholders; the supporting line is from the structure doc. */}
       <section className="flex flex-col gap-6 pt-2 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl space-y-4">
           <span className="text-xs font-mono text-[#0066FF] uppercase tracking-widest font-semibold block">
@@ -43,7 +43,7 @@ export default function BlogsView() {
             Fwdpod Insights
           </h1>
           <p className="text-sm text-[#555555] leading-relaxed">
-            Notes on building and running AI systems in production, from the engineers who deliver them.
+            Short, practical articles by layer.
           </p>
         </div>
 

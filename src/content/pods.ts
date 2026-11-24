@@ -28,6 +28,9 @@ export interface Pod {
   caseStudyId?: string;
 }
 
+// [CONFIRM: Data pod headcount] Placeholder: there is no Data pod in this
+// list yet. Add one here with its confirmed size and timeline if it is to be
+// shown; the five pods and Custom Pod below are unchanged.
 export const PODS: Pod[] = [
   {
     id: 'agentic-ops',

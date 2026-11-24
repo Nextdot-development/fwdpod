@@ -16,7 +16,9 @@ import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { rowToPost, type CmsRow } from '../src/cms/cmsPost';
+import { DROPPED_PATHS, SITE_REDIRECTS } from '../src/data/redirects';
 
 const root = path.resolve(import.meta.dirname, '..');
 const cmsFile = path.join(root, 'content', 'cms', 'posts.json');
@@ -171,3 +173,55 @@ test('the public pages never load the admin or Supabase code', () => {
   const adminSrc = fs.readFileSync(path.join(dist, 'admin.html'), 'utf8').match(/src="(\/assets\/admin-[^"]+\.js)"/)![1];
   assert.match(fs.readFileSync(path.join(dist, adminSrc), 'utf8'), /signInWithPassword/);
 });
+
+// ── Site redirects and dropped paths (src/data/redirects.ts) ────────────────
+// Apache (production) and Vercel 301 rules, read back as regexes, so a test
+// checks what each host would actually do with a path.
+const apache301s = () =>
+  [...fs.readFileSync(path.join(dist, '.htaccess'), 'utf8').matchAll(/^RewriteRule \^(\S+) (https:\/\/fwdpod\.com\S*) \[R=301,L\]/gm)]
+    .map(m => ({ re: new RegExp(`^${m[1]}`), to: m[2] }));
+const vercel301s = () =>
+  (JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8')).routes as { src?: string; status?: number; headers?: { Location?: string } }[])
+    .filter(r => r.status === 301 && r.src)
+    .map(r => ({ re: new RegExp(r.src!), to: r.headers!.Location! }));
+const ssr = async () =>
+  (await import(pathToFileURL(path.join(root, 'dist-ssr', 'entry-server.js')).href)) as { render: (url: string) => { notFound: boolean } };
+const builtPages = () => {
+  const out: string[] = [];
+  const walk = (dir: string) => fs.readdirSync(dir, { withFileTypes: true }).forEach(e =>
+    e.isDirectory() ? walk(path.join(dir, e.name)) : e.name.endsWith('.html') && out.push(path.join(dir, e.name)));
+  walk(path.join(dist, '_pages'));
+  return out;
+};
+
+for (const { from, to } of SITE_REDIRECTS) {
+  test(`redirect ${from} -> ${to}: one 301 on both hosts, to a real page`, async () => {
+    const apache = apache301s().filter(r => r.re.test(from.slice(1)));
+    assert.equal(apache.length, 1, `.htaccess has ${apache.length} 301 rules for ${from}`);
+    assert.equal(apache[0].to, `https://fwdpod.com${to}`);
+    assert.ok(apache[0].re.test(`${from.slice(1)}/`), 'trailing slash is redirected in the same hop');
+
+    const vercel = vercel301s().filter(r => r.re.test(from));
+    assert.equal(vercel.length, 1, `vercel.json has ${vercel.length} 301 routes for ${from}`);
+    assert.equal(vercel[0].to, to);
+
+    assert.equal(fs.existsSync(path.join(dist, '_pages', `${from.slice(1)}.html`)), false, `${from} is also a page`);
+    assert.doesNotMatch(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8'), new RegExp(`<loc>https://fwdpod\.com${from}</loc>`));
+    assert.ok(fs.existsSync(path.join(dist, '_pages', `${to.slice(1)}.html`)), `target ${to} is not a prerendered page`);
+    assert.equal((await ssr()).render(from).notFound, false, 'in-app navigation to the old path redirects');
+  });
+}
+
+for (const dropped of DROPPED_PATHS) {
+  test(`dropped ${dropped}: 404, never a redirect, page, sitemap entry or link`, async () => {
+    assert.equal(apache301s().filter(r => r.re.test(dropped.slice(1))).length, 0, `.htaccess redirects ${dropped}`);
+    assert.equal(vercel301s().filter(r => r.re.test(dropped)).length, 0, `vercel.json redirects ${dropped}`);
+    assert.equal(fs.existsSync(path.join(dist, '_pages', `${dropped.slice(1)}.html`)), false, `${dropped} is a page`);
+    assert.doesNotMatch(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8'), new RegExp(`fwdpod\.com${dropped}[<"/]`));
+    // With no page and no rule, Apache falls through to the final rule: a 404
+    assert.match(fs.readFileSync(path.join(dist, '.htaccess'), 'utf8'), /RewriteCond %\{REQUEST_FILENAME\} !-f\r?\nRewriteRule \^ - \[R=404,L\]/);
+    assert.equal((await ssr()).render(dropped).notFound, true, 'the app renders the 404 page');
+    const linking = builtPages().filter(f => fs.readFileSync(f, 'utf8').includes(`href="${dropped}"`));
+    assert.deepEqual(linking, [], `pages still link to ${dropped}`);
+  });
+}

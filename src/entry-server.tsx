@@ -5,7 +5,7 @@ import { StaticRouter } from 'react-router-dom';
 import App from './App.tsx';
 import { RenderStatusContext, type RenderStatus } from './ssr/renderStatus';
 
-export { getPostRedirects, getPrerenderRoutes } from './ssr/routes';
+export { getPostRedirects, getPrerenderRoutes, getSiteRedirects } from './ssr/routes';
 export { SITE_BASE_URL } from './components/SEO';
 
 export interface RenderResult {

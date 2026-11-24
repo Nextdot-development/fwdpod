@@ -8,7 +8,7 @@ const ENGAGEMENT_MODELS = [
     tagline: 'Fill one skill gap, fast.',
     points: [
       'Works inside your team, tools and stand-ups',
-      'Hourly or monthly full-time',
+      'Hourly or full-time',
       'From data annotators to forward deployed engineers',
     ],
     bestFor: 'adding capacity to a team you already run',
